@@ -148,7 +148,9 @@ We conclude with a discussion of key open questions and future directions.
 
 \section{Background}\label{sec:background}
 
-\subsection{Clojure and its Error Messages}\label{sec:clojure-errs}
+\subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
+\tkcomment{Tristan's subsection}
+
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
 (filter neg? 1 -1 0)
@@ -160,11 +162,13 @@ instead of a correct application to a vector:
  Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
  The message is cryptic for beginners, especially without the documentation.
 
-\subsection{Clojure Spec}\label{sec:spec}
+\subsection{Clojure Spec}\label{subsec:spec}
+\emcomment{Elena's section.}
 
 
 \section{Babel Project}\label{sec:babel}
-
+\subsection{Overview of the Project}\label{subsec:overview}
+\jscomment{Jaydon's subsection}
 Our research project, Babel, aims to provide beginner programmers with a tool that replaces 
 Clojure error messages with clearer explanations, removing unfamiliar jargon.
 
@@ -185,11 +189,11 @@ Our project poses the following core research question:
 ``How can we design error message presentation and interactions to help beginners fix errors in their programs?'' 
 Exploring this question requires having a robust environment for experimenting with interactive error messages.
 
-\subsection{Classifying Error Messages}\label{sec:classification}
+\subsection{Classifying Error Messages}\label{subsec:classification}
+\tkcomment{Tristan's comments}
 
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
-
 \jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
 \jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
 represent things.}
@@ -200,8 +204,10 @@ Babel will also provide links to Clojure documentation where applicable.
 \subsection{Control Flow}\label{sec:control-flow}
 
 \jwcomment{TODO: Find a better title.}
+\jwcomment{John's subsection}
 
-\subsection{Designing an Error Message Interface}\label{sec:interface}
+\subsection{Designing an Error Messages Interface}\label{subsec:interface}
+\emcomment{TBD}
 
 
 \emcomment{Need at least one citation for LaTeX to work:}
@@ -209,10 +215,12 @@ Babel will also provide links to Clojure documentation where applicable.
 
 		
 \section{Current Abilities and Future Work}\label{sec:conclusion}
-	\subsection{Conclusions}
+	\subsection{Current Abilities}\label{subsec:current-abilities}
+	\emcomment{TBD}
 	
 
-	\subsection{Future work}
+	\subsection{Future work}\label{subsec:future}
+	\emcomment{Talk about the usability study + other things - Elena's section}
 
 \bibliographystyle{acm}
 \bibliography{mics2025}
