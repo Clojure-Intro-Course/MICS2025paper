@@ -128,14 +128,27 @@ kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 \jscomment{Sample Comment} \\
 \jwcomment{Sample Comment}
 
-The Clojure programming language, built on the Java Virtual Machine, is a widely used functional language. Its simple syntax makes it a powerful language to introduce beginner programmers to key concepts of programming. However, debugging in Clojure can be unintuitive because Clojure errors are exceptions in the underlying Java language. They frequently contain terminology intended for experienced developers, leaving out important context. As a result, what would otherwise be a powerful educational tool presents a difficult learning curve for new programmers.
+The Clojure programming language, built on the Java Virtual Machine, is a widely used functional language. 
+Its simple syntax makes it a powerful language to introduce beginner programmers to key concepts of programming.
+However, debugging in Clojure can be unintuitive because Clojure errors are exceptions in the underlying Java language. 
+They frequently contain terminology intended for experienced developers, leaving out important context. 
+As a result, what would otherwise be a powerful educational tool presents a difficult learning curve for new programmers.
 
-In this paper we discuss the structure of Clojure error messages, explain the data flow for the error messages processing, and the chosen data representation. We outline options for formatting the error messages to beginners, as well as the principles that guide our choices. We present design examples of views and interactions for a variety of error messages. We conclude with a discussion of key open questions and future directions. 
+In this paper we discuss the structure of Clojure error messages, 
+explain the data flow for the error messages processing, 
+and the chosen data representation. 
+We outline options for formatting the error messages to beginners, as well as the principles that guide our choices. 
+We present design examples of views and interactions for a variety of error messages. 
+We conclude with a discussion of key open questions and future directions. 
 
-\subsection{Related work}\label{subsec:related}
+\subsection{Related Work}\label{subsec:related}
+
+\emcomment{Talking about existing literature, such as Racket's errors, and other people?}
+\jscomment{Discussion of what existing literature is relevant and why?}
 
 \section{Background}\label{sec:background}
 
+\subsection{Clojure and its Error Messages}\label{sec:clojure-errs}
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
 (filter neg? 1 -1 0)
@@ -144,32 +157,58 @@ instead of a correct application to a vector:
 \begin{verbatim}
 (filter neg? [1 -1 0])
 \end{verbatim}
- Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. The message is cryptic for beginners, especially without the documentation.
+ Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
+ The message is cryptic for beginners, especially without the documentation.
 
-\section{Babel project}\label{sec:babel}
+\subsection{Clojure Spec}\label{sec:spec}
 
-Our research project, Babel, aims to provide beginner programmers with a tool that replaces Clojure error messages with clearer explanations, removing unfamiliar jargon.
 
-Our previous versions of Babel transformed error messages into a beginner-friendly format by taking an exception object and producing a plaintext description of the issue. It employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. Unlike default error messages, spec allows us to display the erroneous code and the specific argument that violates the requirements. Using spec, the error message above is presented as: 
+\section{Babel Project}\label{sec:babel}
+
+Our research project, Babel, aims to provide beginner programmers with a tool that replaces 
+Clojure error messages with clearer explanations, removing unfamiliar jargon.
+
+Our previous versions of Babel transformed error messages into a beginner-friendly 
+format by taking an exception object and producing a plaintext description of the issue. 
+It employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. 
+Unlike default error messages, spec allows us to display the erroneous code and the specific argument that violates the requirements. 
+Using spec, the error message above is presented as: 
 \begin{verbatim}
 (filter neg? 1 -1 0)
 \end{verbatim}
 ``Wrong number of arguments in (filter neg? 1 -1 0): the function filter expects one or two arguments but was given four arguments.''
 
-Our project currently includes specs for many core functions and also rewrites common non-spec errors. However, one ongoing problem is to display the improved error messages in an IDE or an interactive panel. 
+Our project currently includes specs for many core functions and also rewrites common non-spec errors. 
+However, one ongoing problem is to display the improved error messages in an IDE or an interactive panel. 
 
-Our project poses the following core research question: ``How can we design error message presentation and interactions to help beginners fix errors in their programs?'' Exploring this question requires having a robust environment for experimenting with interactive error messages.
+Our project poses the following core research question: 
+``How can we design error message presentation and interactions to help beginners fix errors in their programs?'' 
+Exploring this question requires having a robust environment for experimenting with interactive error messages.
 
-\section{Adding visual interactive environment}\label{sec:current}
-Our goal is to improve the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format. For instance, visual cues will help distinguish between code and values, which are indistinguishable by default. Babel will also adjust the level of detail based on context, for example, displaying only relevant parts of a stack trace. Babel will also provide links to Clojure documentation where applicable.
+\subsection{Classifying Error Messages}\label{sec:classification}
 
+
+\section{Adding Visual Interactive Environment}\label{sec:interactive}
+
+\jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
+\jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
+represent things.}
+Our goal is to improve the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format. 
+For instance, visual cues will help distinguish between code and values, which are indistinguishable by default. 
+Babel will also adjust the level of detail based on context, for example, displaying only relevant parts of a stack trace. 
+Babel will also provide links to Clojure documentation where applicable.
+\subsection{Control Flow}\label{sec:control-flow}
+
+\jwcomment{TODO: Find a better title.}
+
+\subsection{Designing an Error Message Interface}\label{sec:interface}
 
 
 \emcomment{Need at least one citation for LaTeX to work:}
 \cite{Hickey:2008}
 
 		
-\section{Conclusions and future work}\label{sec:conclusion}
+\section{Current Abilities and Future Work}\label{sec:conclusion}
 	\subsection{Conclusions}
 	
 
