@@ -50,7 +50,7 @@
 \usepackage{graphicx} %For jpg figure inclusion
 \usepackage{times} %For typeface
 \usepackage{epsfig}
-\usepackage{color} %For Comments
+\usepackage{xcolor} %For Comments
 %\usepackage[all]{xy}
 \usepackage{float}
 %\usepackage{subfigure} 
@@ -67,9 +67,12 @@
 \newcommand{\comment}[1]{{\bf \tt  {#1}}}
 % Uncomment this if you don't want to show comments
 %\newcommand{\comment}[1]{}
+% for color names see https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX
 \newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
 \newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
-\newcommand{\tscomment}[1]{\textcolor{Teal}{\comment{Tony: {#1}}}}
+\newcommand{\tkcomment}[1]{\textcolor{Teal}{\comment{Tristan: {#1}}}}
+\newcommand{\jscomment}[1]{\textcolor{olive}{\comment{Jaydon: {#1}}}}
+\newcommand{\jwcomment}[1]{\textcolor{violet}{\comment{John: {#1}}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -101,11 +104,11 @@
 % References or any Appendices.
 
 \author{
- and Elena Machkasova \\
+Tristan Kalvoda, Elena Machkasova, Jaydon Stanislowski, and John Walbran\\
 Computer Science Discipline \\
 University of Minnesota Morris\\
 Morris, MN 56267\\
-elenam@morris.umn.edu
+kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 }
 \date{}
 \maketitle
@@ -120,6 +123,10 @@ elenam@morris.umn.edu
 
 \section{Introduction}
 
+\emcomment{Sample Comment} \\
+\tkcomment{Sample Comment} \\
+\jscomment{Sample Comment} \\
+\jwcomment{Sample Comment}
 
 \section{Background}\label{sec:background}
 
