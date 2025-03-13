@@ -197,13 +197,36 @@ Exploring this question requires having a robust environment for experimenting w
 \jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
 \jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
 represent things.}
+
 Our goal is to improve the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format. 
 For instance, visual cues will help distinguish between code and values, which are indistinguishable by default. 
 Babel will also adjust the level of detail based on context, for example, displaying only relevant parts of a stack trace. 
 Babel will also provide links to Clojure documentation where applicable.
-\subsection{Control Flow}\label{sec:control-flow}
 
-\jwcomment{TODO: Find a better title.}
+\subsection{Connecting to the REPL}\label{subsec:connect-to-REPL}
+
+Usage of babel starts with a standard Clojure REPL run in the user's project, with babel loaded as a library.
+Then, in order to start a babel session, the babel library needs to be imported into the REPL, and the function 
+\texttt{(run-in-repl)} needs to be run, launching a Morse viewer, and running a babel REPL.
+\jwcomment{The above command is likely going to be renamed, and this assumes a packaged build of babel, which
+doesn't quite exist yet. (But we've shown we can, so I'm going to assume this exists at point of submission.)}
+The \texttt{(run-in-repl)} function starts by creating a child REPL on top of the current REPL, adding hooks that connect babel to 
+the existing REPL environment. 
+These hooks add behavior and allow for callback functions on standard actions, such as form evaluation and raised exceptions.
+We then use the data caught by these hooks to pass into Morse to be displayed within the current viewer template. 
+When an exception occurs, the following gets passed to Morse:
+\begin{itemize}
+	\item{The form that caused the error.}
+	\item{The line number and file of the error.}
+	\item{The vector of labelled pairs forming the error message.}
+	\item{The url of relevant core documentation (when applicable).}
+\end{itemize}
+
+\subsection{Designing Morse Viewers}\label{subsec:Morse-Viewers}
+Morse allows for the creation of custom views, which act as visual layouts for incoming data. 
+We use this extendability to create custom viewers, which allow us to create and tailor the visualization of the error message data.
+
+
 \jwcomment{John's subsection}
 
 \subsection{Designing an Error Messages Interface}\label{subsec:interface}
