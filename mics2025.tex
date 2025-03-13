@@ -165,6 +165,23 @@ instead of a correct application to a vector:
 \subsection{Clojure Spec}\label{subsec:spec}
 \emcomment{Elena's section.}
 
+Clojure \textit{spec} is an addition to Clojure first released around 2016.  \emcomment{add a citation for https://clojure.org/about/spec}
+It is a set of features that allow setting specification, in particular for functions and macros, that are checked before the function call or macro expansion, respectively. 
+These specification typically include the number and types of arguments, although the may include other conditions.
+The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how would the failure manifest itself. 
+
+As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
+Types (or any other conditions) are specified as predicates. 
+For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?}
+Any existing Clojure predicate can be used, or the user can write their own. 
+
+If arguments not satisfying the spec are passed to the function, a spec error will occur. 
+A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error. 
+The data include the failed predicate.
+For example, if the second argument of the function 
+\texttt{f} above is not a sequence, it fails the predicate \texttt{seq?}
+ 
+
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
@@ -174,7 +191,17 @@ Clojure error messages with clearer explanations, removing unfamiliar jargon.
 
 Our previous versions of Babel transformed error messages into a beginner-friendly 
 format by taking an exception object and producing a plaintext description of the issue. 
-It employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. 
+
+It intercepts these exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), by hooking onto the running REPL instance.
+\jscomment{How? Need more clarification here. Something here about (setup-exc) and the *caught-fn* call}
+
+The data from the exception object is triaged in order to identify the type of error that occurred, checking components of the error such as its type, message, and, if it's a spec error, the spec data associated with it.
+\jscomment{I'd like to be more specific about the technical details of how (modify-message) categorizes the errors, but I'm not sure if that's necessary for this section or if it would be feasible}
+
+We are currently exploring ways to improve the categorization of error messages and optimize the paths an exception object must take to be properly analyzed and rewritten. \jscomment{(Tristan's work?)}
+
+\jscomment{Spec was already introduced in the last section}
+Babel employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. 
 Unlike default error messages, spec allows us to display the erroneous code and the specific argument that violates the requirements. 
 Using spec, the error message above is presented as: 
 \begin{verbatim}
@@ -183,14 +210,18 @@ Using spec, the error message above is presented as:
 ``Wrong number of arguments in (filter neg? 1 -1 0): the function filter expects one or two arguments but was given four arguments.''
 
 Our project currently includes specs for many core functions and also rewrites common non-spec errors. 
+
 However, one ongoing problem is to display the improved error messages in an IDE or an interactive panel. 
 
 Our project poses the following core research question: 
 ``How can we design error message presentation and interactions to help beginners fix errors in their programs?'' 
 Exploring this question requires having a robust environment for experimenting with interactive error messages.
 
+\subsection{Tentative subsection: Babel Control Flow and Use of Spec}\label{subsec:control-flow}
+\emcomment{Do we need a subsection on control flow in babel itself and how spec is used?}
+
 \subsection{Classifying Error Messages}\label{subsec:classification}
-\tkcomment{Tristan's comments}
+\tkcomment{Tristan's subsection}
 
 \begin{enumerate}
 	\item Intro to Clojure Exceptions
@@ -220,13 +251,36 @@ Exploring this question requires having a robust environment for experimenting w
 \jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
 \jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
 represent things.}
+
 Our goal is to improve the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format. 
 For instance, visual cues will help distinguish between code and values, which are indistinguishable by default. 
 Babel will also adjust the level of detail based on context, for example, displaying only relevant parts of a stack trace. 
 Babel will also provide links to Clojure documentation where applicable.
-\subsection{Control Flow}\label{sec:control-flow}
 
-\jwcomment{TODO: Find a better title.}
+\subsection{Connecting to the REPL}\label{subsec:connect-to-REPL}
+
+Usage of babel starts with a standard Clojure REPL run in the user's project, with babel loaded as a library.
+Then, in order to start a babel session, the babel library needs to be imported into the REPL, and the function 
+\texttt{(run-in-repl)} needs to be run, launching a Morse viewer, and running a babel REPL.
+\jwcomment{The above command is likely going to be renamed, and this assumes a packaged build of babel, which
+doesn't quite exist yet. (But we've shown we can, so I'm going to assume this exists at point of submission.)}
+The \texttt{(run-in-repl)} function starts by creating a child REPL on top of the current REPL, adding hooks that connect babel to 
+the existing REPL environment. 
+These hooks add behavior and allow for callback functions on standard actions, such as form evaluation and raised exceptions.
+We then use the data caught by these hooks to pass into Morse to be displayed within the current viewer template. 
+When an exception occurs, the following gets passed to Morse:
+\begin{itemize}
+	\item{The form that caused the error.}
+	\item{The line number and file of the error.}
+	\item{The vector of labelled pairs forming the error message.}
+	\item{The url of relevant core documentation (when applicable).}
+\end{itemize}
+
+\subsection{Designing Morse Viewers}\label{subsec:Morse-Viewers}
+Morse allows for the creation of custom views, which act as visual layouts for incoming data. 
+We use this extendability to create custom viewers, which allow us to create and tailor the visualization of the error message data.
+
+
 \jwcomment{John's subsection}
 
 \subsection{Designing an Error Messages Interface}\label{subsec:interface}
