@@ -165,6 +165,23 @@ instead of a correct application to a vector:
 \subsection{Clojure Spec}\label{subsec:spec}
 \emcomment{Elena's section.}
 
+Clojure \textit{spec} is an addition to Clojure first released around 2016.  \emcomment{add a citation for https://clojure.org/about/spec}
+It is a set of features that allow setting specification, in particular for functions and macros, that are checked before the function call or macro expansion, respectively. 
+These specification typically include the number and types of arguments, although the may include other conditions.
+The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how would the failure manifest itself. 
+
+As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
+Types (or any other conditions) are specified as predicates. 
+For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?}
+Any existing Clojure predicate can be used, or the user can write their own. 
+
+If arguments not satisfying the spec are passed to the function, a spec error will occur. 
+A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error. 
+The data include the failed predicate.
+For example, if the second argument of the function 
+\texttt{f} above is not a sequence, it fails the predicate \texttt{seq?}
+ 
+
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
@@ -189,8 +206,11 @@ Our project poses the following core research question:
 ``How can we design error message presentation and interactions to help beginners fix errors in their programs?'' 
 Exploring this question requires having a robust environment for experimenting with interactive error messages.
 
+\subsection{Tentative subsection: Babel Control Flow and Use of Spec}\label{subsec:control-flow}
+\emcomment{Do we need a subsection on control flow in babel itself and how spec is used?}
+
 \subsection{Classifying Error Messages}\label{subsec:classification}
-\tkcomment{Tristan's comments}
+\tkcomment{Tristan's subsection}
 
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
