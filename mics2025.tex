@@ -143,6 +143,8 @@ We conclude with a discussion of key open questions and future directions.
 
 \subsection{Related Work}\label{subsec:related}
 
+\cite{cosmetic}
+
 \emcomment{Talking about existing literature, such as Racket's errors, and other people?}
 \jscomment{Discussion of what existing literature is relevant and why?}
 
@@ -191,7 +193,17 @@ Clojure error messages with clearer explanations, removing unfamiliar jargon.
 
 Our previous versions of Babel transformed error messages into a beginner-friendly 
 format by taking an exception object and producing a plaintext description of the issue. 
-It employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. 
+
+It intercepts these exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), by hooking onto the running REPL instance.
+\jscomment{How? Need more clarification here. Something here about (setup-exc) and the *caught-fn* call}
+
+The data from the exception object is triaged in order to identify the type of error that occurred, checking components of the error such as its type, message, and, if it's a spec error, the spec data associated with it.
+\jscomment{I'd like to be more specific about the technical details of how (modify-message) categorizes the errors, but I'm not sure if that's necessary for this section or if it would be feasible}
+
+We are currently exploring ways to improve the categorization of error messages and optimize the paths an exception object must take to be properly analyzed and rewritten. \jscomment{(Tristan's work?)}
+
+\jscomment{Spec was already introduced in the last section}
+Babel employs a Clojure feature called spec that provides a way to specify the number and types of arguments allowed for a function. 
 Unlike default error messages, spec allows us to display the erroneous code and the specific argument that violates the requirements. 
 Using spec, the error message above is presented as: 
 \begin{verbatim}
@@ -200,6 +212,7 @@ Using spec, the error message above is presented as:
 ``Wrong number of arguments in (filter neg? 1 -1 0): the function filter expects one or two arguments but was given four arguments.''
 
 Our project currently includes specs for many core functions and also rewrites common non-spec errors. 
+
 However, one ongoing problem is to display the improved error messages in an IDE or an interactive panel. 
 
 Our project poses the following core research question: 
@@ -211,6 +224,29 @@ Exploring this question requires having a robust environment for experimenting w
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
 \tkcomment{Tristan's subsection}
+
+\begin{enumerate}
+	\item Intro to Clojure Exceptions
+	\begin{enumerate}
+		\item Exception handling takes from the JVM
+		\begin{enumerate}
+			\item Clojure uses Java’s exception system for reporting error messages
+		\end{enumerate}
+		\item What are Exceptions
+		\begin{enumerate}
+			\item What happens when they are thrown
+		\end{enumerate}
+		\item Error Messages
+		\begin{enumerate}
+			\item Structure of an Error Message
+			\begin{itemize}
+				\item Type
+				\item Message
+				\item Stack Trace
+			\end{itemize}
+		\end{enumerate}
+	\end{enumerate}
+\end{enumerate}
 
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
