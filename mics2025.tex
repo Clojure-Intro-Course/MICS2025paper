@@ -57,6 +57,7 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{parskip}
+\usepackage{listings}
 
 %% Elena's favorite green (thanks, Fernando!)
 \definecolor{ForestGreen}{RGB}{34,139,34}
@@ -152,28 +153,80 @@ We conclude with a discussion of key open questions and future directions.
 
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
 \tkcomment{Tristan's subsection}
-\begin{enumerate}
-	\item Intro to Clojure Exceptions
-	\begin{enumerate}
-		\item Exception handling takes from the JVM
-		\begin{enumerate}
-			\item Clojure uses Java’s exception system for reporting error messages
-		\end{enumerate}
-		\item What are Exceptions
-		\begin{enumerate}
-			\item What happens when they are thrown
-		\end{enumerate}
-		\item Error Messages
-		\begin{enumerate}
-			\item Structure of an Error Message
-			\begin{itemize}
-				\item Type
-				\item Message
-				\item Stack Trace
-			\end{itemize}
-		\end{enumerate}
-	\end{enumerate}
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{Exception handling takes from the JVM} \\
+    Clojure is a hosted language, running on the JVM. As a result, it uses many of the features that the JVM provides,
+	 but most importantly here is that it uses the Java Exception system for handling errors. When an exception is thrown in Clojure,
+	  it is a Java exception, because Clojure code compiles to JVM bytecode.
+    
+    \item \textbf{What are Exceptions} \\
+    An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure,
+	exceptions typically occur when something goes wrong, such as dividing by zero or passing an inappropriate argument to a function.
+	When an exception is thrown, it halts the program's execution and may cause it to crash unless it's caught and handled, allowing the program to recover or provide better error messaging.
+
+	\item \textbf{Error Messages} \\
+	Error messages are generated when an exception occurs. They provide information about the type of error as well as where it happens. Here is an example:
+	\begin{figure}[h]
+		\centering
+		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+	user=> (first 27)
+	Execution error (IllegalArgumentException) at user/eval29(REPL:1).  
+	Don't know how to create ISeq from: java.lang.Long
+		\end{lstlisting}
+	\end{figure}
+	
+
+	Clojure error messages generally include: 
+	\begin{itemize}
+		\item The error type \texttt{ IllegalArgumentException}
+		\item location of an error \texttt{ user/eval29 (REPL:1)}
+		\item A description of the cause of the error \texttt{ Don't know how to create ISeq from: java.lang.Long}
+	\end{itemize}
+
+	\tkcomment{finish the Error Object and Ex-triage parts}
+	\item \textbf{Error Object} \\
+	The error message is a part of an exception object that contains more information,
+	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
+	\tkcomment{make it automatically wrap so it is not too wide}
+	\begin{verbatim}
+		#error {
+ :cause "Don't know how to create ISeq from: java.lang.Long"
+ :via
+ [{:type java.lang.IllegalArgumentException
+   :message "Don't know how to create ISeq from: java.lang.Long"
+   :at [clojure.lang.RT seqFrom "RT.java" 557]}]
+ :trace
+ [[clojure.lang.RT seqFrom "RT.java" 557]
+  ...omitting 21 lines...
+  [clojure.main main "main.java" 40]]}
+	\end{verbatim}
+
+	\item \textbf{Ex-triage} \\
+	clojure.main also provides a function `ex-triage` that returns an analysis of the phase, error, cause, and location of an error.
+	Phase lets us know what phase in which the error occurred
+	\tkcomment{again the same problem with having to manually wrap text}
+	\begin{verbatim}
+		user=> (clojure.main/ex-triage(Throwable->map *e))
+		#:clojure.error{:class java.lang.IllegalArgumentException,
+		 :line 1, :cause "Don't know how to create ISeq from:
+		  java.lang.Long", :symbol user/eval1, :phase :execution}
+	\end{verbatim}
+
+	\begin{tabular}{|c|l|}
+		\hline
+		\textbf{Phase} & \textbf{Description} \\
+		\hline
+		:read-source & Error thrown while reading characters at the REPL or from a source file. \\
+		:macro-syntax-check & A syntax error found in the syntax of a macro call. \\
+		:macroexpansion & All other errors thrown during macro evaluation. \\
+		:compile-syntax-check & Syntax error caught during compilation. \\
+		:compilation & Non-syntax errors caught during compilation. \\
+		:execution & Any errors thrown at execution time. \\
+		:read-eval-result & Error thrown while reading the result of execution. \\
+		:print-eval-result & Error thrown while printing the result of execution. \\
+		\hline
+		\end{tabular}
+\end{itemize}
 
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
