@@ -153,18 +153,20 @@ We conclude with a discussion of key open questions and future directions.
 
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
 \tkcomment{Tristan's subsection}
-\begin{itemize}
-    \item \textbf{Exception handling takes from the JVM} \\
-    Clojure is a hosted language, running on the JVM. As a result, it uses many of the features that the JVM provides,
+\emcomment{I am removing the list: the paper should use a narratve. \\}
+%\begin{itemize}
+    %\item \textbf{Exception handling takes from the JVM} 
+
+Clojure is a hosted language, running on the Java Virtual Machine (JVM). As a result, it uses many of the features that the JVM provides,
 	 but most importantly here is that it uses the Java Exception system for handling errors. When an exception is thrown in Clojure,
 	  it is a Java exception, because Clojure code compiles to JVM bytecode.
     
-    \item \textbf{What are Exceptions} \\
+   % \item \textbf{What are Exceptions} \\
     An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure,
 	exceptions typically occur when something goes wrong, such as dividing by zero or passing an inappropriate argument to a function.
 	When an exception is thrown, it halts the program's execution and may cause it to crash unless it's caught and handled, allowing the program to recover or provide better error messaging.
 
-	\item \textbf{Error Messages} \\
+	%\item \textbf{Error Messages} \\
 	Error messages are generated when an exception occurs. They provide information about the type of error as well as where it happens. Here is an example:
 	\begin{figure}[h]
 		\centering
@@ -184,7 +186,7 @@ We conclude with a discussion of key open questions and future directions.
 	\end{itemize}
 
 	\tkcomment{finish the Error Object and Ex-triage parts}
-	\item \textbf{Error Object} \\
+	%\item \textbf{Error Object} \\
 	The error message is a part of an exception object that contains more information,
 	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
 	\tkcomment{make it automatically wrap so it is not too wide}
@@ -201,7 +203,7 @@ We conclude with a discussion of key open questions and future directions.
   [clojure.main main "main.java" 40]]}
 	\end{verbatim}
 
-	\item \textbf{Ex-triage} \\
+	%\item \textbf{Ex-triage} \\
 	clojure.main also provides a function `ex-triage` that returns an analysis of the phase, error, cause, and location of an error.
 	Phase lets us know what phase in which the error occurred
 	\tkcomment{again the same problem with having to manually wrap text}
@@ -226,7 +228,7 @@ We conclude with a discussion of key open questions and future directions.
 		:print-eval-result & Error thrown while printing the result of execution. \\
 		\hline
 		\end{tabular}
-\end{itemize}
+%\end{itemize}
 
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
@@ -301,6 +303,13 @@ Exploring this question requires having a robust environment for experimenting w
 \tkcomment{Tristan's subsection}
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
+\emcomment{Copied from the abstract:}
+Our goal with Babel is to improve the user experience by using the a third-party Morse viewer to present error information in a better, more beginner-friendly format. 
+For instance, visual cues will help distinguish between strings and numbers, which can be indistinguishable in standard Clojure error Messages. 
+Babel will also adjust the level of detail based on the error’s context. 
+For example, a simple number being passed as a string may not print out a full stack trace, instead just focusing on type mismatch. 
+Babel will also provide relevant links to Clojure documentation on clojuredocs.org where applicable.
+
 \jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
 \jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
 represent things.}
