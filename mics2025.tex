@@ -171,9 +171,9 @@ Clojure is a hosted language, running on the Java Virtual Machine (JVM). As a re
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-	user=> (first 27)
-	Execution error (IllegalArgumentException) at user/eval29(REPL:1).  
-	Don't know how to create ISeq from: java.lang.Long
+user=> (first 27)
+Execution error (IllegalArgumentException) at user/eval29(REPL:1).  
+Don't know how to create ISeq from: java.lang.Long
 		\end{lstlisting}
 	\end{figure}
 	
@@ -189,9 +189,10 @@ Clojure is a hosted language, running on the Java Virtual Machine (JVM). As a re
 	%\item \textbf{Error Object} \\
 	The error message is a part of an exception object that contains more information,
 	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
-	\tkcomment{make it automatically wrap so it is not too wide}
-	\begin{verbatim}
-		#error {
+	\begin{figure}[h]
+		\centering
+		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+#error {
  :cause "Don't know how to create ISeq from: java.lang.Long"
  :via
  [{:type java.lang.IllegalArgumentException
@@ -199,36 +200,45 @@ Clojure is a hosted language, running on the Java Virtual Machine (JVM). As a re
    :at [clojure.lang.RT seqFrom "RT.java" 557]}]
  :trace
  [[clojure.lang.RT seqFrom "RT.java" 557]
-  ...omitting 21 lines...
+  ... omitted 21 line ...
   [clojure.main main "main.java" 40]]}
-	\end{verbatim}
+
+		\end{lstlisting}
+	\end{figure}
+	
 
 	%\item \textbf{Ex-triage} \\
 	clojure.main also provides a function `ex-triage` that returns an analysis of the phase, error, cause, and location of an error.
 	Phase lets us know what phase in which the error occurred
-	\tkcomment{again the same problem with having to manually wrap text}
-	\begin{verbatim}
-		user=> (clojure.main/ex-triage(Throwable->map *e))
-		#:clojure.error{:class java.lang.IllegalArgumentException,
-		 :line 1, :cause "Don't know how to create ISeq from:
-		  java.lang.Long", :symbol user/eval1, :phase :execution}
-	\end{verbatim}
+	\tkcomment{: and line from :line are being seperated by line wrapping}
 
-	\begin{tabular}{|c|l|}
-		\hline
-		\textbf{Phase} & \textbf{Description} \\
-		\hline
-		:read-source & Error thrown while reading characters at the REPL or from a source file. \\
-		:macro-syntax-check & A syntax error found in the syntax of a macro call. \\
-		:macroexpansion & All other errors thrown during macro evaluation. \\
-		:compile-syntax-check & Syntax error caught during compilation. \\
-		:compilation & Non-syntax errors caught during compilation. \\
-		:execution & Any errors thrown at execution time. \\
-		:read-eval-result & Error thrown while reading the result of execution. \\
-		:print-eval-result & Error thrown while printing the result of execution. \\
-		\hline
+	\begin{figure}[h]
+		\centering
+		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+user=> (clojure.main/ex-triage(Throwable->map *e))
+#:clojure.error{:class java.lang.IllegalArgumentException, :line 1, :cause "Don't know how to create ISeq from: java.lang.Long", :symbol user/eval7, :phase :execution}
+		\end{lstlisting}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{|c|l|}
+			\hline
+			\textbf{Phase} & \textbf{Description} \\
+			\hline
+			:read-source & Error thrown while reading characters at the REPL or from a source file. \\
+			:macro-syntax-check & A syntax error found in the syntax of a macro call. \\
+			:macroexpansion & All other errors thrown during macro evaluation. \\
+			:compile-syntax-check & Syntax error caught during compilation. \\
+			:compilation & Non-syntax errors caught during compilation. \\
+			:execution & Any errors thrown at execution time. \\
+			:read-eval-result & Error thrown while reading the result of execution. \\
+			:print-eval-result & Error thrown while printing the result of execution. \\
+			\hline
 		\end{tabular}
 %\end{itemize}
+	\end{figure}
+	
 
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
@@ -300,6 +310,30 @@ Exploring this question requires having a robust environment for experimenting w
 \emcomment{Do we need a subsection on control flow in babel itself and how spec is used?}
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
+\begin{itemize}
+    \item \textbf{Spec Errors vs. Non-Spec Errors} \\
+    We separate out the spec errors and the non-spec errors.
+
+    \item \textbf{Error Messages Classification} \\
+    Error messages can be classified by things like:
+    \begin{itemize}
+        \item Error Types
+        \item Level of Nesting
+        \item Phase
+    \end{itemize}
+
+    \item \textbf{Babel Messages vs. Messages from Dictionary} \\
+    \begin{itemize}
+        \item LazySeq messages not caught in spec because worried that catching and printing at the point will change the order of eval (these are caught in the print phase) -- key decisions we made with our spec.
+    \end{itemize}
+
+    \item \textbf{Documenting Errors} \\
+    Error on the receiving end and how to get where it came from.
+
+    \item \textbf{How to Get Useful Information from Error?} \\
+    Reverse-engineered through things like nested errors.
+
+\end{itemize}
 \tkcomment{Tristan's subsection}
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
