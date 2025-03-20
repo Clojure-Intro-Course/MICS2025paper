@@ -157,17 +157,17 @@ We conclude with a discussion of key open questions and future directions.
 %\begin{itemize}
     %\item \textbf{Exception handling takes from the JVM} 
 
-Clojure is a hosted language, running on the Java Virtual Machine (JVM). As a result, it uses many of the features that the JVM provides,
-	 but most importantly here is that it uses the Java Exception system for handling errors. When an exception is thrown in Clojure,
-	  it is a Java exception, because Clojure code compiles to JVM bytecode.
+Clojure is a hosted language, running on the Java interpreter known as the Java Virtual Machine (JVM). As a result, it uses many of the features that the JVM provides,
+	 but most importantly for the work presented here is that it uses the Java Exception system for handling errors. When an exception is thrown in Clojure,
+	  it is a Java exception, because Clojure code compiles to JVM bytecode.\emcomment{First mention that it compiles to JVM bytecode, then say that Clojure errors are Java exceptions}
     
    % \item \textbf{What are Exceptions} \\
     An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure,
-	exceptions typically occur when something goes wrong, such as dividing by zero or passing an inappropriate argument to a function.
+	exceptions typically occur when something goes wrong, such as dividing by zero or passing an inappropriate argument to a function. \emcomment{I think it's important to mention that since Clojure code is loaded dynamically, syntax errors also manifest themselves as exceptions.}
 	When an exception is thrown, it halts the program's execution and may cause it to crash unless it's caught and handled, allowing the program to recover or provide better error messaging.
 
 	%\item \textbf{Error Messages} \\
-	Error messages are generated when an exception occurs. They provide information about the type of error as well as where it happens. Here is an example:
+	Error messages are generated when an exception occurs. They provide information about the type of error as well as where it happens. Here is an example: \emcomment{Need to explain the correct use of first}
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -176,7 +176,7 @@ Execution error (IllegalArgumentException) at user/eval29(REPL:1).
 Don't know how to create ISeq from: java.lang.Long
 		\end{lstlisting}
 	\end{figure}
-	
+\emcomment{Also briefly explain the actual cause of the error and how the Clojure wording relates to it.}	
 
 	Clojure error messages generally include: 
 	\begin{itemize}
@@ -187,6 +187,7 @@ Don't know how to create ISeq from: java.lang.Long
 
 	\tkcomment{finish the Error Object and Ex-triage parts}
 	%\item \textbf{Error Object} \\
+\emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
 	The error message is a part of an exception object that contains more information,
 	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
 	\begin{figure}[h]
