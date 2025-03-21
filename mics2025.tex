@@ -270,17 +270,37 @@ A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionIn
 The data include the failed predicate.
 For example, if the second argument of the function 
 \texttt{f} above is not a sequence, it fails the predicate \texttt{seq?}
- 
-
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
 \jscomment{Jaydon's subsection}
-Our research project, Babel, aims to provide beginner programmers with a tool that replaces 
-Clojure error messages with clearer explanations, removing unfamiliar jargon.
 
-Our previous versions of Babel transformed error messages into a beginner-friendly 
-format by taking an exception object and producing a plaintext description of the issue. 
+Our research project, Babel, is a tool intended to aid novice programmers in confusions that may arise from the highly specialized design of Clojure's error messages by providing learners with substitute messages that clearly describe the problems in simpler terms, removing unfamiliar jargon. For example, the error message produced via the function call below:
+
+\jscomment{TODO: Please fix the figure number reference}
+
+\begin{figure}[h]
+	\centering
+	\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+        user=> (count 1)
+        Execution error (UnsupportedOperationException) at user/eval1529 (REPL:1).
+        count not supported on this type: Long
+	\end{lstlisting}
+\end{figure}
+
+is transformed into a new message with a more explicit description of the error's cause, while replacing the reference to the internal type \verb|Long| with a more universal term (as a number cannot be passed to this function at all):
+
+\begin{figure}[h]
+	\centering
+	\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+        babel.middleware=> (count 1)
+        Function count does not allow a number as an argument in this position.
+
+        In Clojure interactive session on line 1.
+        Call sequence:
+        [Clojure interactive session (repl)]
+	\end{lstlisting}
+\end{figure}
 
 It intercepts these exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), by hooking onto the running REPL instance.
 \jscomment{How? Need more clarification here. Something here about (setup-exc) and the *caught-fn* call}
