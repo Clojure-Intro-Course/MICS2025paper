@@ -142,6 +142,8 @@ We outline options for formatting the error messages to beginners, as well as th
 We present design examples of views and interactions for a variety of error messages. 
 We conclude with a discussion of key open questions and future directions. 
 
+\cite{Hickey:2008}
+
 \subsection{Related Work}\label{subsec:related}
 
 \cite{cosmetic}
@@ -152,11 +154,11 @@ We conclude with a discussion of key open questions and future directions.
 \section{Background}\label{sec:background}
 
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
-\tkcomment{Tristan's subsection}
-\emcomment{I am removing the list: the paper should use a narratve. \\}
+%\tkcomment{Tristan's subsection}
+%\emcomment{I am removing the list: the paper should use a narratve. \\}
 %\begin{itemize}
     %\item \textbf{Exception handling takes from the JVM} 
-	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a platform that allows a program to run on any computer without needing to be rewritten for each one. 
+	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a platform \emcomment{an interpeter} that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
     
@@ -412,10 +414,6 @@ We use this extendability to create custom viewers, which allow us to create and
 
 \subsection{Designing an Error Messages Interface}\label{subsec:interface}
 \emcomment{TBD}
-
-
-\emcomment{Need at least one citation for LaTeX to work:}
-\cite{Hickey:2008}
 
 		
 \section{Current Abilities and Future Work}\label{sec:conclusion}
