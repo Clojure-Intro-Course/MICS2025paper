@@ -156,18 +156,23 @@ We conclude with a discussion of key open questions and future directions.
 \emcomment{I am removing the list: the paper should use a narratve. \\}
 %\begin{itemize}
     %\item \textbf{Exception handling takes from the JVM} 
-
-Clojure is a hosted language, running on the Java interpreter known as the Java Virtual Machine (JVM). As a result, it uses many of the features that the JVM provides,
-	 but most importantly for the work presented here is that it uses the Java Exception system for handling errors. When an exception is thrown in Clojure,
-	  it is a Java exception, because Clojure code compiles to JVM bytecode.\emcomment{First mention that it compiles to JVM bytecode, then say that Clojure errors are Java exceptions}
+	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a platform that allows a program to run on any computer without needing to be rewritten for each one. 
+	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
+	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
     
    % \item \textbf{What are Exceptions} \\
-    An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure,
-	exceptions typically occur when something goes wrong, such as dividing by zero or passing an inappropriate argument to a function. \emcomment{I think it's important to mention that since Clojure code is loaded dynamically, syntax errors also manifest themselves as exceptions.}
-	When an exception is thrown, it halts the program's execution and may cause it to crash unless it's caught and handled, allowing the program to recover or provide better error messaging.
+   An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
+   zero or passing an inappropriate argument to a function. It’s important to note here that syntax errors will also result in an exception, because during the compilation of Clojure code into JVM bytecode, 
+   any syntax error will prevent the code from being compiled and cause an exception.
+
+   Error messages are generated when an exception occurs. They provide information about
+   the type of error as well as where it happens. Let’s look at an example:
+   
+   Note: the first function returns the first item in a given collection
+   \texttt{(first [1 2 3])} would return 1.
+   
 
 	%\item \textbf{Error Messages} \\
-	Error messages are generated when an exception occurs. They provide information about the type of error as well as where it happens. Here is an example: \emcomment{Need to explain the correct use of first}
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -178,11 +183,12 @@ Don't know how to create ISeq from: java.lang.Long
 	\end{figure}
 \emcomment{Also briefly explain the actual cause of the error and how the Clojure wording relates to it.}	
 
-	Clojure error messages generally include: 
+What’s going wrong here?
 	\begin{itemize}
-		\item The error type \texttt{ IllegalArgumentException}
-		\item location of an error \texttt{ user/eval29 (REPL:1)}
-		\item A description of the cause of the error \texttt{ Don't know how to create ISeq from: java.lang.Long}
+		\item \texttt{ IllegalArgumentException} is the type of error that happens. It means that the code is trying to do something with the number 27 that it shouldn’t.
+		\item \texttt{ user/eval29 (REPL:1)} which is where the Clojure code is being typed and tested and it happened in the first line.
+		\item \texttt{ Don't know how to create ISeq from: java.lang.Long} This explains the cause of the exception. The function `first` is trying to grab the first item of the number `27`, 
+		but it can’t as it is just a `java.lang.Long` number, not something with `ISeq` which here means that it can be treated with has multiple things to sequence through, so the function can’t handle it.
 	\end{itemize}
 
 	\tkcomment{finish the Error Object and Ex-triage parts}
