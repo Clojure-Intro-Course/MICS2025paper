@@ -152,12 +152,22 @@ We conclude with a discussion of key open questions and future directions.
 
 \subsection{Related Work}\label{subsec:related}
 
-Previous work on the topic of improving error messages in general for beginners~\cite{cosmetic} revealed that certain visual design choices can have a strong impact on a user's comprehension of error data. Dong and Khandwala found that, out of text coloring, increased white space, and collapsible components, adding whitespace to separate important sections of the error message helped to aid with understanding the most overall, and that employing theories of visual perception in the design of error messages help to improve their usability. 
+Previous work on the topic of improving error messages in general for beginners~\cite{cosmetic} revealed that 
+certain visual design choices can have a strong impact on a user's comprehension of error data. Dong and Khandwala found that, 
+out of text coloring, increased white space, and collapsible components, adding whitespace to separate important sections of the 
+error message helped to aid with understanding the most overall, and that employing theories of visual perception in the design 
+of error messages help to improve their usability. 
 We are using these insights as guidance for our approach.
 
-A 2017 paper by Wrenn and Krishnamurthi~\cite{classifiers} on error handling in Racket, another Lisp-based programming language, suggests treating error messages as classifiers, using highlighting tools to mark up error messages. This is somewhat similar to our own approach in that we extract components of error messages and classify them using keywords to determine appropriate styling choices that make them more navigable to the end user.
+A 2017 paper by Wrenn and Krishnamurthi~\cite{classifiers} on error handling in Racket, another Lisp-based programming language, 
+suggests treating error messages as classifiers, using highlighting tools to mark up error messages. This is somewhat similar to 
+our own approach in that we extract components of error messages and classify them using keywords to determine appropriate styling 
+choices that make them more navigable to the end user.
 
-An earlier paper on Racket~\cite{language} suggests that the vocabulary used in error messages plays a key role in the ability to understand them, and students often have a hard time navigating technical language intended to point them to specific issues. This knowledge is important to our own research, as native Clojure error messages often contain highly technical vocabulary as well, and we make an effort to replace such terminology with more universal language.
+An earlier paper on Racket~\cite{language} suggests that the vocabulary used in error messages plays a key role in the ability to
+understand them, and students often have a hard time navigating technical language intended to point them to specific issues. This
+knowledge is important to our own research, as native Clojure error messages often contain highly technical vocabulary as well, and 
+we make an effort to replace such terminology with more universal language.
 
 \section{Background}\label{sec:background}
 
