@@ -174,8 +174,6 @@ We are using these insights as guidance for our approach.
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
-
-\emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
     
    % \item \textbf{What are Exceptions} \\
    An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
@@ -188,6 +186,8 @@ cause an exception.
    the type of error as well as where it happens, for example:
 
 	%\item \textbf{Error Messages} \\
+	Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
+
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
