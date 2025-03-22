@@ -123,12 +123,6 @@ kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 \setcounter{page}{1}
 
 \section{Introduction}
-
-%\emcomment{Sample Comment} \\
-%\tkcomment{Sample Comment} \\
-%\jscomment{Sample Comment} \\
-%\jwcomment{Sample Comment}
-
 The Clojure programming language is a functional language in the Lisp family, developed and released in 2007 
 by Rich Hickey~\cite{Hickey:2008}. 
 Clojure is implemented in Java, compiles to Java bytecode, and runs in the Java Virtual Machine (JVM), 
@@ -169,17 +163,17 @@ We are using these insights as guidance for our approach.
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
 %\tkcomment{Tristan's subsection}
 %\emcomment{I am removing the list: the paper should use a narratve. \\}
-%\begin{itemize}
-    %\item \textbf{Exception handling takes from the JVM} 
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
 
+
 \emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
+\emcomment{Also need to include:
+Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.}
     
-   % \item \textbf{What are Exceptions} \\
-   An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
-   zero or passing an inappropriate argument to a function. It’s important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
+   An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
+   zero or passing an inappropriate argument to a function. It's important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
    any syntax error will 
 %prevent the code from being compiled and 
 cause an exception.
@@ -187,7 +181,6 @@ cause an exception.
    Error messages are generated when an exception occurs. They provide information about
    the type of error as well as where it happens, for example:
 
-	%\item \textbf{Error Messages} \\
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -196,23 +189,20 @@ cause an exception.
 	Divide by zero
 		\end{lstlisting}
 	\end{figure}
-\emcomment{Also briefly explain the actual cause of the error and how the Clojure wording relates to it.}	
 
-What’s going wrong here?
+Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
+
+The code is causing an error because it is trying to divide by zero, Let's break apart the message:
 	\begin{itemize}
 		\item \texttt{ ArithmeticException } is the type of error that happens.
 		\item \texttt{ user/eval1 (REPL:1) } which is where the Clojure code is being typed and tested and it happened in the first line.
 		\item \texttt{ Divide by zero } is the given description for the cause of the error
 	\end{itemize}
-
-	\tkcomment{finish the Error Object and Ex-triage parts}
-	\tkcomment{Error messages here need to be changed to the ones for (/9 0)}
-	%\item \textbf{Error Object} \\
 \emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
 	
 The error message is a part of an exception object that contains more information. To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
 
-Here’s an example of the exception object for \texttt{(/ 9 0)}
+Here's an example of the exception object for \texttt{(/ 9 0)}
 
 	\begin{figure}[h]
 		\centering
@@ -231,8 +221,6 @@ Here’s an example of the exception object for \texttt{(/ 9 0)}
 		\end{lstlisting}
 	\end{figure}
 	
-
-	%\item \textbf{Ex-triage} \\
 	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
 	 the phase in the \texttt{ex-triage} lets us know when the exception occurs.
 	
@@ -261,7 +249,6 @@ user=> (clojure.main/ex-triage(Throwable->map *e))
 			:print-eval-result & Error thrown while printing the result of execution. \\
 			\hline
 		\end{tabular}
-%\end{itemize}
 	\end{figure}
 
 \tkcomment{Abrupt shift here}
@@ -273,7 +260,7 @@ As an example of one such mistake, a novice to Clojure might write an expression
 
 This causes an error, because the filter function was expecting either 1 or 2 arguments,
  which should be a predicate or a predicate and a collection. Here 1, -1, and 0 are not in a collection. 
- Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn’t expect.
+ Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn't expect.
 
  \begin{figure}[h]
 	\centering
@@ -296,6 +283,7 @@ Clojure \textit{spec} is an addition to Clojure first released around 2016~\cite
 It is a set of features that allow setting specifications, particularly for functions, that are checked before the function call. 
 These specifications typically include the number and types of arguments, although they may include other conditions.
 The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how the failure would manifest itself. 
+\emcomment{and, to a degree, what information will be communicated about why the arguments failed to satisfy spec}.
 
 \jscomment{Wording in the last sentence is a little bit cryptic, in my opinion. I'm not sure what "how the failure would manifest itself" refers to in relation to Clojure specs, especially if it's not clear that we're talking about spec failures or errors produced by them. (This is expanded on slightly later)}
 
@@ -310,17 +298,18 @@ For example, if the second argument of the function
 \texttt{f} above is a number $5$, and not a sequence, the error message states that it failed the predicate \texttt{seq?}
 Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message.
 
-Without using spec, the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
-The more detailed information allows us to leverage spec to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
+Without using spec, the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the incompatible types. 
+The more detailed information provided by spec allows us to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
 \jscomment{"Failed to convert to each other?" I thought casting is strictly from one type to another. Possibly just iffy wording.}
 
 \jscomment{I'd say something more like "...With more detailed information (at our disposal) provided by spec, we can make error messages that are more understandable ..."}
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
-\jscomment{Jaydon's subsection}
-
+%\jscomment{Jaydon's subsection}
+\emcomment{Explain the difference in prompts: user vs babel.middleware}
 Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages, derived from our own specs on core Clojure functions, that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below:
+\emcomment{Clarify that this spec not the only way to generate error messages}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     user=> (count 1)
@@ -329,6 +318,7 @@ Our research project, Babel, is a tool intended to help novice programmers under
 \end{lstlisting}
     
 is transformed into a new message, replacing the reference to the internal type \verb|Long| and removing details about the Java exception object and the temporary interpreter file where the error occurred:
+\emcomment{It's a temporary interpreter function, not a file - but also maybe just say ``And removing irrelevant internal infomration?". I also wouldn't include the stack trace in the examples.}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     babel.middleware=> (count 1)
@@ -349,7 +339,7 @@ Babel creates error messages like these through simple analysis of the native er
 
 In these situations, it would be ideal to have a detailed explanation of what the offending arguments in the function call are, and what was expected. This is where Babel makes use of the Clojure spec library in its error reporting.
 
-By employing specs on core Clojure functions, it is possible to explicitly determine the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is reformatted as follows:
+By employing specs on core Clojure functions, it is possible to explicitly determine the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is reformatted as follows:\emcomment{rewritten, rather than reformatted? Or replaced by ...}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     babel.middleware=> (filter neg? 1 -1 0)
@@ -359,10 +349,10 @@ By employing specs on core Clojure functions, it is possible to explicitly deter
     [Clojure interactive session (repl)]
 \end{lstlisting}
 
-Our project presently includes specs for many functions in the \verb|clojure.core| library and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). However, our research at this stage of the project largely concerns the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data.
-
-\jscomment{Move this somewhere else.}
-Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.
+Our project presently includes specs for many functions in the \verb|clojure.core| library 
+\emcomment{predefined Clojure functions?}
+and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). However, \emcomment{I wouldn't use "however"} our research at this stage of the project largely concerns \emcomment{focusing on?} the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data.
+\emcomment{Perhaps give an example of what this means?}
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
 
