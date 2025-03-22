@@ -449,13 +449,20 @@ The Babel viewer takes a map of input data as input, and defines the predicate f
 For the formatting definition, Babel uses the built-in \texttt{WebView} object in order to format the error data with an HTML template,
 enabling us to leverage the large, robust tools of HTML and CSS to define the visuals of the error messages.
 
-
 \jwcomment{John's subsection}
 
 \subsection{Exploring Design of Error Messages Interface}\label{subsec:interface}
 \emcomment{TBD}
 
-		
+An example of the error presentation for Babel is shown in \ref{fig:babelview}, showing the error message for the command \texttt{(even? 1 2)}. 
+Code segments are displayed as monospace and isolated. Additionally, function names within the body of the error message are color coded. 
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{resources/BabelViewerExample.png}
+	\caption{Morse visualization of the arity error on \texttt{(even?)} with too many arguments (right), with session evaluation history (left).}
+	\label{fig:babelview}
+\end{figure}
+
 \section{Current Abilities and Future Work}\label{sec:conclusion}
 	\subsection{Current Abilities}\label{subsec:current-abilities}
 	\emcomment{TBD}
