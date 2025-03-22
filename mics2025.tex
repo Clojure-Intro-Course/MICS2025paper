@@ -312,16 +312,15 @@ Our research project, Babel, is a tool intended to help novice programmers under
 \emcomment{Clarify that this spec not the only way to generate error messages}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-    user=> (count 1)
+    => (count 1)
     Execution error (UnsupportedOperationException) at user/eval1529 (REPL:1).
     count not supported on this type: Long
 \end{lstlisting}
     
-is transformed into a new message, replacing the reference to the internal type \verb|Long| and removing details about the Java exception object and the temporary interpreter file where the error occurred:
-\emcomment{It's a temporary interpreter function, not a file - but also maybe just say ``And removing irrelevant internal infomration?". I also wouldn't include the stack trace in the examples.}
+is transformed into a new message, replacing the reference to the internal type \verb|Long| and removing details about the Java exception object and irrelevant internal information:
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-    babel.middleware=> (count 1)
+    => (count 1)
     Function count does not allow a number as an argument in this position.
 
     In Clojure interactive session on line 1.
@@ -332,27 +331,24 @@ is transformed into a new message, replacing the reference to the internal type 
 Babel creates error messages like these through simple analysis of the native error's Java exception class and message contents, and one could argue that for cases like these, the native error message suffices. However, for more complicated problems, such as incorrect calls to functions or malformed arguments, Clojure's messages get far more difficult to parse. Consider the previous error:
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-    user=> (filter neg? 1 -1 0)
+    => (filter neg? 1 -1 0)
     Execution error (ArityException) at user/eval1540 (REPL:1).
     Wrong number of args (4) passed to: clojure.core/filter
 \end{lstlisting}
 
 In these situations, it would be ideal to have a detailed explanation of what the offending arguments in the function call are, and what was expected. This is where Babel makes use of the Clojure spec library in its error reporting.
 
-By employing specs on core Clojure functions, it is possible to explicitly determine the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is reformatted as follows:\emcomment{rewritten, rather than reformatted? Or replaced by ...}
+By employing specs on core Clojure functions, it is possible to explicitly determine the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is replaced as follows:
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-    babel.middleware=> (filter neg? 1 -1 0)
+    => (filter neg? 1 -1 0)
     Wrong number of arguments in (filter neg? 1 -1 0): the function filter expects one or two arguments but was given four arguments.
     In Clojure interactive session on line 1.
     Call sequence:
     [Clojure interactive session (repl)]
 \end{lstlisting}
 
-Our project presently includes specs for many functions in the \verb|clojure.core| library 
-\emcomment{predefined Clojure functions?}
-and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). However, \emcomment{I wouldn't use "however"} our research at this stage of the project largely concerns \emcomment{focusing on?} the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data.
-\emcomment{Perhaps give an example of what this means?}
+Our project presently includes specs for many pre-existing Clojure functions and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). With much of the internal work done at this stage of the project, our focus is now on the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data, enabling them to view the data in a more organized way and easily explore related documentation.
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
 
