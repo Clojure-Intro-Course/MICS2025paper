@@ -138,11 +138,17 @@ must be specifically declared).
 Clojure quickly became known in industry. Even though the number of Clojure programmers is not a large percentage
 of all developers (1.3\% of professional developers reported extensive use of Clojure), it remains one of the most admired languages (68.5\%) and is the 3rd highest-paying programming language, according to the 2024 Stack Overflow Developers Survey~\cite{survey}.
 
-Its simple syntax makes it a powerful language to introduce beginner programmers to key concepts of programming.
-However, debugging in Clojure can be unintuitive because Clojure errors are exceptions in the underlying Java language. 
+There is a long history of teaching Lisp to beginner programmers, starting from the famous  ``Structure and Interpretation of Computer Programs'' curriculum~\cite{Abelson} and continuing with the introduction of the 
+Racket programming language that provides a tiered system of Lisp-based beginner languages~\cite{Felleisen:2004,racket}. While Clojure is also a Lisp language and shares the benefits of focusing on development of functions that follow the structure of the data representation, some of Clojure's aspects make it more challenging than other Lisps for novice programmers. 
+
+One such aspect is Clojure error messages: due to Clojure implementation via the underlying Java language, 
+Clojure errors are Java exceptions. 
 They frequently contain terminology intended for experienced developers, leaving out important context. 
 As a result, what would otherwise be a powerful educational tool presents a difficult learning curve for new programmers.
 
+\emcomment{A 2-sentence overview of Babel}
+
+\emcomment{Need to fill out the section references}
 In this paper we discuss the structure of Clojure error messages, 
 explain the data flow for the error messages processing, 
 and the chosen data representation. 
