@@ -171,17 +171,21 @@ We are using these insights as guidance for our approach.
 %\emcomment{I am removing the list: the paper should use a narratve. \\}
 %\begin{itemize}
     %\item \textbf{Exception handling takes from the JVM} 
-	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a platform \emcomment{an interpeter} that allows a program to run on any computer without needing to be rewritten for each one. 
+	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
+
+\emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
     
    % \item \textbf{What are Exceptions} \\
    An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
-   zero or passing an inappropriate argument to a function. It’s important to note here that syntax errors will also result in an exception, because during the compilation of Clojure code into JVM bytecode, 
-   any syntax error will prevent the code from being compiled and cause an exception.
+   zero or passing an inappropriate argument to a function. It’s important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
+   any syntax error will 
+%prevent the code from being compiled and 
+cause an exception.
 
    Error messages are generated when an exception occurs. They provide information about
-   the type of error as well as where it happens. Let’s look at an example:
+   the type of error as well as where it happens, for example:
 
 	%\item \textbf{Error Messages} \\
 	\begin{figure}[h]
@@ -355,17 +359,25 @@ Our project presently includes specs for many functions in the \verb|clojure.cor
 Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
-\begin{itemize}
-    \item \textbf{Spec Errors vs. Non-Spec Errors} \\
-    We separate out the spec errors and the non-spec errors.
 
-    \item \textbf{Error Messages Classification} \\
-    Error messages can be classified by things like:
-    \begin{itemize}
-        \item Error Types
-        \item Level of Nesting
-        \item Phase
-    \end{itemize}
+Errors can be categorized broadly into spec errors and non-spec errors
+\begin{itemize}
+
+	\item Spec errors occur when the data does not conform to the expected specification defined using the clojure.spec library. They are triggered when the data doesn't meet the specific requirements created for a certain function or process.
+	
+	\item Non-spec errors occur when errors happen outside of the clojure.spec system. They are typically runtime errors, such as division by zero or any other errors that arise during program execution
+
+\end{itemize}
+
+Error messages can also be classified by their properties, some notable properties that we look at are Error Types, Levels of Nesting, and Phase.
+\begin{itemize}
+	\item Grouping by error types or subtypes can help find patterns in errors that make it easier to prescribe solutions to errors, based off of similar error types.
+	\item Grouping by levels of nesting and the order in which errors occur provides more insight into the path the error took before it becomes visible, helping us understand the sequence of failures.
+	\item Classifying by phase (such as :read-source, :execution, and :print-eval-result) offers additional context about when and where the error occurred.
+\end{itemize}
+Using the above in conjuction with each other would give greater ability to find and resolve errors.
+
+\begin{itemize}
 
     \item \textbf{Babel Messages vs. Messages from Dictionary} \\
     \begin{itemize}
