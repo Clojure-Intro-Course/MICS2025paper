@@ -293,22 +293,28 @@ The correct way to use filter here would be:
 \subsection{Clojure Spec}\label{subsec:spec}
 %\emcomment{Elena's section.}
 Clojure \textit{spec} is an addition to Clojure first released around 2016~\cite{spec-overview}.
-It is a set of features that allow setting specification, in particular for functions, that are checked before the function call. 
-These specification typically include the number and types of arguments, although they may include other conditions.
-The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how would the failure manifest itself. 
+It is a set of features that allow setting specifications, particularly for functions, that are checked before the function call. 
+These specifications typically include the number and types of arguments, although they may include other conditions.
+The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how the failure would manifest itself. 
+
+\jscomment{Wording in the last sentence is a little bit cryptic, in my opinion. I'm not sure what "how the failure would manifest itself" refers to in relation to Clojure specs, especially if it's not clear that we're talking about spec failures or errors produced by them. (This is expanded on slightly later)}
 
 As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
 Types (or any other conditions) are specified as predicates. 
-For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?} (a predicate that determines if a Clojure object is a sequence).
+For example, we can require that the first argument of \texttt{f} satisfy both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?} (a predicate that determines if a Clojure object is a sequence).
 Any existing Clojure predicate can be used, or the user can write their own. 
 
 If arguments not satisfying the spec are passed to the function, a spec error will occur. 
-A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error. 
-The data include the failed predicate.
+A spec error is an exception of the type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error, including the failed predicate.
 For example, if the second argument of the function 
 \texttt{f} above is a number $5$, and not a sequence, the error message states that it failed the predicate \texttt{seq?}
-Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message, whereas without using spec the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
+Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message.
+
+Without using spec, the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
 The more detailed information allows us to leverage spec to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
+\jscomment{"Failed to convert to each other?" I thought casting is strictly from one type to another. Possibly just iffy wording.}
+
+\jscomment{I'd say something more like "...With more detailed information (at our disposal) provided by spec, we can make error messages that are more understandable ..."}
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
