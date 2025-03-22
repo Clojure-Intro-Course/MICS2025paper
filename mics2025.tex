@@ -186,7 +186,6 @@ cause an exception.
    the type of error as well as where it happens, for example:
 
 	%\item \textbf{Error Messages} \\
-	Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
 
 	\begin{figure}[h]
 		\centering
@@ -196,9 +195,10 @@ cause an exception.
 	Divide by zero
 		\end{lstlisting}
 	\end{figure}
-\emcomment{Also briefly explain the actual cause of the error and how the Clojure wording relates to it.}	
 
-What’s going wrong here?
+Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
+
+The code is causing an error because it is trying to divide by zero, Let's break apart the message:
 	\begin{itemize}
 		\item \texttt{ ArithmeticException } is the type of error that happens.
 		\item \texttt{ user/eval1 (REPL:1) } which is where the Clojure code is being typed and tested and it happened in the first line.
