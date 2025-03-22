@@ -169,23 +169,18 @@ We are using these insights as guidance for our approach.
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
 %\tkcomment{Tristan's subsection}
 %\emcomment{I am removing the list: the paper should use a narratve. \\}
-%\begin{itemize}
-    %\item \textbf{Exception handling takes from the JVM} 
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
-    
-   % \item \textbf{What are Exceptions} \\
-   An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
-   zero or passing an inappropriate argument to a function. It’s important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
+
+   An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
+   zero or passing an inappropriate argument to a function. It's important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
    any syntax error will 
 %prevent the code from being compiled and 
 cause an exception.
 
    Error messages are generated when an exception occurs. They provide information about
    the type of error as well as where it happens, for example:
-
-	%\item \textbf{Error Messages} \\
 
 	\begin{figure}[h]
 		\centering
@@ -204,15 +199,11 @@ The code is causing an error because it is trying to divide by zero, Let's break
 		\item \texttt{ user/eval1 (REPL:1) } which is where the Clojure code is being typed and tested and it happened in the first line.
 		\item \texttt{ Divide by zero } is the given description for the cause of the error
 	\end{itemize}
-
-	\tkcomment{finish the Error Object and Ex-triage parts}
-	\tkcomment{Error messages here need to be changed to the ones for (/9 0)}
-	%\item \textbf{Error Object} \\
 \emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
 	
 The error message is a part of an exception object that contains more information. To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
 
-Here’s an example of the exception object for \texttt{(/ 9 0)}
+Here's an example of the exception object for \texttt{(/ 9 0)}
 
 	\begin{figure}[h]
 		\centering
@@ -231,8 +222,6 @@ Here’s an example of the exception object for \texttt{(/ 9 0)}
 		\end{lstlisting}
 	\end{figure}
 	
-
-	%\item \textbf{Ex-triage} \\
 	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
 	 the phase in the \texttt{ex-triage} lets us know when the exception occurs.
 	
@@ -261,7 +250,6 @@ user=> (clojure.main/ex-triage(Throwable->map *e))
 			:print-eval-result & Error thrown while printing the result of execution. \\
 			\hline
 		\end{tabular}
-%\end{itemize}
 	\end{figure}
 
 \tkcomment{Abrupt shift here}
@@ -273,7 +261,7 @@ As an example of one such mistake, a novice to Clojure might write an expression
 
 This causes an error, because the filter function was expecting either 1 or 2 arguments,
  which should be a predicate or a predicate and a collection. Here 1, -1, and 0 are not in a collection. 
- Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn’t expect.
+ Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn't expect.
 
  \begin{figure}[h]
 	\centering
