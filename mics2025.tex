@@ -129,7 +129,15 @@ kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 %\jscomment{Sample Comment} \\
 %\jwcomment{Sample Comment}
 
-The Clojure programming language, built on the Java Virtual Machine, is a widely used functional language. 
+The Clojure programming language is a functional language in the Lisp family, developed and released in 2007 
+by Rich Hickey~\cite{Hickey:2008}. 
+Clojure is implemented in Java, compiles to Java bytecode, and runs in the Java Virtual Machine (JVM), 
+allowing programmers to use Java libraries directly from Clojure. 
+However, unlike Java, it is a dynamically typed functional language with immutable data as a default (mutable data 
+must be specifically declared).
+Clojure quickly became known in industry. Even though the number of Clojure programmers is not a large percentage
+of all developers (1.3\% of professional developers reported extensive use of Clojure), it remains one of the most admired languages (68.5\%) and is the 3rd highest-paying programming language, according to the 2024 Stack Overflow Developers Survey~\cite{survey}.
+
 Its simple syntax makes it a powerful language to introduce beginner programmers to key concepts of programming.
 However, debugging in Clojure can be unintuitive because Clojure errors are exceptions in the underlying Java language. 
 They frequently contain terminology intended for experienced developers, leaving out important context. 
@@ -142,7 +150,7 @@ We outline options for formatting the error messages to beginners, as well as th
 We present design examples of views and interactions for a variety of error messages. 
 We conclude with a discussion of key open questions and future directions. 
 
-\cite{Hickey:2008}
+
 
 \subsection{Related Work}\label{subsec:related}
 
