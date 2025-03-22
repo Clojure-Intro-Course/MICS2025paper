@@ -196,30 +196,33 @@ What’s going wrong here?
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
 #error {
- :cause "Don't know how to create ISeq from: java.lang.Long"
- :via
- [{:type java.lang.IllegalArgumentException
-   :message "Don't know how to create ISeq from: java.lang.Long"
-   :at [clojure.lang.RT seqFrom "RT.java" 557]}]
- :trace
- [[clojure.lang.RT seqFrom "RT.java" 557]
-  ... omitted 21 line ...
-  [clojure.main main "main.java" 40]]}
+	:cause "Divide by zero"
+	:via
+	[{:type java.lang.ArithmeticException
+	  :message "Divide by zero"
+	  :at [clojure.lang.Numbers divide "Numbers.java" 190]}]
+	:trace
+	[[clojure.lang.Numbers divide "Numbers.java" 190]
+	... omitting 18 lines...
+	 [clojure.main main "main.java" 40]]}
 
 		\end{lstlisting}
 	\end{figure}
 	
 
 	%\item \textbf{Ex-triage} \\
-	clojure.main also provides a function `ex-triage` that returns an analysis of the phase, error, cause, and location of an error.
-	Phase lets us know what phase in which the error occurred
+	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
+	 the phase in the \texttt{ex-triage} lets us know when the exception occurs.
+	
+	For example, in the earlier case of the divide by zero error, the exception occurs in the execution phase
+
 	\tkcomment{: and line from :line are being seperated by line wrapping}
 
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
 user=> (clojure.main/ex-triage(Throwable->map *e))
-#:clojure.error{:class java.lang.IllegalArgumentException, :line 1, :cause "Don't know how to create ISeq from: java.lang.Long", :symbol user/eval7, :phase :execution}
+#:clojure.error{:class java.lang.ArithmeticException, :line 1, :cause "Divide by zero", :symbol user/eval1, :phase :execution}
 		\end{lstlisting}
 	\end{figure}
 
@@ -230,10 +233,7 @@ user=> (clojure.main/ex-triage(Throwable->map *e))
 			\textbf{Phase} & \textbf{Description} \\
 			\hline
 			:read-source & Error thrown while reading characters at the REPL or from a source file. \\
-			:macro-syntax-check & A syntax error found in the syntax of a macro call. \\
-			:macroexpansion & All other errors thrown during macro evaluation. \\
 			:compile-syntax-check & Syntax error caught during compilation. \\
-			:compilation & Non-syntax errors caught during compilation. \\
 			:execution & Any errors thrown at execution time. \\
 			:read-eval-result & Error thrown while reading the result of execution. \\
 			:print-eval-result & Error thrown while printing the result of execution. \\
