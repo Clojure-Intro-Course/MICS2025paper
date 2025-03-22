@@ -360,30 +360,27 @@ Exploring this question requires having a robust environment for experimenting w
 \tkcomment{Tristan's subsection}
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
-\emcomment{Copied from the abstract:}
-Our goal with Babel is to improve the user experience by using the a third-party Morse viewer to present error information in a better, more beginner-friendly format. 
-For instance, visual cues will help distinguish between strings and numbers, which can be indistinguishable in standard Clojure error Messages. 
-Babel will also adjust the level of detail based on the error’s context. 
-For example, a simple number being passed as a string may not print out a full stack trace, instead just focusing on type mismatch. 
-Babel will also provide relevant links to Clojure documentation on clojuredocs.org where applicable.
 
-\jwcomment{This is where we discuss Morse, why we chose it, and what it offers}
-\jwcomment{This also talks about what exceptions actually have as data, and then discuss how we 
-represent things.}
+We explore using the third-party Morse viewer as a supplementary way to interactively present error information in a better, more beginner-friendly format.
+This provides an interactive, visual layer of error message presentation on top of the existing terminal error message display.
+For instance, unlike default Clojure error messages, Babel uses monospace font for code snippets, and highlight function names with color coding. 
+Additionally, for spec errors, Babel will generate the link to the documentation of the function where the error occurred.
 
-Our goal is to improve the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format. 
-For instance, visual cues will help distinguish between code and values, which are indistinguishable by default. 
-Babel will also adjust the level of detail based on context, for example, displaying only relevant parts of a stack trace. 
-Babel will also provide links to Clojure documentation where applicable.
+\subsection{Morse as a Visualization Tool}\label{subsec:Morse}
+Morse is a tool designed for data exploration and visualization.
+While it was originally designed to help experienced developers navigate large datasets and projects, 
+it provides tools and extensibility to be curated with a beginner audience in mind.
+Morse uses a system of customizable viewers to achieve its data visualization.
+Each view is individually designed to display a specific data structure based on given conditions.
 
 \subsection{Connecting to the REPL}\label{subsec:connect-to-REPL}
 
 Usage of babel starts with a standard Clojure REPL run in the user's project, with babel loaded as a library.
 Then, in order to start a babel session, the babel library needs to be imported into the REPL, and the function 
-\texttt{(run-in-repl)} needs to be run, launching a Morse viewer, and running a babel REPL.
+\texttt{(init)} needs to be run, launching a Morse viewer, and running a babel REPL.
 \jwcomment{The above command is likely going to be renamed, and this assumes a packaged build of babel, which
 doesn't quite exist yet. (But we've shown we can, so I'm going to assume this exists at point of submission.)}
-The \texttt{(run-in-repl)} function starts by creating a child REPL on top of the current REPL, adding hooks that connect babel to 
+The \texttt{(init)} function starts by creating a child REPL on top of the current REPL, adding hooks that connect babel to 
 the existing REPL environment. 
 These hooks add behavior and allow for callback functions on standard actions, such as form evaluation and raised exceptions.
 We then use the data caught by these hooks to pass into Morse to be displayed within the current viewer template. 
@@ -406,7 +403,7 @@ We use this extendability to create custom viewers, which allow us to create and
 
 \jwcomment{John's subsection}
 
-\subsection{Designing an Error Messages Interface}\label{subsec:interface}
+\subsection{Exploting Design of Error Messages Interface}\label{subsec:interface}
 \emcomment{TBD}
 
 
@@ -421,6 +418,7 @@ We use this extendability to create custom viewers, which allow us to create and
 
 	\subsection{Future work}\label{subsec:future}
 	\emcomment{Talk about the usability study + other things - Elena's section}
+	\jwcomment{Maybe mention potential IDE integration as a possible future item.}
 
 \bibliographystyle{acm}
 \bibliography{mics2025}
