@@ -275,7 +275,7 @@ For example, if the second argument of the function
 \subsection{Overview of the Project}\label{subsec:overview}
 \jscomment{Jaydon's subsection}
 
-Our research project, Babel, is a tool intended to aid novice programmers in confusions that may arise from the highly specialized design of Clojure's error messages by providing learners with substitute messages that clearly describe the problems in simpler terms, removing unfamiliar jargon. For example, the error message produced via the function call below:
+Our research project, Babel, is a tool intended to aid novice programmers in confusions that may arise from the highly specialized design of Clojure's error messages. It does this by providing learners with substitute messages that describe code problems in simpler terms, removing unfamiliar jargon and low-level clutter. For example, the error message produced via the function call below:
 
 \jscomment{TODO: Please fix the figure number reference}
 
@@ -288,7 +288,7 @@ Our research project, Babel, is a tool intended to aid novice programmers in con
 	\end{lstlisting}
 \end{figure}
 
-is transformed into a new message with a more explicit description of the error's cause, while replacing the reference to the internal type \verb|Long| with a more universal term (as a number cannot be passed to this function at all):
+is transformed into a new message with an improved description of the error's cause, replacing the reference to the internal type \verb|Long| and removing details about the Java exception object and the temporary interpreter file where the error occurred:
 
 \begin{figure}[h]
 	\centering
@@ -302,8 +302,7 @@ is transformed into a new message with a more explicit description of the error'
 	\end{lstlisting}
 \end{figure}
 
-It intercepts these exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), by hooking onto the running REPL instance.
-\jscomment{How? Need more clarification here. Something here about (setup-exc) and the *caught-fn* call}
+Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.
 
 The data from the exception object is triaged in order to identify the type of error that occurred, checking components of the error such as its type, message, and, if it's a spec error, the spec data associated with it.
 \jscomment{I'd like to be more specific about the technical details of how (modify-message) categorizes the errors, but I'm not sure if that's necessary for this section or if it would be feasible}
