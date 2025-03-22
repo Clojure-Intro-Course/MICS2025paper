@@ -204,8 +204,11 @@ What’s going wrong here?
 	\tkcomment{Error messages here need to be changed to the ones for (/9 0)}
 	%\item \textbf{Error Object} \\
 \emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
-	The error message is a part of an exception object that contains more information,
-	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
+	
+The error message is a part of an exception object that contains more information. To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
+
+Here’s an example of the exception object for \texttt{(/ 9 0)}
+
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
