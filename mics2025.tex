@@ -241,16 +241,30 @@ user=> (clojure.main/ex-triage(Throwable->map *e))
 		\end{tabular}
 %\end{itemize}
 	\end{figure}
-	
+
+\tkcomment{Abrupt shift here}
 
 As an example of one such mistake, a novice to Clojure might write an expression like
 \begin{verbatim}
 (filter neg? 1 -1 0)
 \end{verbatim}
-instead of a correct application to a vector:
+
+This causes an error, because the filter function was expecting either 1 or 2 arguments,
+ which should be a predicate or a predicate and a collection. Here 1, -1, and 0 are not in a collection. 
+ Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn’t expect.
+
+ \begin{figure}[h]
+	\centering
+	\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+Execution error (ArityException) at user/eval1 (REPL:1).
+Wrong number of args (4) passed to: clojure.core/filter
+	\end{lstlisting}
+\end{figure}
+The correct way to use filter here would be:
 \begin{verbatim}
 (filter neg? [1 -1 0])
 \end{verbatim}
+\tkcomment{Should I mention that the actual error could be a syntax error, because it is missing the [] around the extra arguments}
  Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
  The message is cryptic for beginners, especially without the documentation.
 
