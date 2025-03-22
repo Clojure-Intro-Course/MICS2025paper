@@ -171,17 +171,21 @@ We are using these insights as guidance for our approach.
 %\emcomment{I am removing the list: the paper should use a narratve. \\}
 %\begin{itemize}
     %\item \textbf{Exception handling takes from the JVM} 
-	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a platform \emcomment{an interpeter} that allows a program to run on any computer without needing to be rewritten for each one. 
+	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
+
+\emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
     
    % \item \textbf{What are Exceptions} \\
    An exception is an event or error that disrupts the normal flow of a program’s execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
-   zero or passing an inappropriate argument to a function. It’s important to note here that syntax errors will also result in an exception, because during the compilation of Clojure code into JVM bytecode, 
-   any syntax error will prevent the code from being compiled and cause an exception.
+   zero or passing an inappropriate argument to a function. It’s important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
+   any syntax error will 
+%prevent the code from being compiled and 
+cause an exception.
 
    Error messages are generated when an exception occurs. They provide information about
-   the type of error as well as where it happens. Let’s look at an example:
+   the type of error as well as where it happens, for example:
 
 	%\item \textbf{Error Messages} \\
 	\begin{figure}[h]
