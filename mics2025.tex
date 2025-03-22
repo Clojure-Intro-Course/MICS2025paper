@@ -253,23 +253,24 @@ instead of a correct application to a vector:
  The message is cryptic for beginners, especially without the documentation.
 
 \subsection{Clojure Spec}\label{subsec:spec}
-\emcomment{Elena's section.}
-
+%\emcomment{Elena's section.}
 Clojure \textit{spec} is an addition to Clojure first released around 2016~\cite{spec-overview}.
-It is a set of features that allow setting specification, in particular for functions and macros, that are checked before the function call or macro expansion, respectively. 
-These specification typically include the number and types of arguments, although the may include other conditions.
+It is a set of features that allow setting specification, in particular for functions, that are checked before the function call. 
+These specification typically include the number and types of arguments, although they may include other conditions.
 The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how would the failure manifest itself. 
 
 As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
 Types (or any other conditions) are specified as predicates. 
-For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?}
+For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?} (a predicate that determines if a Clojure object is a sequence).
 Any existing Clojure predicate can be used, or the user can write their own. 
 
 If arguments not satisfying the spec are passed to the function, a spec error will occur. 
 A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error. 
 The data include the failed predicate.
 For example, if the second argument of the function 
-\texttt{f} above is not a sequence, it fails the predicate \texttt{seq?}
+\texttt{f} above is a number $5$, and not a sequence, the error message states that it failed the predicate \texttt{seq?}
+Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message, whereas without using spec the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
+The more detailed information allows us to leverage spec to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
