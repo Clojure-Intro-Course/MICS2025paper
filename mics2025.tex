@@ -140,7 +140,7 @@ Clojure errors are Java exceptions.
 They frequently contain terminology intended for experienced developers, leaving out important context. 
 As a result, what would otherwise be a powerful educational tool presents a difficult learning curve for new programmers.
 
-\emcomment{A 2-sentence overview of Babel}
+\emcomment{A 2-sentence overview of Babel, mention the name}
 
 \emcomment{Need to fill out the section references}
 In this paper we discuss the structure of Clojure error messages, 
@@ -282,10 +282,7 @@ The correct way to use filter here would be:
 Clojure \textit{spec} is an addition to Clojure first released around 2016~\cite{spec-overview}.
 It is a set of features that allow setting specifications, particularly for functions, that are checked before the function call. 
 These specifications typically include the number and types of arguments, although they may include other conditions.
-The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how the failure would manifest itself. 
-\emcomment{and, to a degree, what information will be communicated about why the arguments failed to satisfy spec}.
-
-\jscomment{Wording in the last sentence is a little bit cryptic, in my opinion. I'm not sure what "how the failure would manifest itself" refers to in relation to Clojure specs, especially if it's not clear that we're talking about spec failures or errors produced by them. (This is expanded on slightly later)}
+The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, what information will be communicated about why the arguments failed to satisfy spec.
 
 As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
 Types (or any other conditions) are specified as predicates. 
@@ -300,15 +297,12 @@ Even more importantly, the argument that's causing the error (in this case $5$) 
 
 Without using spec, the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the incompatible types. 
 The more detailed information provided by spec allows us to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
-\jscomment{"Failed to convert to each other?" I thought casting is strictly from one type to another. Possibly just iffy wording.}
-
-\jscomment{I'd say something more like "...With more detailed information (at our disposal) provided by spec, we can make error messages that are more understandable ..."}
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
 %\jscomment{Jaydon's subsection}
-\emcomment{Explain the difference in prompts: user vs babel.middleware}
-Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below:
+%\emcomment{Explain the difference in prompts: user vs babel.middleware}
+Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below: \emcomment{explain what count is}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     => (count 1)
@@ -327,7 +321,7 @@ is transformed into a new message, replacing the reference to the internal type 
     [Clojure interactive session (repl)]
 \end{lstlisting}
 
-Babel creates error messages like these through simple analysis of the native error's Java exception class and message contents, and one could argue that for cases like these, the native error message suffices. However, for more complicated problems, such as incorrect calls to functions or malformed arguments, Clojure's messages get far more difficult to parse. Consider the previous error:
+Babel creates error messages like these through simple analysis of the native error's Java exception class and message contents, and one could argue that for cases like these, the native error message suffices. However, for more complicated problems, such as incorrect calls to functions or malformed arguments, Clojure's messages get more difficult to parse. Consider the previous error: \emcomment{"previous" should be "earlier", with a subsection reference.} 
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     => (filter neg? 1 -1 0)
