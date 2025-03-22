@@ -123,12 +123,6 @@ kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 \setcounter{page}{1}
 
 \section{Introduction}
-
-%\emcomment{Sample Comment} \\
-%\tkcomment{Sample Comment} \\
-%\jscomment{Sample Comment} \\
-%\jwcomment{Sample Comment}
-
 The Clojure programming language is a functional language in the Lisp family, developed and released in 2007 
 by Rich Hickey~\cite{Hickey:2008}. 
 Clojure is implemented in Java, compiles to Java bytecode, and runs in the Java Virtual Machine (JVM), 
@@ -312,9 +306,10 @@ The more detailed information allows us to leverage spec to make error messages 
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
-\jscomment{Jaydon's subsection}
-
+%\jscomment{Jaydon's subsection}
+\emcomment{Explain the difference in prompts: user vs babel.middleware}
 Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages, derived from our own specs on core Clojure functions, that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below:
+\emcomment{Clarify that this spec not the only way to generate error messages}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     user=> (count 1)
