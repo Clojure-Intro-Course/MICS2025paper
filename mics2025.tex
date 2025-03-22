@@ -221,8 +221,10 @@ Here's an example of the exception object for \texttt{(/ 9 0)}
 		\end{lstlisting}
 	\end{figure}
 	
+	The \texttt{ex-triage} function uses an exception object to analyze errors and obtain information on the error's phase, cause, and location.
+	When an exception is thrown, Babel retrieves this exception object and uses \texttt{ex-triage} to interpret the error
 	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
-	 the phase in the \texttt{ex-triage} lets us know when the exception occurs.
+	the phase information in the \texttt{ex-triage} lets us know when the exception occurs. 
 	
 	For example, in the earlier case of the divide by zero error, the exception occurs in the execution phase
 
