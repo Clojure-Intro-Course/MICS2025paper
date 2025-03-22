@@ -287,22 +287,28 @@ The correct way to use filter here would be:
 \subsection{Clojure Spec}\label{subsec:spec}
 %\emcomment{Elena's section.}
 Clojure \textit{spec} is an addition to Clojure first released around 2016~\cite{spec-overview}.
-It is a set of features that allow setting specification, in particular for functions, that are checked before the function call. 
-These specification typically include the number and types of arguments, although they may include other conditions.
-The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how would the failure manifest itself. 
+It is a set of features that allow setting specifications, particularly for functions, that are checked before the function call. 
+These specifications typically include the number and types of arguments, although they may include other conditions.
+The flexible nature of spec allows programmers to choose what parameters to check and, to a degree, how the failure would manifest itself. 
+
+\jscomment{Wording in the last sentence is a little bit cryptic, in my opinion. I'm not sure what "how the failure would manifest itself" refers to in relation to Clojure specs, especially if it's not clear that we're talking about spec failures or errors produced by them. (This is expanded on slightly later)}
 
 As an example, one may specify that a function \texttt{f} takes no fewer than 2 and no more than 4 arguments, the first argument must be a non-negative integer, and the second one must be sequence. 
 Types (or any other conditions) are specified as predicates. 
-For example, we can require that the first argument of \texttt{f} satisfies both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?} (a predicate that determines if a Clojure object is a sequence).
+For example, we can require that the first argument of \texttt{f} satisfy both \texttt{number?} and \texttt{pos?} predicates, and the second satisfies \texttt{seq?} (a predicate that determines if a Clojure object is a sequence).
 Any existing Clojure predicate can be used, or the user can write their own. 
 
 If arguments not satisfying the spec are passed to the function, a spec error will occur. 
-A spec error is an exception of a specific type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error. 
-The data include the failed predicate.
+A spec error is an exception of the type \texttt{clojure.lang.ExceptionInfo} that contains data describing the error, including the failed predicate.
 For example, if the second argument of the function 
 \texttt{f} above is a number $5$, and not a sequence, the error message states that it failed the predicate \texttt{seq?}
-Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message, whereas without using spec the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
+Even more importantly, the argument that's causing the error (in this case $5$) will be included in the spec error message.
+
+Without using spec, the error message would be a Java \texttt{ClassCastException} that doesn't report the value of the failing argument, only the types that it failed to convert to each other. 
 The more detailed information allows us to leverage spec to make error messages more understandable to novice programmers, as described in Section~\ref{subsec:overview}. 
+\jscomment{"Failed to convert to each other?" I thought casting is strictly from one type to another. Possibly just iffy wording.}
+
+\jscomment{I'd say something more like "...With more detailed information (at our disposal) provided by spec, we can make error messages that are more understandable ..."}
 
 \section{Babel Project}\label{sec:babel}
 \subsection{Overview of the Project}\label{subsec:overview}
@@ -354,17 +360,25 @@ Our project presently includes specs for many functions in the \verb|clojure.cor
 Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
-\begin{itemize}
-    \item \textbf{Spec Errors vs. Non-Spec Errors} \\
-    We separate out the spec errors and the non-spec errors.
 
-    \item \textbf{Error Messages Classification} \\
-    Error messages can be classified by things like:
-    \begin{itemize}
-        \item Error Types
-        \item Level of Nesting
-        \item Phase
-    \end{itemize}
+Errors can be categorized broadly into spec errors and non-spec errors
+\begin{itemize}
+
+	\item Spec errors occur when the data does not conform to the expected specification defined using the clojure.spec library. They are triggered when the data doesn't meet the specific requirements created for a certain function or process.
+	
+	\item Non-spec errors occur when errors happen outside of the clojure.spec system. They are typically runtime errors, such as division by zero or any other errors that arise during program execution
+
+\end{itemize}
+
+Error messages can also be classified by their properties, some notable properties that we look at are Error Types, Levels of Nesting, and Phase.
+\begin{itemize}
+	\item Grouping by error types or subtypes can help find patterns in errors that make it easier to prescribe solutions to errors, based off of similar error types.
+	\item Grouping by levels of nesting and the order in which errors occur provides more insight into the path the error took before it becomes visible, helping us understand the sequence of failures.
+	\item Classifying by phase (such as :read-source, :execution, and :print-eval-result) offers additional context about when and where the error occurred.
+\end{itemize}
+Using the above in conjuction with each other would give greater ability to find and resolve errors.
+
+\begin{itemize}
 
     \item \textbf{Babel Messages vs. Messages from Dictionary} \\
     \begin{itemize}
@@ -387,7 +401,6 @@ This provides an interactive, visual layer of error message presentation on top 
 For instance, unlike default Clojure error messages, Babel uses monospace font for code snippets, and highlight function names with color coding. 
 Additionally, for spec errors, Babel will generate the link to the documentation of the function where the error occurred.
 
-\subsection{Morse as a Visualization Tool}\label{subsec:Morse}
 Morse is a tool designed for data exploration and visualization.
 While it was originally designed to help experienced developers navigate large datasets and projects, 
 it provides tools and extensibility to be curated with a beginner audience in mind.
@@ -400,41 +413,36 @@ By default, the Clojure REPL does not expose the correct hooks to effectively ma
 In order to get around this, initializing Babel within an existing REPL session, using the \texttt{(babel/init)} function, creates a new custom sub-REPL above the existing session.
 Creating a sub-REPL allows us to configure the behavior attached to the following hooks:
 \begin{itemize}
-	\item \texttt{:init} : Defines the initialization behavior of the sub-repl. 
-		In Babel, this starts a new Morse session connected to the new REPl. \\
-	\item \texttt{:eval} : Defines the behavior whenever a command is executed within the REPL. 
-		In Babel, this taps the command into an atom, and evaluates the command within both Morse and the REPL. \\
-	\item \texttt{:caught} : Defines the behavior on exception. 
+	\item \texttt{:init} Defines the initialization behavior of the sub-repl. 
+		In Babel, this starts a new Morse session connected to the new REPl.
+	\item \texttt{:eval} Defines the behavior whenever a command is executed within the REPL. 
+		In Babel, this taps the command into an atom, and evaluates the command within both Morse and the REPL.
+	\item \texttt{:caught} Defines the behavior on exception.
 		In Babel, this processes the error as described previously, 
-			and passes the vectorized error message to Morse to be displayed in a custom viewer. 
+			and passes the following information about the error to Morse to be displayed in a custom viewer:
+			\begin{itemize}
+				\item The last command entered, read from an atom that is updated at evaluation.
+				\item The location in the environment where the error occurred. In the REPL, this resolves to "Clojure Interactive Session".
+				\item A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
+				\item The url to the documentation of the function called that caused the error. 
+			\end{itemize}
 \end{itemize}
 Once the sub-REPL is initialized, the use can then use the sub-REPL as normal, but with the addition of Babel error messages when applicable in the terminal, and a parallel Morse viewer.
-
-
-Usage of babel starts with a standard Clojure REPL run in the user's project, with babel loaded as a library.
-Then, in order to start a babel session, the babel library needs to be imported into the REPL, and the function 
-\texttt{(init)} needs to be run, launching a Morse viewer, and running a babel REPL.
-\jwcomment{The above command is likely going to be renamed, and this assumes a packaged build of babel, which
-doesn't quite exist yet. (But we've shown we can, so I'm going to assume this exists at point of submission.)}
-The \texttt{(init)} function starts by creating a child REPL on top of the current REPL, adding hooks that connect babel to 
-the existing REPL environment. 
-These hooks add behavior and allow for callback functions on standard actions, such as form evaluation and raised exceptions.
-We then use the data caught by these hooks to pass into Morse to be displayed within the current viewer template. 
-When an exception occurs, the following gets passed to Morse:
-\begin{itemize}
-	\item{The form that caused the error.}
-	\item{The line number and file of the error.}
-	\item{The vector of labelled pairs forming the error message.}
-	\item{The url of relevant core documentation (when applicable).}
-\end{itemize}
 
 \jwcomment{Make more explicit comment about vector labelling.}
 
 \jwcomment{There will be a diagram for this later.}
 
 \subsection{Designing Morse Viewers}\label{subsec:Morse-Viewers}
-Morse allows for the creation of custom views, which act as visual layouts for incoming data. 
-We use this extendability to create custom viewers, which allow us to create and tailor the visualization of the error message data.
+Morse viewers can be created to have custom behavior around certain data.
+Creating a new viewer in Morse requires the following:
+\begin{itemize}
+	\item A predicate defining the constraints of the data that can be displayed in the viewer.
+	\item The graphical format of the view to be displayed. This is built with the JavaFX library. 
+\end{itemize}
+The Babel viewer takes a map of input data as input, and defines the predicate for the viewer by checking for a map with the necessary fields.
+For the formatting definition, Babel uses the built-in \texttt{WebView} object in order to format the error data with an HTML template,
+enabling us to leverage the large, robust tools of HTML and CSS to define the visuals of the error messages.
 
 
 \jwcomment{John's subsection}
