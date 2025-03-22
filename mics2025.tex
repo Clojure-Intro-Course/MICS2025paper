@@ -167,31 +167,27 @@ We conclude with a discussion of key open questions and future directions.
 
    Error messages are generated when an exception occurs. They provide information about
    the type of error as well as where it happens. Let’s look at an example:
-   
-   Note: the first function returns the first item in a given collection
-   \texttt{(first [1 2 3])} would return 1.
-   
 
 	%\item \textbf{Error Messages} \\
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-user=> (first 27)
-Execution error (IllegalArgumentException) at user/eval29(REPL:1).  
-Don't know how to create ISeq from: java.lang.Long
+	user=> (/ 9 0)
+	Execution error (ArithmeticException) at user/eval1 (REPL:1).
+	Divide by zero
 		\end{lstlisting}
 	\end{figure}
 \emcomment{Also briefly explain the actual cause of the error and how the Clojure wording relates to it.}	
 
 What’s going wrong here?
 	\begin{itemize}
-		\item \texttt{ IllegalArgumentException} is the type of error that happens. It means that the code is trying to do something with the number 27 that it shouldn’t.
-		\item \texttt{ user/eval29 (REPL:1)} which is where the Clojure code is being typed and tested and it happened in the first line.
-		\item \texttt{ Don't know how to create ISeq from: java.lang.Long} This explains the cause of the exception. The function `first` is trying to grab the first item of the number `27`, 
-		but it can’t as it is just a `java.lang.Long` number, not something with `ISeq` which here means that it can be treated with has multiple things to sequence through, so the function can’t handle it.
+		\item \texttt{ ArithmeticException } is the type of error that happens.
+		\item \texttt{ user/eval1 (REPL:1) } which is where the Clojure code is being typed and tested and it happened in the first line.
+		\item \texttt{ Divide by zero } is the given description for the cause of the error
 	\end{itemize}
 
 	\tkcomment{finish the Error Object and Ex-triage parts}
+	\tkcomment{Error messages here need to be changed to the ones for (/9 0)}
 	%\item \textbf{Error Object} \\
 \emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
 	The error message is a part of an exception object that contains more information,
