@@ -209,8 +209,11 @@ What’s going wrong here?
 	\tkcomment{Error messages here need to be changed to the ones for (/9 0)}
 	%\item \textbf{Error Object} \\
 \emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
-	The error message is a part of an exception object that contains more information,
-	most notably a stack longer stack trace and nested errors in \texttt{:via} if there are any. You can get the most recent error message by using \texttt{*e}
+	
+The error message is a part of an exception object that contains more information. To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
+
+Here’s an example of the exception object for \texttt{(/ 9 0)}
+
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -396,7 +399,22 @@ it provides tools and extensibility to be curated with a beginner audience in mi
 Morse uses a system of customizable viewers to achieve its data visualization.
 Each view is individually designed to display a specific data structure based on given conditions.
 
-\subsection{Connecting to the REPL}\label{subsec:connect-to-REPL}
+\subsection{Running a Babel Session with Morse}\label{subsec:babel-w-morse}
+
+By default, the Clojure REPL does not expose the correct hooks to effectively manipulate the data from error messages.
+In order to get around this, initializing Babel within an existing REPL session, using the \texttt{(babel/init)} function, creates a new custom sub-REPL above the existing session.
+Creating a sub-REPL allows us to configure the behavior attached to the following hooks:
+\begin{itemize}
+	\item \texttt{:init} : Defines the initialization behavior of the sub-repl. 
+		In Babel, this starts a new Morse session connected to the new REPl. \\
+	\item \texttt{:eval} : Defines the behavior whenever a command is executed within the REPL. 
+		In Babel, this taps the command into an atom, and evaluates the command within both Morse and the REPL. \\
+	\item \texttt{:caught} : Defines the behavior on exception. 
+		In Babel, this processes the error as described previously, 
+			and passes the vectorized error message to Morse to be displayed in a custom viewer. 
+\end{itemize}
+Once the sub-REPL is initialized, the use can then use the sub-REPL as normal, but with the addition of Babel error messages when applicable in the terminal, and a parallel Morse viewer.
+
 
 Usage of babel starts with a standard Clojure REPL run in the user's project, with babel loaded as a library.
 Then, in order to start a babel session, the babel library needs to be imported into the REPL, and the function 
@@ -426,7 +444,7 @@ We use this extendability to create custom viewers, which allow us to create and
 
 \jwcomment{John's subsection}
 
-\subsection{Exploting Design of Error Messages Interface}\label{subsec:interface}
+\subsection{Exploring Design of Error Messages Interface}\label{subsec:interface}
 \emcomment{TBD}
 
 		
