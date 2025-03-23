@@ -331,7 +331,7 @@ The more detailed information provided by spec allows us to make error messages 
 \subsection{Overview of the Project}\label{subsec:overview}
 %\jscomment{Jaydon's subsection}
 %\emcomment{Explain the difference in prompts: user vs babel.middleware}
-Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below: \emcomment{explain what count is}
+Our research project, Babel, is a tool intended to help novice programmers understand Clojure errors. It does this by providing learners with substitute error messages that describe code problems in simpler terms, replacing the unfamiliar jargon and low-level clutter of native error messages. For example, the error message produced via the function call below, where \texttt{count} is a function that returns the length of a sequential collection: %\emcomment{explain what count is}
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     => (count 1)
@@ -350,7 +350,7 @@ is transformed into a new message, replacing the reference to the internal type 
     [Clojure interactive session (repl)]
 \end{lstlisting}
 
-Babel creates error messages like these through simple analysis of the native error's Java exception class and message contents, and one could argue that for cases like these, the native error message suffices. However, for more complicated problems, such as incorrect calls to functions or malformed arguments, Clojure's messages get more difficult to parse. Consider the previous error: \emcomment{"previous" should be "earlier", with a subsection reference.} 
+Babel creates error messages like these through simple analysis of the native error's Java exception class and message contents, and one could argue that for cases like these, the native error message suffices. However, for more complicated problems, such as incorrect calls to functions or malformed arguments, Clojure's messages get more difficult to parse. Consider an erroneous code fragment described in Section~\ref{subsec:clojure-errs}: %\emcomment{"previous" should be "earlier", with a subsection reference.} 
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     => (filter neg? 1 -1 0)
@@ -358,9 +358,9 @@ Babel creates error messages like these through simple analysis of the native er
     Wrong number of args (4) passed to: clojure.core/filter
 \end{lstlisting}
 
-In these situations, it would be ideal to have a detailed explanation of what the offending arguments in the function call are, and what was expected. This is where Babel makes use of the Clojure spec library in its error reporting.
+In these situations, it would be ideal to have a detailed explanation of what the offending arguments in the function call are, and what was expected. This is where Babel makes use of the Clojure spec library, described in Section~ref{subsec:spec-overview}, in its error reporting.
 
-By employing specs on core Clojure functions, it is possible to explicitly determine the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is replaced as follows:
+By employing specs on core Clojure functions, it is possible to explicitly specify the correct form of a function call and how the function was used incorrectly. Using spec, we know that the \verb|filter| function must take a predicate and, optionally, a collection, therefore expecting one or two arguments. With Babel, the above error message is replaced as follows:
 
 \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
     => (filter neg? 1 -1 0)
@@ -370,12 +370,21 @@ By employing specs on core Clojure functions, it is possible to explicitly deter
     [Clojure interactive session (repl)]
 \end{lstlisting}
 
+Moreover, the Babel spec for \texttt{filter} also reports incorrect types of arguments:
+
+\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+=> (filter neg? 3)
+The second argument of (filter neg? 3) was expected to be a sequence but is a number 3 instead.
+In Clojure interactive session on line 1.
+Call sequence:
+[Clojure interactive session (repl)]
+\end{lstlisting}
+
 Our project presently includes specs for many pre-existing Clojure functions and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). With much of the internal work done at this stage of the project, our focus is now on the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data, enabling them to view the data in a more organized way and easily explore related documentation.
 
+\subsection{Processing Error Messages}\label{subsec:classification}
 \emcomment{Also need to include:
 Babel constructs its error messages by intercepting exception objects directly from REPL , hooking an observer to a running instance of a REPL server.}
-
-\subsection{Classifying Error Messages}\label{subsec:classification}
 
 Errors can be categorized broadly into spec errors and non-spec errors
 \begin{itemize}
