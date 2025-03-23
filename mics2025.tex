@@ -180,11 +180,19 @@ Clojure syntax utilizes the prefix notation, common for Lisp languages: a Clojur
 For example, \texttt{(/ 6 2)} denotes an expression $6 / 2$ and results in $3$. Clojure is dynamically typed, and no types are declared. 
 
 In addition to lists (common in other Lisp languages), Clojure employs a variety of collections, such as vectors, hashmaps, and sets. 
-It comes with a large number of predefined functions. Below we introduce collections and functions used in examples in subsequent sections. 
+It comes with a large number of predefined functions. Below we introduce collections and functions used in examples in this and subsequent sections. 
  
 Vectors are enclosed in square brackets; commas between elements are optional and usually omitted. 
 For example,  \texttt{[1 -1 0]} denotes a vector of three elements: $1, -1,$ and $0$. 
-\emcomment{filter, count, neg?, even? - what else?}
+By convention Clojure uses \texttt{?} at the end of the names of predicates, i.e. functions that return a boolean. 
+For example, \texttt{neg?} takes a number and returns \textit{true} if it's negative and \textit{false} otherwise.
+Likewise, \texttt{even?} takes an integer and returns \textit{true} if it's even and \textit{false} otherwise.
+A function \texttt{filter} is used to select elements of a vector, or another collection. 
+It takes a predicate and  a collection and returns a collection with only the elements that satisfy the predicate. 
+For example, \texttt{(filter neg? [1 -1 0])} would return a collection with only one element, $1$. 
+A subtle point is that Clojure also allows passing just a predicate to \texttt{filter}, without a collection:  \texttt{(filter neg?)}. This returns a function that can be invoked on a vector at some later point. 
+Since this use is allowed, the correct number of arguments for \texttt{filter} is one or two. 
+%\emcomment{filter, neg?, even? - what else?}
 
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. 
@@ -213,19 +221,20 @@ cause an exception.
 		\end{lstlisting}
 	\end{figure}
 
-Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
+%Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
 
-The code is causing an error because it is trying to divide by zero, Let's break apart the message:
+The code is causing an error because it is trying to divide by zero, Let's break apart the default Clojure message:
 	\begin{itemize}
 		\item \texttt{ ArithmeticException } is the type of error that happens.
-		\item \texttt{ user/eval1 (REPL:1) } which is where the Clojure code is being typed and tested and it happened in the first line.
-		\item \texttt{ Divide by zero } is the given description for the cause of the error
+		\item \texttt{ user/eval1 (REPL:1) } is the location of the error; since for this example we assume that the code was directly typed into REPL, the location is REPL, line 1. 
+%which is where the Clojure code is being typed and tested and it happened in the first line.
+		\item \texttt{ Divide by zero } is the given description for the cause of the error.
 	\end{itemize}
-\emcomment{You are explaining this to those who have never used Clojure (and maybe not even Java). This is very cryptic. I also think that some names of fields aren't important.}
-	
-The error message is a part of an exception object that contains more information. To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
+The error message is a part of a Java exception object that contains more information. 
+%To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
 
-Here's an example of the exception object for \texttt{(/ 9 0)}
+The exception object for \texttt{(/ 9 0)} contains the following information, represented as a nested Clojure hashmap, 
+i.e. a collection of key/value pairs. The key names are preceded by \texttt{:} The exception typically contains a stack trace (see the keyword \texttt{:trace}) listing the sequence of function calls that resulted in the error. While our project includes a way of selecting the most helpful information in the stack trace, this paper is not focusing on the stack trace. 
 
 	\begin{figure}[h]
 		\centering
@@ -244,30 +253,30 @@ Here's an example of the exception object for \texttt{(/ 9 0)}
 		\end{lstlisting}
 	\end{figure}
 	
-	The \texttt{ex-triage} function uses an exception object to analyze errors and obtain information on the error's phase, cause, and location.
-	When an exception is thrown, Babel retrieves this exception object and uses \texttt{ex-triage} to interpret the error
-	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
-	the phase information in the \texttt{ex-triage} lets us know when the exception occurs. 
-	
-	For example, in the earlier case of the divide by zero error, the exception occurs in the execution phase
+%	The \texttt{ex-triage} function uses an exception object to analyze errors and obtain information on the error's phase, cause, and location.
+%	When an exception is thrown, Babel retrieves this exception object and uses \texttt{ex-triage} to interpret the error
+%	We use the exception object in the \texttt{ex-triage} function to help interpret exceptions, which returns an analysis of the phase, error, cause, and location of an error.
+%	the phase information in the \texttt{ex-triage} lets us know when the exception occurs. 
 
-	\tkcomment{: and line from :line are being seperated by line wrapping}
-
-	\begin{figure}[h]
-		\centering
-		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-user=> (clojure.main/ex-triage(Throwable->map *e))
-#:clojure.error{:class java.lang.ArithmeticException, :line 1, :cause "Divide by zero", :symbol user/eval1, :phase :execution}
-		\end{lstlisting}
-	\end{figure}
-
+In addition to the above information, the exception contains the phase of Clojure execution when the exception occurred. For example, in the earlier case of the divide by zero error, the exception occurs in the execution phase. 
+%
+	%\tkcomment{: and line from :line are being seperated by line wrapping}
+%
+%	\begin{figure}[h]
+%		\centering
+%		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+%user=> (clojure.main/ex-triage(Throwable->map *e))
+%#:clojure.error{:class java.lang.ArithmeticException, :line 1, :cause "Divide by zero", :symbol user/eval1, :phase :execution}
+%		\end{lstlisting}
+%	\end{figure}
+Since an error can occur at any point in the Read-Evaluate-Print-Loop, there are several possibilities of the phase. Below we list some of them:
 	\begin{figure}[h]
 		\centering
 		\begin{tabular}{|c|l|}
 			\hline
 			\textbf{Phase} & \textbf{Description} \\
 			\hline
-			:read-source & Error thrown while reading characters at the REPL or from a source file. \\
+			:read-source & Error while reading characters at the REPL or from a source file. \\
 			:compile-syntax-check & Syntax error caught during compilation. \\
 			:execution & Any errors thrown at execution time. \\
 			:read-eval-result & Error thrown while reading the result of execution. \\
@@ -275,10 +284,12 @@ user=> (clojure.main/ex-triage(Throwable->map *e))
 			\hline
 		\end{tabular}
 	\end{figure}
+Knowing the phase of the evaluation is helpful for detecting what kind of error has occurred and what information the user would benefit from.
 
 \tkcomment{Abrupt shift here}
 
-As an example of one such mistake, a novice to Clojure might write an expression like
+As an example of one such mistake, a novice to Clojure might write the expression below, instead of the correct 
+version \texttt{(filter neg? [1 -1 0])} described above:
 \begin{verbatim}
 (filter neg? 1 -1 0)
 \end{verbatim}
@@ -298,7 +309,8 @@ The correct way to use filter here would be:
 \begin{verbatim}
 (filter neg? [1 -1 0])
 \end{verbatim}
-\tkcomment{Should I mention that the actual error could be a syntax error, because it is missing the [] around the extra arguments}
+%\tkcomment{Should I mention that the actual error could be a syntax error, because it is missing the [] around the extra arguments}
+%\emcomment{No, since there is no way Clojure would be able to detect this.}
  Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
  The message is cryptic for beginners, especially without the documentation.
 
