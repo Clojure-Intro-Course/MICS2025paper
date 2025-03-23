@@ -151,7 +151,7 @@ In this paper we discuss our approaches to tackling this task, demonstrate our c
 The rest of the paper is structured as following:
 Section~\ref{sec:background} provides background on Clojure, its error messages, and the Clojure feature called {\it spec} that we utilize on our work. Section~\ref{sec:babel} discusses how Babel processes error messages. 
 Section~\ref{sec:interactive} describes the interactive environment that we are developing, both from the implementation side and from the standpoint of design for the users. 
-Section~\ref{sec:future} discusses future tasks and directions.  
+Section~\ref{sec:conclusion} discusses the current state of the project and future directions.  
 
 \subsection{Related Work}\label{subsec:related}
 
@@ -210,8 +210,29 @@ When Clojure code is executed, it compiles into JVM bytecode, allowing it to use
 cause an exception.
 
    Error messages are generated when an exception occurs. They provide information about
-   the type of error as well as where it happens, for example:
+   the type of error as well as where it happens. 
+As an example of one such mistake, a novice to Clojure might write the following expression
+\begin{verbatim}
+(filter neg? 1 -1 0)
+\end{verbatim}
+instead of the correct version \texttt{(filter neg? [1 -1 0])}, as described above.
+This causes an error, because the filter function was expecting either one or two arguments. 
+Here 1, -1, and 0 are not in a collection, presumably because the user forgot to include them in a vector. 
+ Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn't expect.
 
+ \begin{figure}[h]
+	\centering
+	\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
+Execution error (ArityException) at user/eval1 (REPL:1).
+Wrong number of args (4) passed to: clojure.core/filter
+	\end{lstlisting}
+\end{figure}
+%\tkcomment{Should I mention that the actual error could be a syntax error, because it is missing the [] around the extra arguments}
+%\emcomment{No, since there is no way Clojure would be able to detect this.}
+ Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
+ The message is cryptic for beginners, especially without the documentation.
+
+Consider another example that we use to detail representation of Clojure error messages: 
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -221,9 +242,7 @@ cause an exception.
 		\end{lstlisting}
 	\end{figure}
 
-%Note: Clojure uses prefix notation, which is where the operator comes before the operands. that is why it is \texttt{(/ 9 0)}, not \texttt{(9 / 0)}.
-
-The code is causing an error because it is trying to divide by zero, Let's break apart the default Clojure message:
+The code is causing an error because it is trying to divide by zero, Let's break apart the error message:
 	\begin{itemize}
 		\item \texttt{ ArithmeticException } is the type of error that happens.
 		\item \texttt{ user/eval1 (REPL:1) } is the location of the error; since for this example we assume that the code was directly typed into REPL, the location is REPL, line 1. 
@@ -234,8 +253,7 @@ The error message is a part of a Java exception object that contains more inform
 %To get the most recent error message, you can use \texttt{*e}, which holds the latest exception object.
 
 The exception object for \texttt{(/ 9 0)} contains the following information, represented as a nested Clojure hashmap, 
-i.e. a collection of key/value pairs. The key names are preceded by \texttt{:} The exception typically contains a stack trace (see the keyword \texttt{:trace}) listing the sequence of function calls that resulted in the error. While our project includes a way of selecting the most helpful information in the stack trace, this paper is not focusing on the stack trace. 
-
+i.e. a collection of key/value pairs. The key names are preceded by \texttt{:} The exception typically contains a stack trace (see the keyword \texttt{:trace}) listing the sequence of function calls that resulted in the error. While our project includes a way of reducing the stack trace to a few informative lines, this paper is not focusing on the stack trace. 
 	\begin{figure}[h]
 		\centering
 		\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
@@ -284,35 +302,9 @@ Since an error can occur at any point in the Read-Evaluate-Print-Loop, there are
 			\hline
 		\end{tabular}
 	\end{figure}
+
 Knowing the phase of the evaluation is helpful for detecting what kind of error has occurred and what information the user would benefit from.
 
-\tkcomment{Abrupt shift here}
-\emcomment{Maybe move to before division by zero?}
-As an example of one such mistake, a novice to Clojure might write the expression below, instead of the correct 
-version \texttt{(filter neg? [1 -1 0])} described above:
-\begin{verbatim}
-(filter neg? 1 -1 0)
-\end{verbatim}
-
-This causes an error, because the filter function was expecting either 1 or 2 arguments,
- which should be a predicate or a predicate and a collection. Here 1, -1, and 0 are not in a collection. 
- Instead, they are being passed as separate arguments, which causes the function to be overloaded with inputs it doesn't expect.
-
- \begin{figure}[h]
-	\centering
-	\begin{lstlisting}[breaklines=true, basicstyle=\ttfamily]
-Execution error (ArityException) at user/eval1 (REPL:1).
-Wrong number of args (4) passed to: clojure.core/filter
-	\end{lstlisting}
-\end{figure}
-The correct way to use filter here would be:
-\begin{verbatim}
-(filter neg? [1 -1 0])
-\end{verbatim}
-%\tkcomment{Should I mention that the actual error could be a syntax error, because it is missing the [] around the extra arguments}
-%\emcomment{No, since there is no way Clojure would be able to detect this.}
- Clojure presents this error as an {\it ArityException}, referring to the number of arguments of the function. 
- The message is cryptic for beginners, especially without the documentation.
 
 \subsection{Clojure Spec}\label{subsec:spec}
 %\emcomment{Elena's section.}
