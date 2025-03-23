@@ -184,15 +184,14 @@ It comes with a large number of predefined functions. Below we introduce collect
  
 Vectors are enclosed in square brackets; commas between elements are optional and usually omitted. 
 For example,  \texttt{[1 -1 0]} denotes a vector of three elements: $1, -1,$ and $0$. 
-\emcomment{filter, count, neg? - what else?}
-
-\emcomment{Also need to include:
-Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.}
-\emcomment{Need to explain Clojure prompt.}
-
+\emcomment{filter, count, neg?, even? - what else?}
 
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
-	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
+	The JVM works by compiling code into bytecode, which it can then run. 
+Clojure code can be loaded into the JVM from a file or directly via an interactive interpreter known as REPL, which stands for Read - Evaluate - Print - Loop. In our examples we assume that the code is entered into REPL. 
+The REPL prompt is denoted with \texttt{=>}, and the Clojure response follows. 
+
+When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
 	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
 
     
@@ -368,6 +367,9 @@ By employing specs on core Clojure functions, it is possible to explicitly deter
 \end{lstlisting}
 
 Our project presently includes specs for many pre-existing Clojure functions and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). With much of the internal work done at this stage of the project, our focus is now on the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data, enabling them to view the data in a more organized way and easily explore related documentation.
+
+\emcomment{Also need to include:
+Babel constructs its error messages by intercepting exception objects directly from REPL , hooking an observer to a running instance of a REPL server.}
 
 \subsection{Classifying Error Messages}\label{subsec:classification}
 
