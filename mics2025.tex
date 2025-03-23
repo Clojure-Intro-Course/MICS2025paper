@@ -132,7 +132,7 @@ must be specifically declared).
 Clojure quickly became known in industry. Even though the number of Clojure programmers is not a large percentage
 of all developers (1.3\% of professional developers reported extensive use of Clojure), it remains one of the most admired languages (68.5\%) and is the 3rd highest-paying programming language, according to the 2024 Stack Overflow Developers Survey~\cite{survey}.
 
-There is a long history of teaching Lisp to beginner programmers, starting from the famous  ``Structure and Interpretation of Computer Programs'' curriculum~\cite{Abelson} and continuing with the introduction of the 
+There is a long history of teaching Lisp as the first programming language, starting from the famous  ``Structure and Interpretation of Computer Programs'' curriculum~\cite{Abelson} and continuing with the introduction of the 
 Racket programming language that provides a tiered system of Lisp-based beginner languages~\cite{Felleisen:2004,racket}. While Clojure is also a Lisp language and shares the benefits of focusing on development of functions that follow the structure of the data representation, some of Clojure's aspects make it more challenging than other Lisps for novice programmers. 
 
 One such aspect is Clojure error messages: due to Clojure implementation via the underlying Java language, 
@@ -140,15 +140,18 @@ Clojure errors are Java exceptions.
 They frequently contain terminology intended for experienced developers, leaving out important context. 
 As a result, what would otherwise be a powerful educational tool presents a difficult learning curve for new programmers.
 
-\emcomment{A 2-sentence overview of Babel, mention the name}
+%\emcomment{A 2-sentence overview of Babel, mention the name}
+A project at UMN Morris, called Babel, aims at providing alternative beginner-friendly error messages and other tools that help beginner programmers to interpret Clojure errors. 
+The current state of the project provides a tool to rewrite the majority of error messages into a clearer and more specific form - for example, specifying the erroneous arguments to functions. 
+The challenge at this point lies in connecting this tool to a variety of possible ways of interacting with Clojure (via an interpreter or in IDE, for example). 
+We also are working on providing features to give the users more resources and more control when they are receiving an error message. The resources include explanation of terminology (for example, what does the term ``hashmap'' refer to?), links to documentation for functions, etc. Giving users more control allows for optional expansion of some information, such as the stack trace. 
+This work is still in progress. 
+In this paper we discuss our approaches to tackling this task, demonstrate our current achievements, and discuss future directions. 
 
-\emcomment{Need to fill out the section references}
-In this paper we discuss the structure of Clojure error messages, 
-explain the data flow for the error messages processing, 
-and the chosen data representation. 
-We outline options for formatting the error messages to beginners, as well as the principles that guide our choices. 
-We present design examples of views and interactions for a variety of error messages. 
-We conclude with a discussion of key open questions and future directions. 
+The rest of the paper is structured as following:
+Section~\ref{sec:background} provides background on Clojure, its error messages, and the Clojure feature called {\it spec} that we utilize on our work. Section~\ref{sec:babel} discusses how Babel processes error messages. 
+Section~\ref{sec:interactive} describes the interactive environment that we are developing, both from the implementation side and from the standpoint of design for the users. 
+Section~\ref{sec:future} discusses future tasks and directions.  
 
 \subsection{Related Work}\label{subsec:related}
 
@@ -172,17 +175,16 @@ we make an effort to replace such terminology with more universal language.
 \section{Background}\label{sec:background}
 
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
-%\tkcomment{Tristan's subsection}
-%\emcomment{I am removing the list: the paper should use a narratve. \\}
-	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
-	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
-	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
-
 
 \emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
 \emcomment{Also need to include:
 Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.}
 \emcomment{Need to explain Clojure prompt.}
+
+	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
+	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
+	but most importantly for the work presented here is that it uses the Java exception system for handling errors and when an exception is thrown in Clojure, it is a Java exception.
+
     
    An exception is an event or error that disrupts the normal flow of a program's execution. In Clojure, exceptions typically occur when something goes wrong, such as dividing by 
    zero or passing an inappropriate argument to a function. It's important to note that Clojure syntax errors will also result in an exception, because during the compilation of dynamically loaded Clojure code into JVM bytecode, 
@@ -429,7 +431,7 @@ Once the sub-REPL is initialized, the use can then use the sub-REPL as normal, b
 
 \jwcomment{Make more explicit comment about vector labelling.}
 
-\jwcomment{There will be a diagram for this later.}
+%\jwcomment{There will be a diagram for this later.}
 
 \subsection{Designing Morse Viewers}\label{subsec:Morse-Viewers}
 Morse viewers can be created to have custom behavior around certain data.
