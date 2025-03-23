@@ -287,7 +287,7 @@ Since an error can occur at any point in the Read-Evaluate-Print-Loop, there are
 Knowing the phase of the evaluation is helpful for detecting what kind of error has occurred and what information the user would benefit from.
 
 \tkcomment{Abrupt shift here}
-
+\emcomment{Maybe move to before division by zero?}
 As an example of one such mistake, a novice to Clojure might write the expression below, instead of the correct 
 version \texttt{(filter neg? [1 -1 0])} described above:
 \begin{verbatim}
