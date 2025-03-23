@@ -65,9 +65,9 @@
 \definecolor{Coquelicot}{RGB}{255, 56, 0}
 \definecolor{Teal}{RGB}{2,132,130}
 %Uncomment this if you want to show work-in-progress comments
-\newcommand{\comment}[1]{{\bf \tt  {#1}}}
+%\newcommand{\comment}[1]{{\bf \tt  {#1}}}
 % Uncomment this if you don't want to show comments
-%\newcommand{\comment}[1]{}
+\newcommand{\comment}[1]{}
 % for color names see https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX
 \newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
 \newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
@@ -117,6 +117,10 @@ kalvo007@umn.edu, elenam@umn.edu, stani152@umn.edu, walbr042@umn.edu
 %\alcomment{Should these say @morris.umn.edu?}
 
 \section*{\centering Abstract}
+The Clojure programming language, built on the Java Virtual Machine, is a widely used functional language. Its simple syntax makes it a powerful language to introduce beginner programmers to key concepts of programming. However, debugging in Clojure can be unintuitive because Clojure errors are exceptions in the underlying Java language. They frequently contain terminology intended for experienced developers, leaving out important context. 
+Our research project, Babel, aims to provide beginner programmers with a tool that replaces Clojure error messages with clearer explanations, removing unfamiliar jargon.
+This is work in progress, with the current goal of improving the user experience by using Morse, a third-party viewer, to present error information in a more beginner-friendly format.
+In this paper we discuss the structure of Clojure error messages and explain the data flow for the error messages processing. We discuss options for formatting the error messages provided by Morse, as well as the principles that guide our choices. We present examples of views and interactions for Clojure error messages. We conclude with a discussion of future directions. 
 
 
 \newpage
@@ -383,48 +387,57 @@ Call sequence:
 Our project presently includes specs for many pre-existing Clojure functions and rewrites a majority of potential Clojure errors that cannot employ spec (such as divisions by zero, unmatched delimiters, etc). With much of the internal work done at this stage of the project, our focus is now on the potential of third party tools to display modified error messages in an interactive viewer that will allow beginner programmers to explore them more dynamically and familiarize themselves with how Clojure itself handles error data, enabling them to view the data in a more organized way and easily explore related documentation.
 
 \subsection{Processing Error Messages}\label{subsec:classification}
-\emcomment{Also need to include:
-Babel constructs its error messages by intercepting exception objects directly from REPL , hooking an observer to a running instance of a REPL server.}
+Babel constructs its error messages by intercepting exceptions directly from REPL. This is done by attaching an observer function to a running instance of a REPL server. The observer passes exceptions to babel processing 
+function and replaces the message with the result. 
+Before developing the interactive interface, the message was returned as a string. 
+The processing for the interactive interface is described in Section~\ref{sec:interactive}.
 
-Errors can be categorized broadly into spec errors and non-spec errors
+Since different kinds of exceptions contain information in a different way, the first step in processing them is to determine what category they belong to. Errors can be categorized broadly into spec errors and non-spec errors
 \begin{itemize}
 
-	\item Spec errors occur when the data does not conform to the expected specification defined using the clojure.spec library. They are triggered when the data doesn't meet the specific requirements created for a certain function or process.
+	\item Spec errors occur when the data does not conform to the specification for a function or a similar construct. These errors can be further divided into Babel specs, Clojure internal specs, and third-party specs. Babel specs were specifically designed by our group to provide as much information as possible to users, and in particular to novices. 
+Clojure internal specs are provided for some specific Clojure constructs and provide useful information, although not necessarily phrased in a way suitable for beginners, so our software rewrites them to a more beginner-friendly format. 
+Finally, third-party specs come with libraries imported into the code base. Since we don't know the semantics of these
+specs, we can only suggest what the intent is. Care should be taken not to second-guess, and thus obscure, the intent.  
+%They are triggered when the data doesn't meet the specific requirements created for a certain function or process.
 	
-	\item Non-spec errors occur when errors happen outside of the clojure.spec system. They are typically runtime errors, such as division by zero or any other errors that arise during program execution
+	\item Non-spec errors occur when errors happen outside of the clojure.spec system. They are typically either syntax error that happen before a function can even be called, or runtime errors that are not checked by spec, such as division by zero or any other errors that arise during program execution.
 
 \end{itemize}
 
-Error messages can also be classified by their properties, some notable properties that we look at are Error Types, Levels of Nesting, and Phase.
+Due to the complexity of Clojure runtime system on the JVM, it may not be immediately obvious what type of error has occurred. For example, Clojure uses \textit{lazy sequences}: many functions that return a sequence, such as \texttt{filter}, don't evaluate it immediately. The result is evaluated only when it's needed, and only as many elements as needed are evaluated. This may result in evaluating the sequence at the :print-eval-result phase. If an error occurs 
+at that point, it may manifest itself as a nested error (an exception attached as a cause to another exception) since it occurs within a printing function. 
+
+In order to determine the type, the following properties of exceptions are used: \textit{error types}, \textit{levels of nesting}, and \textit{phase}.
 \begin{itemize}
-	\item Grouping by error types or subtypes can help find patterns in errors that make it easier to prescribe solutions to errors, based off of similar error types.
-	\item Grouping by levels of nesting and the order in which errors occur provides more insight into the path the error took before it becomes visible, helping us understand the sequence of failures.
+	\item Grouping by error types or subtypes can help find patterns in errors that make it easier to prescribe solutions to errors, based on similar error types.
+	\item As we mentioned before, an exception may be nested within another exception if it is produced by a lazy sequence or in some other cases. Grouping by levels of nesting and the order in which errors occur provides more insight into the path the error took before it becomes visible, helping us understand the sequence of failures.
 	\item Classifying by phase (such as :read-source, :execution, and :print-eval-result) offers additional context about when and where the error occurred.
 \end{itemize}
-Using the above in conjuction with each other would give greater ability to find and resolve errors.
+Using the above in conjuction with each other allows us to find the elements of an exception that can be used to explain its cause to the user. 
 
-\begin{itemize}
-
-    \item \textbf{Babel Messages vs. Messages from Dictionary} \\
-    \begin{itemize}
-        \item LazySeq messages not caught in spec because worried that catching and printing at the point will change the order of eval (these are caught in the print phase) -- key decisions we made with our spec.
-    \end{itemize}
-
-    \item \textbf{Documenting Errors} \\
-    Error on the receiving end and how to get where it came from.
-
-    \item \textbf{How to Get Useful Information from Error?} \\
-    Reverse-engineered through things like nested errors.
-
-\end{itemize}
-\tkcomment{Tristan's subsection}
+%\begin{itemize}
+%
+%    \item \textbf{Babel Messages vs. Messages from Dictionary} \\
+%    \begin{itemize}
+%        \item LazySeq messages not caught in spec because worried that catching and printing at the point will change the order of eval (these are caught in the print phase) -- key decisions we made with our spec.
+%    \end{itemize}
+%
+%    \item \textbf{Documenting Errors} \\
+%    Error on the receiving end and how to get where it came from.
+%
+%    \item \textbf{How to Get Useful Information from Error?} \\
+%    Reverse-engineered through things like nested errors.
+%
+%\end{itemize}
+%\tkcomment{Tristan's subsection}
 
 \section{Adding Visual Interactive Environment}\label{sec:interactive}
 
-We explore using the third-party Morse viewer as a supplementary way to interactively present error information in a better, more beginner-friendly format.
-This provides an interactive, visual layer of error message presentation on top of the existing terminal error message display.
-For instance, unlike default Clojure error messages, Babel uses monospace font for code snippets, and highlight function names with color coding. 
-Additionally, for spec errors, Babel will generate the link to the documentation of the function where the error occurred.
+We explore using the third-party Morse viewer~\cite{morse} as a supplementary way to interactively present error information in a better, more beginner-friendly format.
+This approach provides an interactive, visual layer of error message presentation on top of the existing REPL error message display.
+For instance, unlike default Clojure error messages, the Morse viewer allows us to use monospace font for code snippets, and highlight function names with color coding. 
+Additionally, for spec errors, we can dynamically generate the link to the documentation of the function where the error occurred, provided it is a predefined Clojure function.
 
 Morse is a tool designed for data exploration and visualization.
 While it was originally designed to help experienced developers navigate large datasets and projects, 
@@ -435,30 +448,32 @@ Each view is individually designed to display a specific data structure based on
 \subsection{Running a Babel Session with Morse}\label{subsec:babel-w-morse}
 
 By default, the Clojure REPL does not expose the correct hooks to effectively manipulate the data from error messages.
-In order to get around this, initializing Babel within an existing REPL session, using the \texttt{(babel/init)} function, creates a new custom sub-REPL above the existing session.
-Creating a sub-REPL allows us to configure the behavior attached to the following hooks:
+In order to get around this, initializing Babel within an existing REPL session, using a custom-made \texttt{(babel/init)} function to connect the processing hooks, creates a new custom sub-REPL (a new REPL session) above the existing session.
+Creating a sub-REPL allows us to configure the behavior attached to the following hooks in the new session:
 \begin{itemize}
 	\item \texttt{:init} Defines the initialization behavior of the sub-repl. 
-		In Babel, this starts a new Morse session connected to the new REPl.
+		In Babel, this starts a new Morse session connected to the new REPL.
 	\item \texttt{:eval} Defines the behavior whenever a command is executed within the REPL. 
-		In Babel, this taps the command into an atom, and evaluates the command within both Morse and the REPL.
+		In Babel, this taps the command into an atom (a mutable state variable), and evaluates the command within both Morse and the REPL.
 	\item \texttt{:caught} Defines the behavior on exception.
 		In Babel, this processes the error as described previously, 
 			and passes the following information about the error to Morse to be displayed in a custom viewer:
 			\begin{itemize}
 				\item The last command entered, read from an atom that is updated at evaluation.
-				\item The location in the environment where the error occurred. In the REPL, this resolves to "Clojure Interactive Session".
+				\item The location in the environment where the error occurred. In the REPL, this resolves to ``Clojure Interactive Session''.
 				\item A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
 				\item The url to the documentation of the function called that caused the error. 
 			\end{itemize}
 \end{itemize}
-Once the sub-REPL is initialized, the use can then use the sub-REPL as normal, but with the addition of Babel error messages when applicable in the terminal, and a parallel Morse viewer.
+Once the sub-REPL is initialized, the user can then use the sub-REPL as usual, but with the addition of Babel error messages when applicable in the terminal, and a parallel pop-up Morse viewer that format the error message in an easier-to-parse way, providing interactive display for the user, for example giving them the ability to click on the documentation link. 
 
-\jwcomment{Make more explicit comment about vector labelling.}
+In order to provide a message in the format suitable for More viewer display, Babel processing module returns the message as a sequence of key/value pairs, where each key indicates what part of error message it is. Fir example, the code part of the message will be labeled as \texttt{:code}, which allows displaying it in the monospace font common for code. 
+
+%\jwcomment{Make more explicit comment about vector labelling.}
 
 %\jwcomment{There will be a diagram for this later.}
 
-\subsection{Designing Morse Viewers}\label{subsec:Morse-Viewers}
+\subsection{Setting up Morse Viewers}\label{subsec:Morse-Viewers}
 Morse viewers can be created to have custom behavior around certain data.
 Creating a new viewer in Morse requires the following:
 \begin{itemize}
@@ -469,29 +484,32 @@ The Babel viewer takes a map of input data as input, and defines the predicate f
 For the formatting definition, Babel uses the built-in \texttt{WebView} object in order to format the error data with an HTML template,
 enabling us to leverage the large, robust tools of HTML and CSS to define the visuals of the error messages.
 
-\jwcomment{John's subsection}
-
 \subsection{Exploring Design of Error Messages Interface}\label{subsec:interface}
-\emcomment{TBD}
-
-An example of the error presentation for Babel is shown in~\ref{fig:babelview}, showing the error message for the command \texttt{(even? 1 2)}. 
+An example of the error presentation for Babel is shown in Figure~\ref{fig:babelview}, displaying the error message for the expression \texttt{(even? 1 2)}. 
 Code segments are displayed as monospace and isolated. Additionally, function names within the body of the error message are color coded. 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{resources/BabelViewerExample.png}
-	\caption{Morse visualization of the arity error on \texttt{(even?)} with too many arguments (right), with session evaluation history (left).}
+	\caption{Morse visualization of the arity error on \texttt{even?} with too many arguments (right), with session evaluation history (left).}
 	\label{fig:babelview}
 \end{figure}
 
 \section{Current State and Future Work}\label{sec:conclusion}
+Our project is currently focusing on the goal of utilizing Morse viewers for creating intuitive, robust interactive display of error messages. A lot of effort was put into figuring out the technical setup and data flow to accomplish this task. 
+It also required changing the way an error message is passed to the display by adding tags (such as \texttt{:code}) for various elements of an error message.
 
-\emcomment{Interaction in a session with multiple error messages.}
-
-\jscomment{I'm not sure if I've used Morse enough to write about the above in the time span that I have.}
-
-As the project stands right now, many features of Morse are still in active development. For example, the ability to hover over specific terms used in error message for their definitions as well as to navigate collapsible stack traces would be useful for making the tool more interactive and helping beginners learn.
+We have accomplished creating a prototype for these interactions and the data flow. 
+However, as the project stands right now, many features of the interactive display are still in active development:
+\begin{itemize}
+\item More work needs to be done to convert all of the exception processing into the tagged format. 
+\item The ability to hover over specific terms used in error message for explanations of what they mean, as well as to navigate collapsible stack traces, would be useful for making the tool more interactive.
+\item Figuring out the user's workflow in alternating between correct code and errors is also a future work item.
+\end{itemize}
 
 In the future, we would like to conduct usability studies with the interactive tools offered by Morse, after we have developed the tool enough to cover more of Babel's capabilities. Allowing research participants to experiment with the tool for learning Clojure would help drive the direction of the project and improve upon the design choices. We would also like to explore IDE integration as a potential avenue of development for Morse, in order to make the tool more useful for learning to code as a whole.
+
+\section{Acknowledgments}\label{sec:ack}
+We thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions. 
 
 \bibliographystyle{acm}
 \bibliography{mics2025}
