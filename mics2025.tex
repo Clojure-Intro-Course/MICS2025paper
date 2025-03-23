@@ -175,11 +175,21 @@ we make an effort to replace such terminology with more universal language.
 \section{Background}\label{sec:background}
 
 \subsection{Clojure and its Error Messages}\label{subsec:clojure-errs}
+%\emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
+Clojure syntax utilizes the prefix notation, common for Lisp languages: a Clojure expression is enclosed in parentheses that contain a function followed by its arguments. 
+For example, \texttt{(/ 6 2)} denotes an expression $6 / 2$ and results in $3$. Clojure is dynamically typed, and no types are declared. 
 
-\emcomment{somewhere need to say something about Clojure syntax, in particular prefix notation}
+In addition to lists (common in other Lisp languages), Clojure employs a variety of collections, such as vectors, hashmaps, and sets. 
+It comes with a large number of predefined functions. Below we introduce collections and functions used in examples in subsequent sections. 
+ 
+Vectors are enclosed in square brackets; commas between elements are optional and usually omitted. 
+For example,  \texttt{[1 -1 0]} denotes a vector of three elements: $1, -1,$ and $0$. 
+\emcomment{filter, count, neg? - what else?}
+
 \emcomment{Also need to include:
 Babel constructs its error messages by intercepting exception objects directly from the Clojure interpreter, called the REPL (Read - Evaluate - Print - Loop), hooking an observer to a running instance of a REPL server.}
 \emcomment{Need to explain Clojure prompt.}
+
 
 	Clojure is a hosted language, running on the Java Virtual Machine (JVM), which is a bytecode interpreter that allows a program to run on any computer without needing to be rewritten for each one. 
 	The JVM works by compiling code into bytecode, which it can then run. When Clojure code is executed, it compiles into JVM bytecode, allowing it to use many of the features that the JVM provides, 
