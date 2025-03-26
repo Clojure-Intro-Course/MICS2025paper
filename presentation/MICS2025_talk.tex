@@ -3,6 +3,23 @@
 \usepackage{color}
 \usepackage[all]{xy}
 
+%% Elena's favorite green (thanks, Fernando!)
+\definecolor{ForestGreen}{RGB}{34,139,34}
+\definecolor{BlueViolet}{RGB}{138,43,226}
+\definecolor{Coquelicot}{RGB}{255, 56, 0}
+\definecolor{Teal}{RGB}{2,132,130}
+%Uncomment this if you want to show work-in-progress comments
+%\newcommand{\comment}[1]{{\bf \tt  {#1}}}
+% Uncomment this if you don't want to show comments
+\newcommand{\comment}[1]{}
+% for color names see https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX
+\newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
+\newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
+\newcommand{\tkcomment}[1]{\textcolor{Teal}{\comment{Tristan: {#1}}}}
+\newcommand{\jscomment}[1]{\textcolor{olive}{\comment{Jaydon: {#1}}}}
+\newcommand{\jwcomment}[1]{\textcolor{violet}{\comment{John: {#1}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%% choose your presentation style:
 \mode<presentation>
