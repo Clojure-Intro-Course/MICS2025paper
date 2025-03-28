@@ -3,6 +3,23 @@
 \usepackage{color}
 \usepackage[all]{xy}
 
+%% Elena's favorite green (thanks, Fernando!)
+\definecolor{ForestGreen}{RGB}{34,139,34}
+\definecolor{BlueViolet}{RGB}{138,43,226}
+\definecolor{Coquelicot}{RGB}{255, 56, 0}
+\definecolor{Teal}{RGB}{2,132,130}
+%Uncomment this if you want to show work-in-progress comments
+\newcommand{\comment}[1]{{\bf \tt  {#1}}}
+% Uncomment this if you don't want to show comments
+%\newcommand{\comment}[1]{}
+% for color names see https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX
+\newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
+\newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
+\newcommand{\tkcomment}[1]{\textcolor{Teal}{\comment{Tristan: {#1}}}}
+\newcommand{\jscomment}[1]{\textcolor{olive}{\comment{Jaydon: {#1}}}}
+\newcommand{\jwcomment}[1]{\textcolor{violet}{\comment{John: {#1}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%% choose your presentation style:
 \mode<presentation>
@@ -93,31 +110,40 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 
 \section{Morse Viewers}
 
-\begin{frame}
-\frametitle{John's section}
+\begin{frame}{Sending Data to Morse}
+  \begin{itemize}
+    \item<1-> The Clojure REPL does not provide the proper hooks to effectively manipulate error message data.
+    \item<2-> To get around this, we need to initialize Babel within a sub-REPL of the parent REPL session.
+    \item<3-> Creating a sub-REPL allows us to introduce hooks that let us add preprocessing steps.
+  \end{itemize}
+\end{frame}
 
-John's section
+\begin{frame}{Sub-REPL hooks}
+
 \end{frame}
 
 \section{Current State of the Project and Future Work}
 \begin{frame}{Current State of the Project}
+\emcomment{Mention older things that we have accomplished}
   \begin{itemize}
     \item<1-> Most of the work this year was spent structuring things for integration with Morse viewers.
-    \item<2-> The introduction of the error labelling and prototyping this was pivotal in enabling data formatting.
-    \item<3-> We currently have a small number of error messages labelled for demonstration purposes.
+    \item<2-> The introduction of the error labeling \emcomment{with labels like ....} and prototyping this was pivotal in enabling data formatting.
+    \item<3-> We currently have a small number of error messages labeled for demonstration purposes.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Future Work}
   The following are areas of active development:
   \begin{itemize}
-    \item<1-> Expand data labelling to all Babel error messages.
+    \item<1-> Expand data labeling to all Babel error messages.
     \item<2-> Add hover text for specific terms to add definitions and supplementary information to the presented error message.
     \item<3-> Refining the end user work flow between working code and erroring code.
   \end{itemize}
+\emcomment{Mention developing Morse viewers for specific labels and other info, such as stack trace and full Java error messages.}
   \end{frame}
 
 \begin{frame}{Future Work (cont.)}
+\emcomment{simplify the sentences}
   \begin{itemize}
     \item<1-> Once we have greater feature coverage in Babel, we plan to run a usability study about the interactive tools we have developed.
     \item<2-> We are going to use the results of letting users explore our tools while learning Clojure in order to guide further design. 
@@ -126,7 +152,11 @@ John's section
 \end{frame}
 
 \begin{frame}{Acknowledgements}
-  We would like to thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions.
+This work was supported in part by Morris Academic Partnership (MAP) and UMN Undergraduate Research Opportunity (UROP).  \\ 
+
+\vspace*{0.2in}
+
+We thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions.
 \end{frame}
 
 \begin{frame}
