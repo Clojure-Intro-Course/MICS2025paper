@@ -69,8 +69,8 @@ What is Clojure? - Clojure language and Syntax
   \item Clojure is a part of the lisp language family
   \item Syntax
   \begin{itemize}
-    \item prefix notation
-    \item expressions are surrounded in parenthesis
+    \item prefix notation (operators before operands).
+    \item expressions are surrounded by parentheses.
   \end{itemize}
 \end{itemize}
 Example: \texttt{(/ 9 3)} denotes 9 divided by 3
@@ -83,13 +83,35 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
     \begin{itemize}
       \item executed code compiles to JVM bytecode
     \end{itemize}
+    \item clojure code \(\rightarrow\) clojure compiler \(\rightarrow\) JVM bytecode \(\rightarrow\) executed on JVM
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Clojure Language and Syntax}
+  Clojure's REPL
+  \begin{itemize}
+    \item interactive environment for code evaluation
+    \item Read \(\rightarrow\) Evaluate \(\rightarrow\) Print \(\rightarrow\) Loop
+    \tkcomment{repl example image}
+  \end{itemize}  
 \end{frame}
 
 \subsection{Clojure's Error Messages}
 \begin{frame}
     \frametitle{Clojure's Error Messages}
-
+    Anatomy of a Clojure Error Message
+  %   \begin{verbatim}
+  %     => (/ 9 0)
+  % Execution error (ArithmeticException) at user/eval1 (REPL:1).
+  % Divide by zero
+  %   \end{verbatim}
+  
+    \begin{itemize}
+      \item \texttt{ArithmeticException}: The type of error that occurred.
+      \item \texttt{user/eval1 (REPL:1)}: The location where the error happened (in this case, REPL, line 1).
+      \item \texttt{Divide by zero}: The description of the error's cause.
+    \end{itemize}
 \end{frame}
 
 \section{Babel project}
