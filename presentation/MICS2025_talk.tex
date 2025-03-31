@@ -99,19 +99,46 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 
 \subsection{Clojure's Error Messages}
 \begin{frame}
+  \frametitle{Clojure's Error Messages}
+  Clojure Exceptions
+  \begin{itemize}
+    \item an event or error that disrupts the normal flow of a program's execution
+    \item Clojure syntax errors will also result in an exception
+  \end{itemize}
+  Error Messages
+  \begin{itemize}
+    \item generate when a exception occurs
+    \item provide error type and location
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Clojure's Error Messages}
-    Anatomy of a Clojure Error Message
-  %   \begin{verbatim}
-  %     => (/ 9 0)
-  % Execution error (ArithmeticException) at user/eval1 (REPL:1).
-  % Divide by zero
-  %   \end{verbatim}
-  
+    Anatomy of a Clojure Error Message \\
+    \texttt{=> (/ 9 0)} \\
+    \texttt{Execution error (ArithmeticException) at user/eval1 (REPL:1).} \\
+    \texttt{Divide by zero}
     \begin{itemize}
       \item \texttt{ArithmeticException}: The type of error that occurred.
       \item \texttt{user/eval1 (REPL:1)}: The location where the error happened (in this case, REPL, line 1).
       \item \texttt{Divide by zero}: The description of the error's cause.
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Clojure's Error Messages}
+  \textbf{Exception Example} \\
+  \texttt{\#error \{ } \\
+  \texttt{:cause "Divide by zero"} \\
+  \texttt{:via} \\
+  \texttt{[{:type java.lang.ArithmeticException} } \\
+  \texttt{:message "Divide by zero"} \\
+  \texttt{:at [clojure.lang.Numbers divide "Numbers.java" 190]\}]} \\
+  \texttt{:trace} \\
+  \texttt{[[clojure.lang.Numbers divide "Numbers.java" 190]} \\
+  \texttt{... omitting 18 lines...} \\
+  \texttt{[clojure.main main "main.java" 40]]}
+  \tkcomment{image instead? or maybe not add this}
 \end{frame}
 
 \section{Babel project}
