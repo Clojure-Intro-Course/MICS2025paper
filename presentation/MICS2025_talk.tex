@@ -93,7 +93,19 @@
 \end{frame}
 
 \begin{frame}{Sub-REPL hooks}
-
+  Babel uses the following hooks as part of error processing:
+  \begin{itemize}
+    \item<1-> \texttt{:init} Defines initial behavior on creation. In Babel this starts a new Morse session connected to the current REPL.
+    \item<2-> \texttt{:eval} Defines behavior when a command is run. In Babel this stores the command verbatim into an atom, and evaluates the command in both the REPL and Morse.
+    \item<3-> \texttt{:caught} Defines behavior on an exception. In Babel this processes the error, and passes the following information to Morse for display in a custom viewer:
+      \begin{itemize}
+        \item The last command entered, read from an atom that is updated at evaluation.
+        \item The location in the environment where the error occurred. In the REPL, this
+        resolves to “Clojure Interactive Session”.
+        \item A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
+        \item The url to the documentation of the function called that caused the error.
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \section{Current State of the Project and Future Work}
