@@ -187,22 +187,10 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 \begin{frame}{Sub-REPL hooks}
   Babel uses the following hooks as part of error processing:
   \begin{itemize}
-    \item<1-> \texttt{:init} Defines initial behavior on creation. In Babel this starts a new Morse session connected to the current REPL.
-    \item<2-> \texttt{:eval} Defines behavior when a command is run. In Babel this stores the command verbatim into an atom, and evaluates the command in both the REPL and Morse.  
+    \item<1-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
+    \item<2-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
+    \item<3-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception-\>String processing to instead create a vector of labelled pairs.  
   \end{itemize}
-\end{frame}
-
-\begin{frame}{Sub-REPL hooks (cont.)}
-  \begin{itemize}
-  \item<1-> \texttt{:caught} Defines behavior on an exception. In Babel this processes the error, and passes the following information to Morse for display in a custom viewer:
-  \begin{itemize}
-    \item<2-> The last command entered, read from an atom that is updated at evaluation.
-    \item<3-> The location in the environment where the error occurred. In the REPL, this
-    resolves to “Clojure Interactive Session”.
-    \item<4-> A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
-    \item<5-> The url to the documentation of the function called that caused the error.
-  \end{itemize}
-\end{itemize}
 \end{frame}
 
 \section{Current State of the Project and Future Work}
@@ -216,11 +204,33 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   \end{itemize}
 \end{frame}
 
-\subsection{Screenshots - Demonstration}
+\subsection{Screenshots}
 \begin{frame}
-
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../resources/CljDefaultEven.png}
+    \caption{The output for the form \texttt{(even? 1 2)} in default Clojure.}
+    \label{fig:defaultclj}
+  \end{figure}
 \end{frame}
 
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth, height=0.25\textheight]{../resources/BabelREPL.png}
+    \caption{The output for the form \texttt{(even? 1 2)} in Babel through the REPL.}
+    \label{fig:BabelREPL}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../resources/BabelViewerExample.png}
+    \caption{The output for the form \texttt{(even? 1 2)} in Babel with Morse.}
+    \label{fig:defaultclj}
+  \end{figure}
+\end{frame}
 
 \subsection{Future Work}
 \begin{frame}{Future Work}
