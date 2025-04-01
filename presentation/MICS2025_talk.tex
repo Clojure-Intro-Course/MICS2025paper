@@ -205,16 +205,21 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   Babel uses the following hooks as part of error processing:
   \begin{itemize}
     \item<1-> \texttt{:init} Defines initial behavior on creation. In Babel this starts a new Morse session connected to the current REPL.
-    \item<2-> \texttt{:eval} Defines behavior when a command is run. In Babel this stores the command verbatim into an atom, and evaluates the command in both the REPL and Morse.
-    \item<3-> \texttt{:caught} Defines behavior on an exception. In Babel this processes the error, and passes the following information to Morse for display in a custom viewer:
-      \begin{itemize}
-        \item The last command entered, read from an atom that is updated at evaluation.
-        \item The location in the environment where the error occurred. In the REPL, this
-        resolves to “Clojure Interactive Session”.
-        \item A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
-        \item The url to the documentation of the function called that caused the error.
-      \end{itemize}
+    \item<2-> \texttt{:eval} Defines behavior when a command is run. In Babel this stores the command verbatim into an atom, and evaluates the command in both the REPL and Morse.  
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Sub-REPL hooks (cont.)}
+  \begin{itemize}
+  \item<1-> \texttt{:caught} Defines behavior on an exception. In Babel this processes the error, and passes the following information to Morse for display in a custom viewer:
+  \begin{itemize}
+    \item<2-> The last command entered, read from an atom that is updated at evaluation.
+    \item<3-> The location in the environment where the error occurred. In the REPL, this
+    resolves to “Clojure Interactive Session”.
+    \item<4-> A vector of pairs containing the error message produced by Babel, with labels associated with each segment denoting its type for formatting.
+    \item<5-> The url to the documentation of the function called that caused the error.
+  \end{itemize}
+\end{itemize}
 \end{frame}
 
 \section{Current State of the Project and Future Work}
@@ -229,9 +234,8 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 \end{frame}
 
 \begin{frame}{Future Work}
-  The following are areas of active development:
   \begin{itemize}
-    \item<1-> Expand data labeling to all Babel error messages.
+    \item<1-> Expand data labeling to all Babel error messages, to better format data for Morse viewers.
     \item<2-> Add hover text for specific terms to add definitions and supplementary information to the presented error message.
     \item<3-> Refining the end user work flow between working code and erroring code.
     \item<4-> Develop Morse viewers for other information, such as the stack trace, and full java error messages.
@@ -243,6 +247,12 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
     \item<1-> We plan to run a usability study about our developments after we have greater feature coverage.
     \item<2-> We are going to use the results to guide further design.
     \item<3-> We hope to explore IDE integration for possible work-flow refinements.
+    %Overview of the VSCode extension development world.
+    %https://code.visualstudio.com/api
+    %Webview display, allows us to reuse existing viewer code.
+    %https://code.visualstudio.com/api/extension-guides/webview
+    %Language protocol guide: (LSP, syntax highlighting, etc.)
+    %https://code.visualstudio.com/api/language-extensions/overview
   \end{itemize}
 \end{frame}
 
