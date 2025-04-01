@@ -66,7 +66,7 @@
 \frametitle{Clojure Language and Syntax}
 What is Clojure? - Clojure language and Syntax
 \begin{itemize}
-  \item Clojure is a part of the lisp language family
+  \item Clojure is a part of the Lisp language family
   \item Syntax
   \begin{itemize}
     \item prefix notation (operators before operands).
@@ -79,11 +79,11 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 \begin{frame}
   \frametitle{Clojure Language and Syntax}
   \begin{itemize}
-    \item Clojure runs on the Java Virtual Machine (JVM)
+    \item Clojure \emcomment{is implemented in Java and} runs on the Java Virtual Machine (JVM)
     \begin{itemize}
-      \item executed code compiles to JVM bytecode
+      \item executed code compiles to JVM bytecode \emcomment{I corrected the line below slightly. Not sure if you need this line.}
     \end{itemize}
-    \item clojure code \(\rightarrow\) clojure compiler \(\rightarrow\) JVM bytecode \(\rightarrow\) executed on JVM
+    \item Clojure code \(\rightarrow\) Java code \(\rightarrow\) JVM bytecode \(\rightarrow\) \\ executed on JVM
   \end{itemize}
 \end{frame}
 
@@ -103,7 +103,7 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   Clojure Exceptions
   \begin{itemize}
     \item an event or error that disrupts the normal flow of a program's execution
-    \item Clojure syntax errors will also result in an exception
+    \item Clojure syntax errors will also result in an exception \emcomment{mention that it is a Java exception}
   \end{itemize}
   Error Messages
   \begin{itemize}
@@ -139,6 +139,7 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   \texttt{... omitting 18 lines...} \\
   \texttt{[clojure.main main "main.java" 40]]}
   \tkcomment{image instead? or maybe not add this}
+\emcomment{I don't think you need this slide}
 \end{frame}
 
 \section{Babel project}
