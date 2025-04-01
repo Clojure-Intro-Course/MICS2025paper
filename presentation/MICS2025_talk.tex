@@ -79,10 +79,10 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 \begin{frame}
   \frametitle{Clojure Language and Syntax}
   \begin{itemize}
-    \item Clojure \emcomment{is implemented in Java and} runs on the Java Virtual Machine (JVM)
-    \begin{itemize}
-      \item executed code compiles to JVM bytecode \emcomment{I corrected the line below slightly. Not sure if you need this line.}
-    \end{itemize}
+    \item Clojure is implemented in Java and runs on the Java Virtual Machine (JVM)
+    % \begin{itemize}
+      % \item executed code compiles to JVM bytecode \emcomment{I corrected the line below slightly. Not sure if you need this line.}
+    % \end{itemize}
     \item Clojure code \(\rightarrow\) Java code \(\rightarrow\) JVM bytecode \(\rightarrow\) \\ executed on JVM
   \end{itemize}
 \end{frame}
@@ -93,8 +93,8 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   \begin{itemize}
     \item interactive environment for code evaluation
     \item Read \(\rightarrow\) Evaluate \(\rightarrow\) Print \(\rightarrow\) Loop
-    \tkcomment{repl example image}
-  \end{itemize}  
+  \end{itemize}
+  \includegraphics{../resources/cljScreenshot.JPG}  
 \end{frame}
 
 \subsection{Clojure's Error Messages}
@@ -103,12 +103,12 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   Clojure Exceptions
   \begin{itemize}
     \item an event or error that disrupts the normal flow of a program's execution
-    \item Clojure syntax errors will also result in an exception \emcomment{mention that it is a Java exception}
+    \item Clojure syntax errors will also result in a Java exception %\emcomment{mention that it is a Java exception}
   \end{itemize}
   Error Messages
   \begin{itemize}
     \item generate when a exception occurs
-    \item provide error type and location
+    \item provide error type, cause, and location
   \end{itemize}
 \end{frame}
 
@@ -123,23 +123,6 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
       \item \texttt{user/eval1 (REPL:1)}: The location where the error happened (in this case, REPL, line 1).
       \item \texttt{Divide by zero}: The description of the error's cause.
     \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Clojure's Error Messages}
-  \textbf{Exception Example} \\
-  \texttt{\#error \{ } \\
-  \texttt{:cause "Divide by zero"} \\
-  \texttt{:via} \\
-  \texttt{[{:type java.lang.ArithmeticException} } \\
-  \texttt{:message "Divide by zero"} \\
-  \texttt{:at [clojure.lang.Numbers divide "Numbers.java" 190]\}]} \\
-  \texttt{:trace} \\
-  \texttt{[[clojure.lang.Numbers divide "Numbers.java" 190]} \\
-  \texttt{... omitting 18 lines...} \\
-  \texttt{[clojure.main main "main.java" 40]]}
-  \tkcomment{image instead? or maybe not add this}
-\emcomment{I don't think you need this slide}
 \end{frame}
 
 \section{Babel project}
