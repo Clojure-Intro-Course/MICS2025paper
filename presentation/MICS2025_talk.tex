@@ -9,9 +9,9 @@
 \definecolor{Coquelicot}{RGB}{255, 56, 0}
 \definecolor{Teal}{RGB}{2,132,130}
 %Uncomment this if you want to show work-in-progress comments
-%\newcommand{\comment}[1]{{\bf \tt  {#1}}}
+\newcommand{\comment}[1]{{\bf \tt  {#1}}}
 % Uncomment this if you don't want to show comments
-\newcommand{\comment}[1]{}
+%\newcommand{\comment}[1]{}
 % for color names see https://www.overleaf.com/learn/latex/Using_colors_in_LaTeX
 \newcommand{\emcomment}[1]{\textcolor{ForestGreen}{\comment{Elena: {#1}}}}
 \newcommand{\todo}[1]{\textcolor{blue}{\comment{To Do: {#1}}}}
@@ -61,9 +61,85 @@
 
 \section{Overview of Clojure and Its Error Messages}
 
+\subsection{Clojure language and Syntax}
 \begin{frame}
-\frametitle{Tristan's section}
+\frametitle{Clojure Language and Syntax}
+What is Clojure? - Clojure language and Syntax
+\begin{itemize}
+  \item Clojure is a part of the Lisp language family
+  \item Syntax
+  \begin{itemize}
+    \item prefix notation (operators before operands).
+    \item expressions are surrounded by parentheses.
+  \end{itemize}
+\end{itemize}
+Example: \texttt{(/ 9 3)} denotes 9 divided by 3
+\end{frame}
 
+\begin{frame}
+  \frametitle{Clojure Language and Syntax}
+  \begin{itemize}
+    \item Clojure \emcomment{is implemented in Java and} runs on the Java Virtual Machine (JVM)
+    \begin{itemize}
+      \item executed code compiles to JVM bytecode \emcomment{I corrected the line below slightly. Not sure if you need this line.}
+    \end{itemize}
+    \item Clojure code \(\rightarrow\) Java code \(\rightarrow\) JVM bytecode \(\rightarrow\) \\ executed on JVM
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Clojure Language and Syntax}
+  Clojure's REPL
+  \begin{itemize}
+    \item interactive environment for code evaluation
+    \item Read \(\rightarrow\) Evaluate \(\rightarrow\) Print \(\rightarrow\) Loop
+    \tkcomment{repl example image}
+  \end{itemize}  
+\end{frame}
+
+\subsection{Clojure's Error Messages}
+\begin{frame}
+  \frametitle{Clojure's Error Messages}
+  Clojure Exceptions
+  \begin{itemize}
+    \item an event or error that disrupts the normal flow of a program's execution
+    \item Clojure syntax errors will also result in an exception \emcomment{mention that it is a Java exception}
+  \end{itemize}
+  Error Messages
+  \begin{itemize}
+    \item generate when a exception occurs
+    \item provide error type and location
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Clojure's Error Messages}
+    Anatomy of a Clojure Error Message \\
+    \texttt{=> (/ 9 0)} \\
+    \texttt{Execution error (ArithmeticException) at user/eval1 (REPL:1).} \\
+    \texttt{Divide by zero}
+    \begin{itemize}
+      \item \texttt{ArithmeticException}: The type of error that occurred.
+      \item \texttt{user/eval1 (REPL:1)}: The location where the error happened (in this case, REPL, line 1).
+      \item \texttt{Divide by zero}: The description of the error's cause.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Clojure's Error Messages}
+  \textbf{Exception Example} \\
+  \texttt{\#error \{ } \\
+  \texttt{:cause "Divide by zero"} \\
+  \texttt{:via} \\
+  \texttt{[{:type java.lang.ArithmeticException} } \\
+  \texttt{:message "Divide by zero"} \\
+  \texttt{:at [clojure.lang.Numbers divide "Numbers.java" 190]\}]} \\
+  \texttt{:trace} \\
+  \texttt{[[clojure.lang.Numbers divide "Numbers.java" 190]} \\
+  \texttt{... omitting 18 lines...} \\
+  \texttt{[clojure.main main "main.java" 40]]}
+  \tkcomment{image instead? or maybe not add this}
+\emcomment{I don't think you need this slide}
 \end{frame}
 
 \section{Babel project}
@@ -110,10 +186,11 @@
 
 \section{Current State of the Project and Future Work}
 \begin{frame}{Current State of the Project}
+\emcomment{Mention older things that we have accomplished}
   \begin{itemize}
     \item<1-> Most of the work this year was spent structuring things for integration with Morse viewers.
-    \item<2-> The introduction of the error labeling and prototyping this was pivotal in enabling data formatting.
-    \item<3-> We currently have a small number of error messages labelled for demonstration purposes.
+    \item<2-> The introduction of the error labeling \emcomment{with labels like ....} and prototyping this was pivotal in enabling data formatting.
+    \item<3-> We currently have a small number of error messages labeled for demonstration purposes.
   \end{itemize}
 \end{frame}
 
@@ -124,9 +201,11 @@
     \item<2-> Add hover text for specific terms to add definitions and supplementary information to the presented error message.
     \item<3-> Refining the end user work flow between working code and erroring code.
   \end{itemize}
+\emcomment{Mention developing Morse viewers for specific labels and other info, such as stack trace and full Java error messages.}
   \end{frame}
 
 \begin{frame}{Future Work (cont.)}
+\emcomment{simplify the sentences}
   \begin{itemize}
     \item<1-> Once we have greater feature coverage in Babel, we plan to run a usability study about the interactive tools we have developed.
     \item<2-> We are going to use the results of letting users explore our tools while learning Clojure in order to guide further design. 
@@ -135,7 +214,11 @@
 \end{frame}
 
 \begin{frame}{Acknowledgements}
-  We would like to thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions.
+This work was supported in part by Morris Academic Partnership (MAP) and UMN Undergraduate Research Opportunity (UROP).  \\ 
+
+\vspace*{0.2in}
+
+We thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions.
 \end{frame}
 
 \begin{frame}
