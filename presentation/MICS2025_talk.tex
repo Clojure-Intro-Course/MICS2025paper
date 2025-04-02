@@ -1,5 +1,6 @@
 \documentclass{beamer}
-\usepackage{beamerthemeshadow}
+%\usepackage{beamerthemeshadow}
+\usetheme{Madrid}
 \usepackage{color}
 \usepackage[all]{xy}
 
@@ -228,32 +229,50 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
 
 \section{Morse Viewers}
 
-\begin{frame}{Sending Data to Morse}
+\begin{frame}{Morse}
   \begin{itemize}
-    \item<1-> The Clojure REPL does not provide the proper hooks to effectively manipulate error message data.
-    \item<2-> To get around this, we need to initialize Babel within a sub-REPL of the parent REPL session.
-    \item<3-> Creating a sub-REPL allows us to introduce hooks that let us add preprocessing steps.
+    \item<1-> Since we have a system for error messages in the REPL, we want to extend to interactive, visual environments.
+    \item<2-> We discussed this with Joe Lane, a developer at Nubank, who suggested the Morse tool as an option.
+    \item<3-> Morse is a third party data visualization and navigation tool.
+    \item<4-> Morse works by having a customizable sets of viewers for different data structures, like text, maps, or HTML content.
+    \item<5-> We achieve the formatting for error messages through creating these viewers, using our labelled error message data.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Sub-REPL hooks}
-  Babel uses the following hooks as part of error processing:
+\subsection{Screenshots-Morse}
+\begin{frame}{Morse Default}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../resources/MorseDefault.jpg}
+    \caption{The default view of the Morse tool.}
+    \label{fig:defaultMorse}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Morse Lists}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../resources/MorseSuccessfulForm.png}
+    \caption{Morse viewer for vector data. Shows the result of the form \texttt{(map inc [1 2 3])}.}
+    \label{fig:MorseVec}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}{Integrating with Morse}
   \begin{itemize}
-    \item<1-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
-    \item<2-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
-    \item<3-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception-\>String processing to instead create a vector of labelled pairs.  
+    \item<1-> Babel is specialized to integrate within a REPL, so it doesn't expose the right hooks for integrating with external tools.
+    \item<2-> In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
+    \item<3-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
+    \item<4-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
+    \item<5-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception\leftarrow String processing to instead create a vector of labelled pairs.  
   \end{itemize}
 \end{frame}
 
-\section{Current State of the Project and Future Work}
-\begin{frame}{Current State of the Project}
-  \begin{itemize}
-    \item<1-> We have existing error messages without labels for many common errors of core functions.
-    \item<2-> We can connect Morse to a REPL session, and have mirroring form evaluation.
-    \item<3-> Most of the work this year was spent structuring things for integration with Morse viewers.
-    \item<4-> The introduction of the error labeling and prototyping this was pivotal in enabling data formatting.
-    \item<5-> We currently have a small number of error messages labeled for demonstration purposes.
-  \end{itemize}
+\begin{frame}{Our Morse Viewer}
+  \item<1-> We used the existing WebView structure within Morse to render error messages.
+  \item<2-> We use HTML to add color coding for important terms, and mono-space fonts to highlight code chunks within the message.
+  \item<3-> The exact design of the final viewers are still a work in progress.
 \end{frame}
 
 \subsection{Screenshots}
@@ -284,21 +303,26 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
   \end{figure}
 \end{frame}
 
+\section{Current State of the Project and Future Work}
+\begin{frame}{Current State of the Project}
+  \begin{itemize}
+    \item<1-> We have existing error messages without labels for many common errors of core functions.
+    \item<2-> We can connect Morse to a REPL session, and have mirroring form evaluation.
+    \item<3-> Most of the work this year was spent structuring things for integration with Morse viewers.
+    \item<4-> The introduction of the error labeling and prototyping this was pivotal in enabling data formatting.
+    \item<5-> We currently have a small number of error messages labeled for demonstration purposes.
+  \end{itemize}
+\end{frame}
+
 \subsection{Future Work}
 \begin{frame}{Future Work}
   \begin{itemize}
     \item<1-> Expand data labeling to all Babel error messages, expanding our ability to use Morse viewers.
     \item<2-> Add hover text to viewers for specific terms to add definitions and supplementary information to the presented error message.
-    \item<3-> Refining the end user work flow between working code and erroring code.
-    \item<4-> Develop Morse viewers for other information, such as the stack trace, and full java error messages.
-  \end{itemize}
-  \end{frame}
-
-\begin{frame}{Future Work (cont.)}
-  \begin{itemize}
-    \item<1-> We plan to run a usability study about our developments after we have greater feature coverage.
-    \item<2-> We are going to use the results to guide further design.
-    \item<3-> We hope to explore IDE (VSCode) integration for possible work-flow refinements.
+    \item<3-> Develop Morse viewers for other information, such as the stack trace, and full java error messages.
+    \item<4-> We plan to run a usability study about our developments after we have greater feature coverage.
+    \item<5-> We are going to use the results to guide further design.
+    \item<6-> We hope to explore IDE (VSCode) integration for possible work-flow refinements.
     %Overview of the VSCode extension development world.
     %https://code.visualstudio.com/api
     %Webview display, allows us to reuse existing viewer code.
@@ -306,7 +330,7 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
     %Language protocol guide: (LSP, syntax highlighting, etc.)
     %https://code.visualstudio.com/api/language-extensions/overview
   \end{itemize}
-\end{frame}
+  \end{frame}
 
 \begin{frame}{Acknowledgements}
 This work was supported in part by Morris Academic Partnership (MAP) and UMN Undergraduate Research Opportunity (UROP).  \\ 
