@@ -201,9 +201,13 @@ Incomplete. This slide will describe how Babel manipulates the messages it recei
 \end{frame}
 
 \section{Morse Viewers}
-
+%Include a discussion of inspiration, (Joe Lane)
+% Show default morse visually.
+% Discuss the fact that REPL hooks are specific
+% Simplify the end things.
 \begin{frame}{Sending Data to Morse}
   \begin{itemize}
+    %Babel provides overly-specific hooks to provide error messages.
     \item<1-> The Clojure REPL does not provide the proper hooks to effectively manipulate error message data.
     \item<2-> To get around this, we need to initialize Babel within a sub-REPL of the parent REPL session.
     \item<3-> Creating a sub-REPL allows us to introduce hooks that let us add preprocessing steps.
