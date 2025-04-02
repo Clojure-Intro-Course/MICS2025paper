@@ -132,24 +132,24 @@ Example: \texttt{(/ 9 3)} denotes 9 divided by 3
     \frametitle{Motivation and Goals}
     Motivation
     \begin{itemize}
-        \item Want to design a learning tool for beginners to Clojure and programming as a whole
-        \item Clojure error messages contain awkward phrasing that may impede understanding
+        \item Functional programming languages are taught to undergraduate students commonly as first languages
+        \item Clojure is good due to its popularity and widespread industry use, but handling of errors is problematic
+        \item Error messages are awkward and unintuitive, may impede learning
     \end{itemize}
+    Goals
+    \begin{itemize}
+        \item Build an interactive, beginner-friendly tool for understanding error processing in Clojure
+        \item Simplify error messages to be more intuitive, removing jargon and clutter
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Motivation and Goals}
     \textbf{Example} \\
     Consider the error produced by the form below. What does it mean? \\
     \texttt{=> (count 1)} \\
     \texttt{Execution error (UnsupportedOperationException) at user/eval1529 (REPL:1).} \\
     \texttt{count not supported on this type: Long} \\
-\end{frame}
-
-\begin{frame}
-    \frametitle{Motivation and Goals}
-    Goals
-    \begin{itemize}
-        \item Build an interactive, beginner-friendly tool for error processing in Clojure
-        \item Simplify error messages to be more intuitive, removing jargon and clutter \\
-        \jscomment{More stuff here? Or delete entirely?}
-    \end{itemize}
 \end{frame}
 
 \subsection{Setup}
