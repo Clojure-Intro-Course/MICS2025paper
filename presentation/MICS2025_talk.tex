@@ -1,5 +1,6 @@
 \documentclass{beamer}
-\usepackage{beamerthemeshadow}
+%\usepackage{beamerthemeshadow}
+\usetheme{Madrid}
 \usepackage{color}
 \usepackage[all]{xy}
 
@@ -201,6 +202,21 @@ Incomplete. This slide will describe how Babel manipulates the messages it recei
 \end{frame}
 
 \section{Morse Viewers}
+
+\begin{frame}{Morse}
+  \begin{itemize}
+    \item<1-> Since we have a system for error messages in the REPL, we want to extend to interactive, visual environments.
+    \item<2-> We discussed this with Joe Lane, a developer at Nubank, who suggested the Morse tool as an option.
+    \item<3-> Morse is a third party data visualization and navigation tool.
+    \item<4-> Morse works by having a customizable sets of viewers for different data structures, like text, maps, or HTML content.
+    \item<5-> We achieve the formatting for error messages through creating these viewers, using our labelled error message data.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
 %Include a discussion of inspiration, (Joe Lane)
 % Show default morse visually.
 % Discuss the fact that REPL hooks are specific
