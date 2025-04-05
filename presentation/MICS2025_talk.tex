@@ -326,25 +326,26 @@ What is Clojure? %- Clojure language and Syntax
 \end{frame}
 
 \section{Current State of the Project and Future Work}
-\begin{frame}{Current State of the Project}
+\subsection{Current Work}
+\begin{frame}{Current Work}
+  Work in Progress
   \begin{itemize}
-    \item<1-> We have existing error messages without labels for many common errors of core functions.
-    \item<2-> We can connect Morse to a REPL session, and have mirroring form evaluation.
-    \item<3-> Most of the work this year was spent structuring things for integration with Morse viewers.
-    \item<4-> The introduction of the error labeling and prototyping this was pivotal in enabling data formatting.
-    \item<5-> We currently have a small number of error messages labeled for demonstration purposes.
+    \item This year's work has involved exploring interactions between Babel and Morse
+    \item Babel outputs only strings to REPL, Morse needs labeled data to apply viewers
+    \item We are focusing on information flow between REPL and Morse
+    \item We are also prototyping models for Morse viewers
   \end{itemize}
 \end{frame}
 
 \subsection{Future Work}
 \begin{frame}{Future Work}
+  We want to:
   \begin{itemize}
-    \item<1-> Expand data labeling to all Babel error messages, expanding our ability to use Morse viewers.
-    \item<2-> Add hover text to viewers for specific terms to add definitions and supplementary information to the presented error message.
-    \item<3-> Develop Morse viewers for other information, such as the stack trace, and full java error messages.
-    \item<4-> We plan to run a usability study about our developments after we have greater feature coverage.
-    \item<5-> We are going to use the results to guide further design.
-    \item<6-> We hope to explore IDE (VSCode) integration for possible work-flow refinements.
+    \item finalize data labeling and corresponding viewers
+    \item explore interactive capabilities of Morse, e.g. hover text to clarify terms, hyperlinks to documentation
+    \item develop Morse viewers for other information, such as the stack trace, and full Java error messages
+    \item conduct usability studies with our developments
+    \item explore IDE (VS Code) integration for workflow refinements
     %Overview of the VSCode extension development world.
     %https://code.visualstudio.com/api
     %Webview display, allows us to reuse existing viewer code.
