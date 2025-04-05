@@ -281,11 +281,11 @@ What is Clojure? %- Clojure language and Syntax
 
 \begin{frame}{Integrating with Morse}
   \begin{itemize}
-    \item<1-> Babel is specialized to integrate within a REPL, so it doesn't expose the right hooks for integrating with external tools.
-    \item<2-> In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
-    \item<3-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
-    \item<4-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
-    \item<5-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\leftarrow$:wantString processing to instead create a vector of labelled pairs.  
+%    \item<1-> Babel is specialized to integrate within a REPL, so it doesn't expose the right hooks for integrating with external tools.
+    \item<1-> In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
+    \item<2-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
+    \item<3-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
+    \item<4-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\leftarrow$:wantString processing to instead create a vector of labelled pairs.  
   \end{itemize}
 \end{frame}
 
