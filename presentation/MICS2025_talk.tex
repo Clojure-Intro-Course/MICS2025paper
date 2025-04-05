@@ -98,7 +98,7 @@ What is Clojure? %- Clojure language and Syntax
     \item Interactive environment for code evaluation
     \item Read \(\rightarrow\) Evaluate \(\rightarrow\) Print \(\rightarrow\) Loop (REPL)
   \end{itemize}
-  \includegraphics{../resources/cljScreenshot.JPG}  
+  \includegraphics{../resources/cljScreenshot.JPG}
 \end{frame}
 
 \subsection{Clojure Error Messages}
@@ -272,8 +272,8 @@ What is Clojure? %- Clojure language and Syntax
 \begin{frame}{Morse Lists}
   \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{../resources/MorseSuccessfulForm.png}
-    \caption{Morse viewer for vector data. Shows the result of the form \texttt{(map inc [1 2 3])}.}
+    \includegraphics[width=0.7\textwidth]{../resources/MorseSuccessfulForm.png}
+    \caption{Morse viewer for vector data for the form \texttt{(map inc [1 2 3]).}}
     \label{fig:MorseVec}
   \end{figure}
 \end{frame}
@@ -285,7 +285,7 @@ What is Clojure? %- Clojure language and Syntax
     \item<1-> In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
     \item<2-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
     \item<3-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
-    \item<4-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\leftarrow$:wantString processing to instead create a vector of labelled pairs.  
+    \item<4-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\rightarrow$String processing to instead create a vector of labelled pairs.  
   \end{itemize}
 \end{frame}
 
@@ -301,7 +301,7 @@ What is Clojure? %- Clojure language and Syntax
 \begin{frame}
   \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{../resources/CljDefaultEven.png}
+    \includegraphics[width=0.8\textwidth]{../resources/CljDefaultEven.png}
     \caption{The output for the form \texttt{(even?~1~2)} in default Clojure. }
     \label{fig:defaultclj}
   \end{figure}
@@ -319,7 +319,7 @@ What is Clojure? %- Clojure language and Syntax
 \begin{frame}
   \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{../resources/BabelViewerExample.png}
+    \includegraphics[width=0.8\textwidth]{../resources/BabelViewerExample.png}
     \caption{The output for the form \texttt{(even? 1 2)} in Babel with Morse.}
     \label{fig:defaultclj}
   \end{figure}
@@ -361,11 +361,11 @@ This work was supported in part by Morris Academic Partnership (MAP) and UMN Und
 \vspace*{0.2in}
 
 We thank Joe Lane for introducing us to Morse tools and for numerous helpful discussions.
-\end{frame}
 
-\begin{frame}
-  \frametitle{Discussion}
-Questions?
+\begin{centering}
+  Questions?
+\end{centering}
+
 \end{frame}
 
 \end{document}
