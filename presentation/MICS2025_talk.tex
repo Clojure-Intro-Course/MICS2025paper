@@ -133,17 +133,31 @@ What is Clojure? %- Clojure language and Syntax
 \subsection{Motivation and Goals}
 
 \begin{frame}
-    \frametitle{Motivation and Goals}
-    Motivation
+    \frametitle{Motivation}
     \begin{itemize}
-        \item Functional programming languages are taught to undergraduate students commonly as first languages
-        \item Clojure is good due to its popularity and widespread industry use, but handling of errors is problematic
-        \item Error messages are awkward and unintuitive, may impede learning
+	\item UMN Morris has been teaching functional languages first (Scheme, Racket) to students for over 30 years
+         \item Historically done at other major institutions, including MIT
+         \item This practice has many pedagogical benefits 
+         \item Clojure is good to learn due to its popularity and widespread industry use, but has flaws in its presentation of error messages
     \end{itemize}
-    Goals
+\end{frame}
+
+\begin{frame}
+    \frametitle{Goals of Babel}
     \begin{itemize}
-        \item Build an interactive, beginner-friendly tool for understanding error processing in Clojure
-        \item Simplify error messages to be more intuitive, removing jargon and clutter
+        \item Designed to be an interactive, beginner-friendly tool for understanding error data in Clojure
+        \item Simplifies error messages to be more intuitive, removing jargon and clutter
+        \item Utilizes tools to make Clojure errors more descriptive and detailed for formatting messages
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Current State of Babel}
+    \begin{itemize}
+        \item Our group began working after error replacement was largely achieved
+        \item Present goals include exploring more interactive, IDE-like tools that integrate with Babel
+        \item Need the capacity to support testing and usability
+        \item Lots of refactoring work is being done to support this, as well as refining Babel itself
     \end{itemize}
 \end{frame}
 
@@ -151,48 +165,51 @@ What is Clojure? %- Clojure language and Syntax
     \frametitle{Motivation and Goals}
     \textbf{Example} \\
     Consider the error produced by the form below. What does it mean? \\
+
+\vspace*{0.1in}
+
     \texttt{=> (count 1)} \\
     \texttt{Execution error (UnsupportedOperationException) at user/eval1529 (REPL:1).} \\
     \texttt{count not supported on this type: Long} \\
 \end{frame}
 
-\subsection{Setup}
 \begin{frame}
-    \frametitle{Setup}
-    Overview of Babel
-    \begin{itemize}
-        \item Replaces native Clojure error messages
-        \item Messages produced by Babel broadly fall into two types:
-    \end{itemize}
-    \textbf{Spec errors}
-    \begin{itemize}
-        \item Babel makes use of the Clojure \textit{spec} library to catch errors on most core function calls
-        \item This allows specifications on existing Clojure functions (see next slide)
-    \end{itemize}
-    \textbf{Non-spec errors}
-    \begin{itemize}
-        \item Regex is used to identify simpler, more common messages, e.g. division by zero
-        \item We maintain a dictionary of these errors
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Setup}
-    About \textit{spec}
+    \frametitle{On Clojure \textit{spec}}
+    Babel is based on an existing Clojure library called \textit{spec}:
     \begin{itemize}
 %        \item Tooling to define requirements on properties of a sequence or collection
 %        \item Function arguments come in a sequence
-	\item \textit{spec} is a library to specify conditions on arguments of functions
+        \item Allows specifying requirements on arguments of functions
         \item Requirements are predicates: can check argument types, count, values, etc.
         \item We bind specs to core Clojure functions
-	\item If requirements aren't met then a \textit{spec} error happens
+        \item If requirements aren't met then a \textit{spec} error happens
         \item Error reports from spec are more detailed than native Clojure error messages
     \end{itemize}
 \end{frame}
 
+\subsection{Overview and Usage}
 \begin{frame}
-    \frametitle{Setup}
-    Usage
+    \frametitle{Overview}
+   Babel tool:
+    \begin{itemize}
+        \item Replaces native Clojure error messages
+        \item Messages produced by Babel broadly fall into two types:
+    \end{itemize}
+	Spec errors:
+    \begin{itemize}
+        \item Babel uses \textit{spec} to specify conditions on Clojure functions
+        \item \textit{spec} provides information to make error messages more precise
+    \end{itemize}
+   Non-spec errors:
+    \begin{itemize}
+        \item When \textit{spec} cannot be provided, e.g. syntax errors, regex is used to identify error messages
+        \item We use a dictionary to rephrase these errors
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Usage}
     \begin{itemize}
         \item Launching a REPL server in the Babel repository allows the tool to ``hook'' to it
 	\item Babel can report errors on a loaded Clojure file
@@ -232,11 +249,13 @@ What is Clojure? %- Clojure language and Syntax
 
 \begin{frame}{Morse}
   \begin{itemize}
-    \item<1-> Since we have a system for error messages in the REPL, we want to extend to interactive, visual environments
-    \item<2-> We discussed this with Joe Lane, a developer at Nubank, who suggested the Morse tool as an option
+    \item<1-> We would like to expand error message handling from REPL strings to interactive visual environments
+%Since we have a system for error messages in the REPL, we want to extend to interactive, visual environments
+    \item<2-> Joe Lane (Nubank) suggested a new tool called \textit{Morse} 
     \item<3-> Morse is a third party data visualization and navigation tool
-    \item<4-> Morse works by having a customizable sets of viewers for different data structures, like text, maps, or HTML content
-    \item<5-> We achieve the formatting for error messages through creating these viewers, using our labelled error message data
+    \item<4-> Morse provides a customizable set of viewers for different data structures, like text, maps, or HTML content
+    \item<5-> We are developing a custom set of viewers for error messages
+    \item<6-> We need to label different parts of error message for different viewers
   \end{itemize}
 \end{frame}
 
@@ -283,7 +302,7 @@ What is Clojure? %- Clojure language and Syntax
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../resources/CljDefaultEven.png}
-    \caption{The output for the form \texttt{(even? 1 2)} in default Clojure.}
+    \caption{The output for the form \texttt{(even?~1~2)} in default Clojure. }
     \label{fig:defaultclj}
   \end{figure}
 \end{frame}
@@ -291,8 +310,8 @@ What is Clojure? %- Clojure language and Syntax
 \begin{frame}
   \begin{figure}
     \centering
-    \includegraphics[width=\textwidth, height=0.25\textheight]{../resources/BabelREPL.png}
-    \caption{The output for the form \texttt{(even? 1 2)} in Babel through the REPL.}
+    \includegraphics[width=\textwidth, height=0.25\textheight]{../resources/BabelREPL.jpg}
+    \caption{The output for the form \texttt{(even?~1~2)} in Babel through the REPL. }
     \label{fig:BabelREPL}
   \end{figure}
 \end{frame}
