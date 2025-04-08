@@ -249,13 +249,13 @@ What is Clojure? %- Clojure language and Syntax
 
 \begin{frame}{Morse}
   \begin{itemize}
-    \item<1-> We would like to expand error message handling from REPL strings to interactive visual environments
+    \item We would like to expand error message handling from REPL strings to interactive visual environments
 %Since we have a system for error messages in the REPL, we want to extend to interactive, visual environments
-    \item<2-> Joe Lane (Nubank) suggested a new tool called \textit{Morse} 
-    \item<3-> Morse is a third party data visualization and navigation tool
-    \item<4-> Morse provides a customizable set of viewers for different data structures, like text, maps, or HTML content
-    \item<5-> We are developing a custom set of viewers for error messages
-    \item<6-> We need to label different parts of error message for different viewers
+    \item Joe Lane (Nubank) suggested a new tool called \textit{Morse} 
+    \item Morse is a third party data visualization and navigation tool
+    \item Morse provides a customizable set of viewers for different data structures, like text, maps, or HTML content
+    \item We are developing a custom set of viewers for error messages
+    \item We need to label different parts of error message for different viewers
   \end{itemize}
 \end{frame}
 
@@ -282,18 +282,18 @@ What is Clojure? %- Clojure language and Syntax
 \begin{frame}{Integrating with Morse}
   \begin{itemize}
 %    \item<1-> Babel is specialized to integrate within a REPL, so it doesn't expose the right hooks for integrating with external tools.
-    \item<1-> In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
-    \item<2-> \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
-    \item<3-> \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
-    \item<4-> \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\rightarrow$String processing to instead create a vector of labelled pairs.  
+    \item In order to connect to a Morse session, we introduce a new session layer that exposes communication hooks for other tools.
+    \item \texttt{:init} Behavior on startup, launches a new Morse session connected to the current REPL.
+    \item \texttt{:eval} Behavior on form evaluation. Stores the command and sends it to REPL and Morse.
+    \item \texttt{:caught} Behavior on caught exception. Processes the error in Babel, and changes the Exception$\rightarrow$String processing to instead create a vector of labelled pairs.  
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Our Morse Viewer}
   \begin{itemize}
-  \item<1-> We used the existing WebView structure within Morse to render error messages.
-  \item<2-> We use HTML to add color coding for important terms, and mono-space fonts to highlight code chunks within the message.
-  \item<3-> The exact design of the final viewers are still a work in progress.
+  \item We used the existing WebView structure within Morse to render error messages.
+  \item We use HTML to add color coding for important terms, and mono-space fonts to highlight code chunks within the message.
+  \item The exact design of the final viewers are still a work in progress.
   \end{itemize}
 \end{frame}
 

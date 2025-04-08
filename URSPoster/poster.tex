@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[25pt, a0paper, landscape,  margin=0mm, innermargin=10mm, blockverticalspace=3mm, colspace=3mm, subcolspace=3mm]{tikzposter}
+\usepackage{graphicx}
+\usepackage{authblk}
+\title{Providing Beginners with Interactive Exploration of Error Messages in Clojure}
+\author[1]{John Walbran}
+\author[1]{Elena Machkasova}
+\date{\today}
+\affil[1]{Divison of Science and Mathematics, University of Minnesota, Morris}
+\usetheme{Envelope}
+
+\begin{document}
+
+\makeatletter
+\def\maketitle{\AB@maketitle}
+\makeatother
+
+\maketitle
+
+\block{Abstract}{
+Programmers are imperfect, and will often make mistakes when programming and create a program error, for example, attempting to divide by zero. When a computer tries to run a program with an error, the program will halt and present the details of the error to the user in the form of an error message. These error messages are often very jargon-heavy, and are not designed to be palatable to a novice programmer. This creates significant friction for new programmers trying to learn programming languages. This work is a part of an ongoing project (called Babel) led by Elena Machkasova in an attempt to ease this friction in the Clojure programming language. Currently, Babel software is able to replace standard error messages with ones that are more helpful for a beginner audience. My contribution to this project is an exploration of potential tools to effectively display information about errors in an interactive and intuitive manner. The most promising of these tools up to this point has been Morse, created by the company Cognitect, owned by Nubank. As this project continues to explore the possibilities of Morse and how it can integrate with the existing Babel system, we are putting together potential setups that novice programmers can use to effectively understand and explore the causes of the errors they come across. This project presents the setups that have been developed and discuss their benefits and tradeoffs in helping novice programmers understand error messages.
+
+}
+\begin{columns}
+\column{0.34}
+        \block{Why are we working on this?}{
+    \begin{itemize}
+        \item Existing error messages in Clojure are designed for experienced developers.
+        \item Error messages contain details that are often extraneous to beginners, leading to a feeling of being overwhelmed.
+        \item Beginners often struggle to grasp the terminology behind the default errors, causing friction.
+        \item Despite its lackluster error messages, Clojure has many aspects in its design that are useful for beginners [1].
+    \end{itemize}
+}
+
+\block{Where we came from.}{
+    \begin{itemize}
+        \item We wanted to build upon existing tools that would likely be maintained in the future.
+        \item Maintaining a tool like Babel from completely ourselves is unfeasible for a small research group, so we instead wanted to modify existing tools. 
+        \item Previous work on this project created a tool, Babel that would provide error message replacement as a text response to running the program. 
+        \item While the Babel messages were an improvement, beginners need different information at different points in their learning, so a static message can't cater to beginners at every point in their learning.
+    \end{itemize}
+}
+
+\block{What we did.}{
+    \begin{itemize}
+        \item Most of the work this year was searching for established tools that would accomplish what we need.
+        \item We had previously explored tools that were not being maintained, creating dead ends.
+        \item After consulting with developers currently in the industry, we were pointed towards Morse. 
+        \item Morse is a data visualization tool designed for professional development and debugging, which provides a strong skeleton for extending Babel [2].
+        \item We successfully integrated Morse with Babel, not only allowing us to display the error message from Babel, but also have the details about the error displayed in an interactive way.
+        \item We were able to also include embedded links to external information regarding the error, such as the official documentation.
+    \end{itemize}
+    }
+
+\column{0.36}
+        \block{Examples}{
+
+    }
+
+
+\column{0.3}
+\block{Where we're going.}{
+    \begin{itemize}
+        \item We would like to refine the internal workings of the tool.
+        \item We would like to continue to explore other ways to visualize and organize information about errors, such as adding selective highlighting or similar. 
+        \item We would like to continue to explore resources to include in the environment. 
+        \item Once we have a more robust set of visualization options, we would like to proceed to refine the interface for beginner developers.
+        \item We hope to start looking at the research question 
+            \emph{“How can errors be presented so that novice programmers can correct errors most effectively?”}.
+    \end{itemize}
+}
+
+\block{Acknowledgements}{
+    We would like to thank Morris Academic Partnership (MAP) for sponsoring this work. We would also like to thank Joe Lane, an employee of Nubank, for being a consultant and advisor as we have been exploring this project and tools. 
+}
+
+\block{Sources}{
+    \begin{itemize}
+        \item [1] \emph{clojure.org}
+        \item [2] Morse, Nubank \emph{https://github.com/nubank/morse}
+    \end{itemize}
+}
+
+\block{}{
+\begin{tikzfigure}
+    \includegraphics[width=\linewidth]{figures/UMM logo.png}
+\end{tikzfigure}
+}
+\end{columns}
+
+
+\end{document}
