@@ -70,11 +70,14 @@ that encourages these principles and is a great tool for introducing students to
 \tkcomment{Tristan's section}
     \begin{itemize}
 	\item \emcomment{Examples and issues}
-    \item Existing error messages in Clojure are designed for experienced developers.
-    \item Error messages contain details that are often extraneous to beginners, leading to a feeling of being overwhelmed.
-    \item Beginners often struggle to grasp the terminology behind the default errors, causing friction.
-    \item Despite its lackluster error messages, Clojure has many aspects in its design that are useful for beginners [1].
+    \item Errors in Clojure are Java exceptions, as Clojure code is compiled into Java code. This means that syntax errors in Clojure will also result in an exception.
+    \item Error messages generate when an exception occurs and provide error type, cause, and location.
+    \item Error messages are designed for more experienced developers and may have certain terminology that does not make sense to beginner programmers.
+    \item An example of an error message when giving two numbers to the \texttt{even?} function which takes one number as input but is given two:
     \end{itemize}
+    \texttt{user=> (even? 2 3)} \\
+    \texttt{Execution error (ArityException) at user/eval1 (REPL:1).} \\
+    \texttt{Wrong number of args (2) passed to: clojure.core/even?}
 }
 
 \block{Overview of Babel.}{
