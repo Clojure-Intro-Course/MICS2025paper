@@ -36,8 +36,9 @@
 \author[1]{Tristan Kaldova}
 \author[1]{Elena Machkasova}
 \date{\today}
-\affil[1]{Divison of Science and Mathematics, University of Minnesota, Morris}
+\affil[1]{Division of Science and Mathematics, University of Minnesota, Morris}
 \usetheme{Envelope}
+\usecolorstyle{Australia}
 
 \begin{document}
 
@@ -74,11 +75,14 @@ that encourages these principles and is a great tool for introducing students to
 \tkcomment{Tristan's section}
     \begin{itemize}
 	\item \emcomment{Examples and issues}
-    \item Existing error messages in Clojure are designed for experienced developers.
-    \item Error messages contain details that are often extraneous to beginners, leading to a feeling of being overwhelmed.
-    \item Beginners often struggle to grasp the terminology behind the default errors, causing friction.
-    \item Despite its lackluster error messages, Clojure has many aspects in its design that are useful for beginners [1].
+    \item Errors in Clojure are Java exceptions, as Clojure code is compiled into Java code. This means that syntax errors in Clojure will also result in an exception.
+    \item Error messages generate when an exception occurs and provide error type, cause, and location.
+    \item Error messages are designed for more experienced developers and may have certain terminology that does not make sense to beginner programmers.
+    \item Example of an error message produced when the \texttt{even?} function, which expects a single input, is given two instead:
     \end{itemize}
+    \texttt{user=> (even? 2 3)} \\
+    \texttt{Execution error (ArityException) at user/eval1 (REPL:1).} \\
+    \texttt{Wrong number of args (2) passed to: clojure.core/even?}
 }
 
 \block{Overview of Babel.}{
@@ -149,7 +153,7 @@ that encourages these principles and is a great tool for introducing students to
 \jscomment{Jaydon's section.}
 }
 
-\block{Acknowledgements}{
+\block{Acknowledgments}{
     We thank Morris Academic Partnership (MAP) and the Undergratuate Research Opprotunity (UROP) for sponsoring this work. \\
 We thank Joe Lane (Nubank) for guidance on exploring this project and tools. 
 }
