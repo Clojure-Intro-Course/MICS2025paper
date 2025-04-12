@@ -103,10 +103,19 @@ that encourages these principles and is a great tool for introducing students to
     }
 
 \column{0.36}
-        \block{Examples}{
+    \block{Examples}{
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
-    }
+
+    Default Clojure:
+    \texttt{user=>(even? "two")} \\
+    \texttt{Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).}\\
+    \texttt{Argument must be an integer: two}
+
+    \texttt{user=>(even? 2 3)}
+    \texttt{Execution error (ArityException) at user/eval2046 (REPL:1).}
+    \texttt{Wrong number of args (2) passed to: clojure.core/even?}
+}
 
 
 \column{0.3}
@@ -131,8 +140,10 @@ We thank Joe Lane (Nubank) for guidance on exploring this project and tools.
 
 \block{Sources}{
     \begin{itemize}
-        \item [1] \emph{clojure.org}
-        \item [2] Morse, Nubank \emph{https://github.com/nubank/morse}
+        \item {[1]} \emph{clojure.org}
+        \item {[2]} Morse, Nubank \emph{https://github.com/nubank/morse}
+	\item {[3]} Tao Dong, Kandarp Khandwala,  \textit{The Impact of ``Cosmetic'' Changes on the Usability of Error Messages}, 2019 CHI Conference on Human Factors in Computing Systems.
+	\item {[4]} Matthias Felleisen, Robert Bruce Findler, Matthew Flatt, and Shriram Krishnamurthi \textit{The Structure and Interpretation of the Computer Science Curriculum},  Journal of Functional Programming, 2004.
     \end{itemize}
 }
 
