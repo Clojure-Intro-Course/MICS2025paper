@@ -8,6 +8,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[25pt, a0paper, landscape,  margin=0mm, innermargin=10mm, blockverticalspace=3mm, colspace=3mm, subcolspace=3mm]{tikzposter}
 \usepackage{graphicx}
+\usepackage{listings}
 \usepackage{authblk}
 \usepackage{color}
 \usepackage[all]{xy}
@@ -101,7 +102,16 @@ Programmers are imperfect, and will often make mistakes when programming and cre
         \block{Examples}{
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
-    }
+    
+    Clojure Default Error
+    \begin{lstlisting}
+        user=> (even? "two")
+            Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).
+            Argument must be an integer: two
+    \end{lstlisting}
+
+
+}
 
 
 \column{0.3}
