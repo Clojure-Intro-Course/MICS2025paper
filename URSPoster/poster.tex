@@ -8,7 +8,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[25pt, a0paper, landscape,  margin=0mm, innermargin=10mm, blockverticalspace=3mm, colspace=3mm, subcolspace=3mm]{tikzposter}
 \usepackage{graphicx}
-\usepackage{listings}
 \usepackage{authblk}
 \usepackage{color}
 \usepackage[all]{xy}
@@ -101,18 +100,18 @@ that encourages these principles and is a great tool for introducing students to
     }
 
 \column{0.36}
-        \block{Examples}{
+    \block{Examples}{
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
-    
-    Clojure Default Error
-    \begin{lstlisting}
-        user=> (even? "two")
-            Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).
-            Argument must be an integer: two
-    \end{lstlisting}
 
+    Default Clojure:
+    \texttt{user=>(even? "two")} \\
+    \texttt{Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).}\\
+    \texttt{Argument must be an integer: two}
 
+    \texttt{user=>(even? 2 3)}
+    \texttt{Execution error (ArityException) at user/eval2046 (REPL:1).}
+    \texttt{Wrong number of args (2) passed to: clojure.core/even?}
 }
 
 
