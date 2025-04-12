@@ -112,29 +112,29 @@ that encourages these principles and is a great tool for introducing students to
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
 
-    Default Clojure:
+    Default Clojure: \\
     \texttt{user=>(even? "two")} \\
     \texttt{Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).}\\
     \texttt{Argument must be an integer: two}
 
+
     \texttt{user=>(even? 2 3)} \\
     \texttt{Execution error (ArityException) at user/eval2046 (REPL:1).} \\ 
-    \texttt{Wrong number of args (2) passed to: clojure.core/even?}
+     \texttt{Wrong number of args (2) passed to: clojure.core/even?} \\
 
-
-    Babel (wthin REPL):
+    Babel (in REPL): \\
     \texttt{user=>(even? "two")}\\
     \texttt{The first argument of (even? "two") was expected to be a number but is a string "two" instead.}\\
     \texttt{In Clojure interactive session on line 1.}
 
+
     \texttt{user=>(even? 2 3)} \\
     \texttt{Wrong number of arguments in (even? 2 3): the function even? expects one argument but was given two arguments.}\\
-    \texttt{In Clojure interactive session on line 1.}
+    \texttt{In Clojure interactive session on line 1.} \\
 
     Babel (with Morse): \\
     \includegraphics[width=0.49\linewidth]{figures/ErrorViewer1Small.png}
     \includegraphics[width=0.49\linewidth]{figures/ErrorViewer2Small.png}
-
 }
 
 
