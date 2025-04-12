@@ -12,6 +12,8 @@
 \usepackage{color}
 \usepackage[all]{xy}
 
+\usetheme{board}
+
 %% Elena's favorite green (thanks, Fernando!)
 \definecolor{ForestGreen}{RGB}{34,139,34}
 \definecolor{BlueViolet}{RGB}{138,43,226}
@@ -28,8 +30,10 @@
 \newcommand{\jscomment}[1]{\textcolor{olive}{\comment{Jaydon: {#1}}}}
 \newcommand{\jwcomment}[1]{\textcolor{violet}{\comment{John: {#1}}}}
 
-\title{Providing Beginners with Interactive Exploration of Error Messages in Clojure}
+\title{A beginner-friendly environment for exploring error messages in the Clojure programming language.}
 \author[1]{John Walbran}
+\author[1]{Jaydon Stanislowski}
+\author[1]{Tristan Kaldova}
 \author[1]{Elena Machkasova}
 \date{\today}
 \affil[1]{Division of Science and Mathematics, University of Minnesota, Morris}
@@ -50,7 +54,7 @@ Programmers are imperfect, and will often make mistakes when programming and cre
 
 }
 \begin{columns}
-\column{0.34}
+\column{0.25}
         \block{Overview of Functional Programming and Clojure}{
 %\tkcomment{Tristan's section}
     \begin{itemize}
@@ -103,7 +107,7 @@ that encourages these principles and is a great tool for introducing students to
     \end{itemize}
     }
 
-\column{0.36}
+\column{0.5}
     \block{Examples}{
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
@@ -113,13 +117,28 @@ that encourages these principles and is a great tool for introducing students to
     \texttt{Execution error (IllegalArgumentException) at user/eval2044 (REPL:1).}\\
     \texttt{Argument must be an integer: two}
 
-    \texttt{user=>(even? 2 3)}
-    \texttt{Execution error (ArityException) at user/eval2046 (REPL:1).}
+    \texttt{user=>(even? 2 3)} \\
+    \texttt{Execution error (ArityException) at user/eval2046 (REPL:1).} \\ 
     \texttt{Wrong number of args (2) passed to: clojure.core/even?}
+
+
+    Babel (wthin REPL):
+    \texttt{user=>(even? "two")}\\
+    \texttt{The first argument of (even? "two") was expected to be a number but is a string "two" instead.}\\
+    \texttt{In Clojure interactive session on line 1.}
+
+    \texttt{user=>(even? 2 3)} \\
+    \texttt{Wrong number of arguments in (even? 2 3): the function even? expects one argument but was given two arguments.}\\
+    \texttt{In Clojure interactive session on line 1.}
+
+    Babel (with Morse): \\
+    \includegraphics[width=0.49\linewidth]{figures/ErrorViewer1Small.png}
+    \includegraphics[width=0.49\linewidth]{figures/ErrorViewer2Small.png}
+
 }
 
 
-\column{0.3}
+\column{0.25}
 \block{Progress This Year.}{
 %\jwcomment{John's section.}
     \begin{itemize}
@@ -147,7 +166,6 @@ We thank Joe Lane (Nubank) for guidance on exploring this project and tools.
 	\item {[4]} Matthias Felleisen, Robert Bruce Findler, Matthew Flatt, and Shriram Krishnamurthi \textit{The Structure and Interpretation of the Computer Science Curriculum},  Journal of Functional Programming, 2004.
     \end{itemize}
 }
-
 \block{}{
 \begin{tikzfigure}
     \includegraphics[width=\linewidth]{figures/UMM logo.png}
