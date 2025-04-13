@@ -6,7 +6,7 @@
 % time. See www.overleaf.com/learn for more info. Enjoy!
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[25pt, a0paper, landscape,  margin=0mm, innermargin=10mm, blockverticalspace=3mm, colspace=3mm, subcolspace=3mm]{tikzposter}
+\documentclass[17pt, a0paper, landscape,  margin=0mm, innermargin=10mm, blockverticalspace=3mm, colspace=3mm, subcolspace=3mm]{tikzposter}
 \usepackage{graphicx}
 \usepackage{authblk}
 \usepackage{color}
@@ -48,13 +48,13 @@
 
 \maketitle
 
-\block{Abstract}{
+\block{Overview}{
 Programmers are imperfect, and will often make mistakes when programming and create a program error, for example, attempting to divide by zero. When a computer tries to run a program with an error, the program will halt and present the details of the error to the user in the form of an error message. These error messages are often very jargon-heavy, and are not designed to be palatable to a novice programmer. This creates significant friction for new programmers trying to learn programming languages. This work is a part of an ongoing project (called Babel) led by Elena Machkasova in an attempt to ease this friction in the Clojure programming language. Currently, Babel software is able to replace standard error messages with ones that are more helpful for a beginner audience. My contribution to this project is an exploration of potential tools to effectively display information about errors in an interactive and intuitive manner. The most promising of these tools up to this point has been Morse, created by the company Cognitect, owned by Nubank. As this project continues to explore the possibilities of Morse and how it can integrate with the existing Babel system, we are putting together potential setups that novice programmers can use to effectively understand and explore the causes of the errors they come across. This project presents the setups that have been developed and discuss their benefits and tradeoffs in helping novice programmers understand error messages.
 \emcomment{Needs to be shortened and changed to match this year's work}
 
 }
 \begin{columns}
-\column{0.25}
+\column{0.3}
         \block{Overview of Functional Programming and Clojure}{
 %\tkcomment{Tristan's section}
     \begin{itemize}
@@ -108,7 +108,7 @@ that encourages these principles and is a great tool for introducing students to
     \end{itemize}
     }
 
-\column{0.5}
+\column{0.4}
     \block{Examples}{
 \jwcomment{John's section.}
 \emcomment{(even? "two"), (even? 2 3)}
@@ -134,12 +134,12 @@ that encourages these principles and is a great tool for introducing students to
     \texttt{In Clojure interactive session on line 1.} \\
 
     Babel (with Morse): \\
-    \includegraphics[width=0.49\linewidth]{figures/ErrorViewer1Small.png}
-    \includegraphics[width=0.49\linewidth]{figures/ErrorViewer2Small.png}
+    \includegraphics[width=\linewidth]{figures/ErrorViewer1Cropped.png}
+    \includegraphics[width=\linewidth]{figures/ErrorViewer2Cropped.png}
 }
 
 
-\column{0.25}
+\column{0.3}
 \block{Progress This Year.}{
 %\jwcomment{John's section.}
     \begin{itemize}
