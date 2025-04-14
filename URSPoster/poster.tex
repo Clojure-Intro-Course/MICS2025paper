@@ -49,7 +49,7 @@
 \maketitle
 
 \block{Overview}{
-The Clojure programming language has educational potential for beginner programmers due to its clean, simple syntax and its strong focus on functional programming, an important aspect of CSci education. However, one weakness of Clojure lies in its error messages, which are messages that programmers receive when a program goes wrong. These messages were designed for experienced programmers, and as a result, they are difficult to understand, especially for beginners. The terminology and shorthands used to convey necessary information for understanding the error is often confusing to novices. In Clojure, the issue is exacerbated by the fact that the error messages are phrased in terms of the underlying programming language–Java– which beginner programmers may typically be unfamiliar with. Previously, our project has developed a tool, called Babel, that replaces the language's default error messages with less jargon-heavy forms. This year, we started utilizing a graphical interface for viewing Clojure data to highlight the important details and terminology in our own error messages via context-based formatting choices, designed to make it possible for users to easily explore related resources, understand terminology, and look at examples of correct code to clarify areas of confusion. We present our current design of displaying error messages and discuss its potential benefits for new learners. 
+The Clojure programming language has educational potential for beginner programmers due to its clean, simple syntax and its strong focus on functional programming, an important aspect of CSci education. However, one weakness of Clojure lies in its error messages, which are messages that programmers receive when a program goes wrong. These messages were designed for experienced programmers, and as a result, they are difficult to understand, especially for beginners. The terminology and shorthands used to convey necessary information for understanding the error is often confusing to novices. In Clojure, the issue is exacerbated by the fact that the error messages are phrased in terms of the underlying programming language – Java – which beginner programmers may typically be unfamiliar with. Previously, our project has developed a tool, called Babel, that replaces the language's default error messages with less jargon-heavy forms. This year, we started utilizing a graphical interface for viewing Clojure data to highlight the important details and terminology in our own error messages via context-based formatting choices, designed to make it possible for users to easily explore related resources, understand terminology, and look at examples of correct code to clarify areas of confusion. We present our current design of displaying error messages and discuss its potential benefits for new learners. 
 %\emcomment{Needs to be shortened and changed to match this year's work}
 }
 \begin{columns}
@@ -65,7 +65,7 @@ The Clojure programming language has educational potential for beginner programm
     \item Clojure is a functional 
 %Lisp-based language 
 that encourages these principles and is a great tool for introducing students to functional programming.
-    \item It has a simple, minimal syntax with prefix notation in statements and statements are surrounded by parenthesis.
+    \item It has a simple, minimal syntax with prefix notation in statements and statements are surrounded by parentheses.
     \item It uses an interactive Read-Eval-Print-Loop (REPL) environment: the user types some code, the system evaluates it and prints the answer.
     \end{itemize}
 }
@@ -73,10 +73,10 @@ that encourages these principles and is a great tool for introducing students to
  \block{Clojure Error Messages}{
 %\tkcomment{Tristan's section}
     \begin{itemize}
+    \item Error messages are understandable to experienced developers, but have terminology that does not make sense to beginner programmers.
     \item Errors in Clojure are Java exceptions, as Clojure code is compiled into Java code. This means that syntax errors in Clojure will also result in an exception.
 \emcomment{The target audience doesn't know the difference.}
     \item Error messages generate when an exception occurs and provide error type, cause, and location.
-    \item Error messages are designed for more experienced developers and may have certain terminology that does not make sense to beginner programmers.
     \end{itemize}
 }
 
