@@ -30,11 +30,11 @@
 \newcommand{\jscomment}[1]{\textcolor{olive}{\comment{Jaydon: {#1}}}}
 \newcommand{\jwcomment}[1]{\textcolor{violet}{\comment{John: {#1}}}}
 
-\title{A beginner-friendly environment for exploring error messages in the Clojure programming language.}
+\title{Breaking Down Terminology of Clojure Error Messages for Beginner Programmers.}
 \author[1]{John Walbran}
 \author[1]{Jaydon Stanislowski}
-\author[1]{Tristan Kaldova}
-\author[1]{Elena Machkasova}
+\author[1]{Tristan Kalvoda}
+\author[1]{Elena Machkasova (adviser)}
 \date{\today}
 \affil[1]{Division of Science and Mathematics, University of Minnesota, Morris}
 \usetheme{Envelope}
@@ -49,9 +49,8 @@
 \maketitle
 
 \block{Overview}{
-Programmers are imperfect, and will often make mistakes when programming and create a program error, for example, attempting to divide by zero. When a computer tries to run a program with an error, the program will halt and present the details of the error to the user in the form of an error message. These error messages are often very jargon-heavy, and are not designed to be palatable to a novice programmer. This creates significant friction for new programmers trying to learn programming languages. This work is a part of an ongoing project (called Babel) led by Elena Machkasova in an attempt to ease this friction in the Clojure programming language. Currently, Babel software is able to replace standard error messages with ones that are more helpful for a beginner audience. My contribution to this project is an exploration of potential tools to effectively display information about errors in an interactive and intuitive manner. The most promising of these tools up to this point has been Morse, created by the company Cognitect, owned by Nubank. As this project continues to explore the possibilities of Morse and how it can integrate with the existing Babel system, we are putting together potential setups that novice programmers can use to effectively understand and explore the causes of the errors they come across. This project presents the setups that have been developed and discuss their benefits and tradeoffs in helping novice programmers understand error messages.
-\emcomment{Needs to be shortened and changed to match this year's work}
-
+The Clojure programming language has educational potential for beginner programmers due to its clean, simple syntax and its strong focus on functional programming, an important aspect of CSci education. However, one weakness of Clojure lies in its error messages, which are messages that programmers receive when a program goes wrong. These messages were designed for experienced programmers, and as a result, they are difficult to understand, especially for beginners. The terminology and shorthands used to convey necessary information for understanding the error is often confusing to novices. In Clojure, the issue is exacerbated by the fact that the error messages are phrased in terms of the underlying programming language–Java– which beginner programmers may typically be unfamiliar with. Previously, our project has developed a tool, called Babel, that replaces the language's default error messages with less jargon-heavy forms. This year, we started utilizing a graphical interface for viewing Clojure data to highlight the important details and terminology in our own error messages via context-based formatting choices, designed to make it possible for users to easily explore related resources, understand terminology, and look at examples of correct code to clarify areas of confusion. We present our current design of displaying error messages and discuss its potential benefits for new learners. 
+%\emcomment{Needs to be shortened and changed to match this year's work}
 }
 \begin{columns}
 \column{0.3}
