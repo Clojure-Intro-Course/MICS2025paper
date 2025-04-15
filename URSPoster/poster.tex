@@ -81,13 +81,13 @@ that encourages these principles and is a great tool for introducing students to
     \end{itemize}
 }
 
-\block{Babel}{
+\block{Our Project, Babel}{
     \begin{itemize}
         \item One focus of our research is development of a tool called Babel to modify Clojure error messages.
-        \item Many error messages are replaced directly with simplified, beginner-friendly explanations. \emcomment{versions?}
+        \item Many error messages are directly replaced in the REPL with simplified, beginner-friendly versions.
         \item Errors on function calls provide more detailed information about expected arguments: their types, number, etc.
         \item Babel categorizes error data via dictionary lookup and specifications on Clojure function requirements to achieve this. 
-\emcomment{It sounds too simple. Perhaps allude to the level of complexity? Mention that we designed specifications to provide detailed information about the error?}
+        \item We developed and designed these specifications to capture as much information for the end user as possible, which is absent in default Clojure messages.
     \end{itemize}
 }
 
