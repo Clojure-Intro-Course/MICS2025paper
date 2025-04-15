@@ -81,13 +81,13 @@ that encourages these principles and is a great tool for introducing students to
     \end{itemize}
 }
 
-\block{Babel}{
+\block{Our Project, Babel}{
     \begin{itemize}
         \item One focus of our research is development of a tool called Babel to modify Clojure error messages.
-        \item Many error messages are replaced directly with simplified, beginner-friendly explanations. \emcomment{versions?}
+        \item Many error messages are directly replaced in the REPL with simplified, beginner-friendly versions.
         \item Errors on function calls provide more detailed information about expected arguments: their types, number, etc.
         \item Babel categorizes error data via dictionary lookup and specifications on Clojure function requirements to achieve this. 
-\emcomment{It sounds too simple. Perhaps allude to the level of complexity? Mention that we designed specifications to provide detailed information about the error?}
+        \item We developed and designed these specifications to capture as much information for the end user as possible, which is absent in default Clojure messages.
     \end{itemize}
 }
 
@@ -96,7 +96,7 @@ that encourages these principles and is a great tool for introducing students to
         \item Presently, we are working with a tool called Morse to provide an interactive user interface for Babel.
         \item Morse is a data visualization tool designed for professional development and debugging [2].
         \item In the past, we succeeded in integrating Morse with Babel. Now, we are modifying information flow between the tools to provide Morse with more capabilities.
-        \item We are aiming to have Morse stylize text based on good design practices for error messages [3]. We are looking to improve formatting and add support for hovering over important terms. \emcomment{Hovering for what purpose? also - including access to resources?}
+        \item We are aiming to have Morse stylize text based on good design practices for error messages [3].
     \end{itemize}
     }
 
@@ -104,6 +104,9 @@ that encourages these principles and is a great tool for introducing students to
     \block{Examples}{
 %\jwcomment{John's section.}
 %\emcomment{(even? "two"), (even? 2 3)}
+    Correct call: \\
+    \texttt{user=>(even? 2)} \\
+    \texttt{true} \\
 
     Default Clojure: \\
     \texttt{user=>(even? "two")} \\
@@ -125,11 +128,10 @@ that encourages these principles and is a great tool for introducing students to
     \texttt{Wrong number of arguments in (even? 2 3): the function even? expects one argument but was given two arguments.}\\
     \texttt{In Clojure interactive session on line 1.} \\
 
-    Babel (with Morse): \\
+    Babel (with Morse) Pop-up: \\
     \includegraphics[width=\linewidth]{figures/ErrorViewer1Cropped.png}
     \includegraphics[width=\linewidth]{figures/ErrorViewer2Cropped.png}
 }
-
 
 \column{0.3}
 \block{Progress This Year}{
@@ -148,6 +150,7 @@ that encourages these principles and is a great tool for introducing students to
         \item We would like to develop more Morse viewers for other information provided in error messages, such as stack traces and Java errors. \emcomment{To allow users open and close different parts of an error message to get as much information as they need?}
         \item We are looking to conduct usability studies on Morse \emcomment{displaying error messages in Morse?} in the future.
         \item We also want to explore integrating Morse viewers into IDEs such as Visual Studio Code for workflow refinements.
+        \item We are considering adding support for defining terms in messages via hover text, as well as providing more access to resources like documentation.
     \end{itemize}
 }
 
@@ -164,11 +167,13 @@ Thanks to Joe Lane (Nubank) for guidance on tools for this project.
 	\item {[4]} Matthias Felleisen, Robert Bruce Findler, Matthew Flatt, and Shriram Krishnamurthi \textit{The Structure and Interpretation of the Computer Science Curriculum},  Journal of Functional Programming, 2004.
     \end{itemize}
 }
+
 \block{}{
 \begin{tikzfigure}
-    \includegraphics[width=\linewidth]{figures/UMM logo.png}
+    \includegraphics[width=0.5\linewidth]{figures/UMM logo.png}
 \end{tikzfigure}
 }
+
 \end{columns}
 
 
