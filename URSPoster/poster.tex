@@ -81,25 +81,21 @@ that encourages these principles and is a great tool for introducing students to
     \end{itemize}
 }
 
-\block{Overview of Babel.}{
-\jscomment{Jaydon's section.}
+\block{Babel}{
     \begin{itemize}
-        \item We wanted to build upon existing tools that would likely be maintained in the future.
-        \item Maintaining a tool like Babel from completely ourselves is unfeasible for a small research group, so we instead wanted to modify existing tools. 
-        \item Previous work on this project created a tool, Babel that would provide error message replacement as a text response to running the program. 
-        \item While the Babel messages were an improvement, beginners need different information at different points in their learning, so a static message can't cater to beginners at every point in their learning.
+        \item One focus of our research is development of a tool called Babel to modify Clojure error messages.
+        \item Many error messages are replaced directly with simplified, beginner-friendly explanations.
+        \item Errors on function calls provide more detailed information about expected arguments: their types, count, etc.
+        \item Babel categorizes error data via dictionary lookup and specifications on Clojure function requirements to achieve this.
     \end{itemize}
 }
 
 \block{Goals for This Year.}{
-\jscomment{Jaydon's section.}
     \begin{itemize}
-        \item Most of the work this year was searching for established tools that would accomplish what we need.
-        \item We had previously explored tools that were not being maintained, creating dead ends.
-        \item After consulting with developers currently in the industry, we were pointed towards Morse. 
-        \item Morse is a data visualization tool designed for professional development and debugging, which provides a strong skeleton for extending Babel [2].
-        \item We successfully integrated Morse with Babel, not only allowing us to display the error message from Babel, but also have the details about the error displayed in an interactive way.
-        \item We were able to also include embedded links to external information regarding the error, such as the official documentation.
+        \item Presently, we are working with a tool called Morse to provide an interactive user interface for Babel.
+        \item Morse is a data visualization tool designed for professional development and debugging [2].
+        \item In the past, we succeeded in integrating Morse with Babel. Now, we are modifying information flow between the tools to provide Morse with more capabilities.
+        \item We are aiming to have Morse stylize text based on good design practices for error messages [3]. We are looking to improve formatting and add support for hovering over important terms.
     \end{itemize}
     }
 
@@ -146,7 +142,12 @@ that encourages these principles and is a great tool for introducing students to
 }
 
 \block{Future Work.}{
-\jscomment{Jaydon's section.}
+%\jscomment{Jaydon's section.}
+    \begin{itemize}
+        \item We are looking to conduct usability studies on Morse in the future.
+        \item We also want to explore integrating Morse viewers into IDEs such as Visual Studio Code for workflow refinements.
+        \item We would like to develop more Morse viewers for other information provided in error messages, such as stack traces and Java errors.
+    \end{itemize}
 }
 
 \block{Acknowledgments}{
