@@ -58,11 +58,11 @@ The Clojure programming language has educational potential for beginner programm
 %\tkcomment{Tristan's section}
     \begin{itemize}
 %	\item \emcomment{Includes reasons to teach FP to beginners}
-	\item Functional programming has a rich history of being introduced early in programming education.
+	\item Functional programming has a rich history of being introduced early in programming education [4].
 	\item It emphasizes breaking problems into smaller, manageable, easy-to-combine pieces.
 %promotes a more declarative programming style. Which is where you tell it what you want to happen rather than giving it a list of steps to follow.
 	\item It builds a strong foundation for students in subjects like recursion, higher-order functions, immutable data, and problem decomposition.
-    \item Clojure is a functional 
+    \item Clojure is a functional language
 %Lisp-based language 
 that encourages these principles and is a great tool for introducing students to functional programming.
     \item It has a simple, minimal syntax with prefix notation in statements and statements are surrounded by parentheses.
@@ -84,9 +84,10 @@ that encourages these principles and is a great tool for introducing students to
 \block{Babel}{
     \begin{itemize}
         \item One focus of our research is development of a tool called Babel to modify Clojure error messages.
-        \item Many error messages are replaced directly with simplified, beginner-friendly explanations.
-        \item Errors on function calls provide more detailed information about expected arguments: their types, count, etc.
-        \item Babel categorizes error data via dictionary lookup and specifications on Clojure function requirements to achieve this.
+        \item Many error messages are replaced directly with simplified, beginner-friendly explanations. \emcomment{versions?}
+        \item Errors on function calls provide more detailed information about expected arguments: their types, number, etc.
+        \item Babel categorizes error data via dictionary lookup and specifications on Clojure function requirements to achieve this. 
+\emcomment{It sounds too simple. Perhaps allude to the level of complexity? Mention that we designed specifications to provide detailed information about the error?}
     \end{itemize}
 }
 
@@ -95,7 +96,7 @@ that encourages these principles and is a great tool for introducing students to
         \item Presently, we are working with a tool called Morse to provide an interactive user interface for Babel.
         \item Morse is a data visualization tool designed for professional development and debugging [2].
         \item In the past, we succeeded in integrating Morse with Babel. Now, we are modifying information flow between the tools to provide Morse with more capabilities.
-        \item We are aiming to have Morse stylize text based on good design practices for error messages [3]. We are looking to improve formatting and add support for hovering over important terms.
+        \item We are aiming to have Morse stylize text based on good design practices for error messages [3]. We are looking to improve formatting and add support for hovering over important terms. \emcomment{Hovering for what purpose? also - including access to resources?}
     \end{itemize}
     }
 
@@ -144,14 +145,14 @@ that encourages these principles and is a great tool for introducing students to
 \block{Future Work.}{
 %\jscomment{Jaydon's section.}
     \begin{itemize}
-        \item We are looking to conduct usability studies on Morse in the future.
+        \item We would like to develop more Morse viewers for other information provided in error messages, such as stack traces and Java errors. \emcomment{To allow users open and close different parts of an error message to get as much information as they need?}
+        \item We are looking to conduct usability studies on Morse \emcomment{displaying error messages in Morse?} in the future.
         \item We also want to explore integrating Morse viewers into IDEs such as Visual Studio Code for workflow refinements.
-        \item We would like to develop more Morse viewers for other information provided in error messages, such as stack traces and Java errors.
     \end{itemize}
 }
 
 \block{Acknowledgments}{
- Thanks to Morris Academic Partnership (MAP) and the Undergratuate Research Opprotunity (UROP) for funding this work. \\
+ Thanks to Morris Academic Partnership (MAP) and the Undergraduate Research Opportunity (UROP) for funding this work. \\
 Thanks to Joe Lane (Nubank) for guidance on tools for this project. 
 }
 
